@@ -1,1 +1,52 @@
-﻿<!DOCTYPE html><html lang="ru"><head><meta charset="UTF-8"><title>RAVO</title></head><body><h1>RAVO</h1><p>Добро пожаловать в RAVO!</p></body></html>
+﻿﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>RAVO</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f5f5f5;color:#111}
+header{background:#fff;padding:20px 40px;display:flex;align-items:center;gap:25px;box-shadow:0 2px 12px #ddd}
+.logo{font-size:32px;font-weight:800}
+.search{flex:1;padding:15px 20px;border:1px solid #ddd;border-radius:14px;font-size:16px}
+.login{background:#111;color:#fff;border:0;padding:14px 24px;border-radius:12px;font-size:15px}
+main{max-width:1150px;margin:40px auto;padding:0 20px}
+.welcome{background:#fff;padding:45px;border-radius:25px}
+.welcome h1{font-size:42px;margin:0 0 10px}
+.welcome p{font-size:18px;color:#666}
+h2{margin-top:40px}
+.categories{display:flex;gap:15px;flex-wrap:wrap}
+.category{background:#fff;padding:20px 28px;border-radius:16px;cursor:pointer}
+.category:hover{background:#111;color:#fff}
+</style>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#111111"><<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#111111">/head>
+<body>
+<header>
+<div class="logo">RAVO</div>
+<input class="search" placeholder="Поиск товаров...">
+<button class="login">Войти</button>
+</header>
+<main>
+<section class="welcome">
+<h1>Добро пожаловать в RAVO 👋</h1>
+<p>Покупай, продавай и находи то, что тебе нужно.</p>
+</section>
+<h2>Категории</h2>
+<div class="categories">
+<div class="category">👕 Одежда</div>
+<div class="category">📱 Электроника</div>
+<div class="category">🚗 Авто</div>
+<div class="category">🏠 Дом</div>
+<div class="category">🎮 Игры</div>
+<div class="category">⚽ Спорт</div>
+</div>
+</main>
+<script>
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('service-worker.js');
+}
+</script></body>
+</html>
