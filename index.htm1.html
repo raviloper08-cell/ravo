@@ -4,7 +4,36 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>RAVO</title>
-<style>
+/* Анимации RAVO */
+body {
+    animation: ravoPage 0.8s ease;
+}
+
+@keyframes ravoPage {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+section {
+    animation: ravoSection 0.7s ease both;
+}
+
+@keyframes ravoSection {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}<style>
 *{box-sizing:border-box}
 body{margin:0;font-family:Arial,sans-serif;background:#f5f5f5;color:#111}
 header{background:#fff;padding:20px 40px;display:flex;align-items:center;gap:25px;box-shadow:0 2px 12px #ddd}
