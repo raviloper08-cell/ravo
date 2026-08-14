@@ -27,8 +27,7 @@ h2{margin-top:40px}
 <header>
 <div class="logo">RAVO</div>
 <input class="search" placeholder="Поиск товаров...">
-<button class="login">Войти</button>
-</header>
+<button class="login" onclick="openLogin()">Войти</button>
 <main>
 <section class="welcome">
 <h1>Добро пожаловать в RAVO 👋</h1>
@@ -48,5 +47,303 @@ h2{margin-top:40px}
 if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('service-worker.js');
 }
+    function openLogin() {
+  const modal = document.createElement("div");
+
+  modal.style.cssText = `
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+  `;
+
+  modal.innerHTML = `
+    <div style="
+      width: 90%;
+      max-width: 380px;
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    ">
+      <h2 style="margin-top:0;">Вход в RAVO</h2>
+
+      <input
+        type="tel"
+        placeholder="Номер телефона"
+        style="
+          width:100%;
+          padding:14px;
+          margin-bottom:12px;
+          box-sizing:border-box;
+          border:1px solid #ccc;
+          border-radius:10px;
+        "
+      >
+
+      <input
+        type="password"
+        placeholder="Пароль"
+        style="
+          width:100%;
+          padding:14px;
+          margin-bottom:16px;
+          box-sizing:border-box;
+          border:1px solid #ccc;
+          border-radius:10px;
+        "
+      >
+
+      <button
+        style="
+          width:100%;
+          padding:14px;
+          border:0;
+          border-radius:10px;
+          background:#111;
+          color:white;
+          font-size:16px;
+        "
+        onclick="alert('Вход подключим следующим шагом')"
+      >
+        Войти
+      </button>
+
+      <button
+        style="
+          width:100%;
+          padding:14px;
+          margin-top:10px;
+          border:1px solid #111;
+          border-radius:10px;
+          background:white;
+          font-size:16px;
+        "
+        onclick="alert('Регистрацию подключим следующим шагом')"
+      >
+        Создать аккаунт
+      </button>
+
+      <button
+        style="
+          display:block;
+          margin:18px auto 0;
+          border:0;
+          background:none;
+          color:#777;
+        "
+        onclick="this.closest('div[style]').parentElement.remove()"
+      >
+        Закрыть
+      </button>
+    </div>
+  `;
+
+  document.body.appendChild(modal);
+}
+    function openLogin() {
+  const modal = document.createElement("div");
+
+  modal.style.cssText = `
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+  `;
+
+  modal.innerHTML = `
+    <div style="
+      width: 90%;
+      max-width: 380px;
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    ">
+      <h2 style="margin-top:0;">Вход в RAVO</h2>
+
+      <input
+        type="tel"
+        placeholder="Номер телефона"
+        style="
+          width:100%;
+          padding:14px;
+          margin-bottom:12px;
+          box-sizing:border-box;
+          border:1px solid #ccc;
+          border-radius:10px;
+        "
+      >
+
+      <input
+        type="password"
+        placeholder="Пароль"
+        style="
+          width:100%;
+          padding:14px;
+          margin-bottom:16px;
+          box-sizing:border-box;
+          border:1px solid #ccc;
+          border-radius:10px;
+        "
+      >
+
+      <button
+        style="
+          width:100%;
+          padding:14px;
+          border:0;
+          border-radius:10px;
+          background:#111;
+          color:white;
+          font-size:16px;
+        "
+        onclick="alert('Вход подключим следующим шагом')"
+      >
+        Войти
+      </button>
+
+      <button
+        style="
+          width:100%;
+          padding:14px;
+          margin-top:10px;
+          border:1px solid #111;
+          border-radius:10px;
+          background:white;
+          font-size:16px;
+        "
+        onclick="alert('Регистрацию подключим следующим шагом')"
+      >
+        Создать аккаунт
+      </button>
+
+      <button
+        style="
+          display:block;
+          margin:18px auto 0;
+          border:0;
+          background:none;
+          color:#777;
+        "
+        onclick="this.closest('div[style]').parentElement.remove()"
+      >
+        Закрыть
+      </button>
+    </div>
+  `;
+
+  document.body.appendChild(modal);
+}
+    function openLogin() {
+  const modal = document.createElement("div");
+
+  modal.style.cssText = `
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+  `;
+
+  modal.innerHTML = `
+    <div style="
+      width: 90%;
+      max-width: 380px;
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    ">
+      <h2 style="margin-top:0;">Вход в RAVO</h2>
+
+      <input
+        type="tel"
+        placeholder="Номер телефона"
+        style="
+          width:100%;
+          padding:14px;
+          margin-bottom:12px;
+          box-sizing:border-box;
+          border:1px solid #ccc;
+          border-radius:10px;
+        "
+      >
+
+      <input
+        type="password"
+        placeholder="Пароль"
+        style="
+          width:100%;
+          padding:14px;
+          margin-bottom:16px;
+          box-sizing:border-box;
+          border:1px solid #ccc;
+          border-radius:10px;
+        "
+      >
+
+      <button
+        style="
+          width:100%;
+          padding:14px;
+          border:0;
+          border-radius:10px;
+          background:#111;
+          color:white;
+          font-size:16px;
+        "
+        onclick="alert('Вход подключим следующим шагом')"
+      >
+        Войти
+      </button>
+
+      <button
+        style="
+          width:100%;
+          padding:14px;
+          margin-top:10px;
+          border:1px solid #111;
+          border-radius:10px;
+          background:white;
+          font-size:16px;
+        "
+        onclick="alert('Регистрацию подключим следующим шагом')"
+      >
+        Создать аккаунт
+      </button>
+
+      <button
+        style="
+          display:block;
+          margin:18px auto 0;
+          border:0;
+          background:none;
+          color:#777;
+        "
+        onclick="this.closest('div[style]').parentElement.remove()"
+      >
+        Закрыть
+      </button>
+    </div>
+  `;
+
+  document.body.appendChild(modal);
+}
 </script></body>
 </html>
+
+
+
+    
