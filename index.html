@@ -341,6 +341,18 @@ if ('serviceWorker' in navigator) {
 
   document.body.appendChild(modal);
 }
+function createAccount() {
+  const phone = prompt("Введите номер телефона:");
+  if (!phone) return;
+
+  const password = prompt("Придумайте пароль:");
+  if (!password) return;
+
+  localStorage.setItem("ravo_phone", phone);
+  localStorage.setItem("ravo_password", password);
+
+  alert("Аккаунт создан! Теперь можно войти.");
+}
 </script></body>
 </html>
 
