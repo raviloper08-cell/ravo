@@ -1,16 +1,22 @@
-﻿{"name":"RAVO","short_name":"RAVO","start_url":"./index.html","display":"standalone","background_color":"#ffffff","theme_color":"#111111","icons": [
-  {
-    "src": "ravo-icon.png",
-    "sizes": "1024x1024",
-    "type": "image/png"
-  }
-]}
 {
   "name": "Ravo",
   "short_name": "Ravo",
-  "start_url": "./",
+  "id": "/ravo/",
+  "start_url": "/ravo/",
+  "scope": "/ravo/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#D4AF37",
-  "icons": []
+  "icons": [
+    {
+      "src": "ravo-icon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "ravo-icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
 }
