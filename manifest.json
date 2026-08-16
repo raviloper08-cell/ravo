@@ -1,4 +1,10 @@
-﻿{"name":"RAVO","short_name":"RAVO","start_url":"./index.html","display":"standalone","background_color":"#ffffff","theme_color":"#111111","icons":[]}
+﻿{"name":"RAVO","short_name":"RAVO","start_url":"./index.html","display":"standalone","background_color":"#ffffff","theme_color":"#111111","icons": [
+  {
+    "src": "ravo-icon.png",
+    "sizes": "1024x1024",
+    "type": "image/png"
+  }
+]}
 {
   "name": "Ravo",
   "short_name": "Ravo",
