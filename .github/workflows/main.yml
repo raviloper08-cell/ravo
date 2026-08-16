@@ -1,0 +1,24 @@
+name: Build Ravo
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get Ravo
+        uses: actions/checkout@v4
+
+      - name: Create app package
+        run: |
+          mkdir -p build
+          cp -r ./* build/
+          rm -rf build/.git build/.github
+
+      - name: Upload Ravo
+        uses: actions/upload-artifact@v4
+        with:
+          name: Ravo-App
+          path: build/
