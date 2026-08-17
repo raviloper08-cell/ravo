@@ -1128,13 +1128,16 @@
           .catch(error => {
             console.log("Service Worker:", error);
           });
+            if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("service-worker.js")
+          .catch(error => {
+            console.log("Service Worker:", error);
+          });
       });
     }
 
-      button.addEventListener("touchend", () => {
-        button.style.transform = "";
-      }, { passive: true });
-    });
+      
   </script>
 
 </body>
