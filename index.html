@@ -1,375 +1,1136 @@
 ﻿﻿<!DOCTYPE html>
 <html lang="ru">
 <head>
-    <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#D4AF37">
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>RAVO</title>
-<style>
-*{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#f5f5f5;color:#111}
-header{background:#fff;padding:20px 40px;display:flex;align-items:center;gap:25px;box-shadow:0 2px 12px #ddd}
-.logo{font-size:32px;font-weight:800}
-.search{flex:1;padding:15px 20px;border:1px solid #ddd;border-radius:14px;font-size:16px}
-.login{background:#111;color:#fff;border:0;padding:14px 24px;border-radius:12px;font-size:15px}
-main{max-width:1150px;margin:40px auto;padding:0 20px}
-.welcome{background:#fff;padding:45px;border-radius:25px}
-.welcome h1{font-size:42px;margin:0 0 10px}
-.welcome p{font-size:18px;color:#666}
-h2{margin-top:40px}
-.categories{display:flex;gap:15px;flex-wrap:wrap}
-.category{background:#fff;padding:20px 28px;border-radius:16px;cursor:pointer}
-.category:hover{background:#111;color:#fff}
-</style>
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#111111"><<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#111111">/head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#D4AF37">
+  <meta name="description" content="Ravo — современный маркетплейс">
+  <link rel="manifest" href="manifest.json">
+  <title>Ravo — маркетплейс</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --gold: #D4AF37;
+      --gold-dark: #b8941f;
+      --black: #111111;
+      --white: #ffffff;
+      --gray: #f5f5f5;
+      --text: #202020;
+      --muted: #777777;
+      --border: #e8e8e8;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      background: #f7f7f7;
+      color: var(--text);
+      padding-bottom: 82px;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255,255,255,.96);
+      backdrop-filter: blur(15px);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 16px;
+    }
+
+    .topbar-inner {
+      max-width: 1150px;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      background: var(--gold);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 27px;
+      font-weight: 900;
+      flex-shrink: 0;
+      box-shadow: 0 4px 12px rgba(212,175,55,.3);
+    }
+
+    .brand {
+      font-size: 25px;
+      font-weight: 900;
+      letter-spacing: -1px;
+    }
+
+    .search {
+      flex: 1;
+      position: relative;
+    }
+
+    .search input {
+      width: 100%;
+      height: 45px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 0 16px 0 43px;
+      outline: none;
+      background: var(--gray);
+    }
+
+    .search input:focus {
+      border-color: var(--gold);
+      background: white;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 15px;
+      top: 11px;
+      font-size: 19px;
+    }
+
+    .header-btn {
+      border: 0;
+      background: var(--black);
+      color: white;
+      border-radius: 12px;
+      padding: 11px 15px;
+      font-weight: 700;
+    }
+
+    main {
+      max-width: 1150px;
+      margin: auto;
+      padding: 18px 16px;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #111111, #292929);
+      color: white;
+      border-radius: 24px;
+      padding: 34px 25px;
+      margin-bottom: 22px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .hero:after {
+      content: "R";
+      position: absolute;
+      right: 15px;
+      bottom: -55px;
+      font-size: 210px;
+      font-weight: 900;
+      color: rgba(212,175,55,.12);
+    }
+
+    .hero h1 {
+      font-size: clamp(30px, 7vw, 52px);
+      line-height: 1;
+      margin-bottom: 13px;
+      max-width: 650px;
+    }
+
+    .hero h1 span {
+      color: var(--gold);
+    }
+
+    .hero p {
+      color: #d0d0d0;
+      max-width: 600px;
+      line-height: 1.5;
+      margin-bottom: 20px;
+    }
+
+    .hero-btn {
+      border: 0;
+      background: var(--gold);
+      color: white;
+      padding: 13px 20px;
+      border-radius: 13px;
+      font-weight: 800;
+    }
+
+    .section {
+      margin-top: 25px;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 13px;
+    }
+
+    .section-head h2 {
+      font-size: 23px;
+    }
+
+    .categories {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 10px;
+    }
+
+    .category {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 17px 8px;
+      text-align: center;
+      transition: .2s;
+    }
+
+    .category:hover {
+      transform: translateY(-2px);
+      border-color: var(--gold);
+    }
+
+    .category-icon {
+      font-size: 28px;
+      margin-bottom: 7px;
+    }
+
+    .category-name {
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .products {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    .product {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      overflow: hidden;
+      position: relative;
+      transition: .2s;
+    }
+
+    .product:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(0,0,0,.07);
+    }
+
+    .product-image {
+      height: 175px;
+      background: linear-gradient(135deg, #eeeeee, #fafafa);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 65px;
+    }
+
+    .favorite {
+      position: absolute;
+      right: 10px;
+      top: 10px;
+      width: 37px;
+      height: 37px;
+      border: 0;
+      border-radius: 50%;
+      background: rgba(255,255,255,.9);
+      font-size: 20px;
+    }
+
+    .product-info {
+      padding: 13px;
+    }
+
+    .product-category {
+      color: var(--gold-dark);
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+
+    .product-name {
+      font-size: 16px;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .product-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .price {
+      font-size: 18px;
+      font-weight: 900;
+    }
+
+    .add-cart {
+      border: 0;
+      background: var(--black);
+      color: white;
+      width: 40px;
+      height: 40px;
+      border-radius: 11px;
+      font-size: 20px;
+    }
+
+    .empty {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 35px;
+      text-align: center;
+      color: var(--muted);
+    }
+
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 200;
+      background: rgba(255,255,255,.97);
+      backdrop-filter: blur(15px);
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: center;
+      padding: 8px 5px calc(8px + env(safe-area-inset-bottom));
+    }
+
+    .nav-inner {
+      width: min(600px, 100%);
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .nav-btn {
+      border: 0;
+      background: transparent;
+      color: #777;
+      padding: 5px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .nav-btn.active {
+      color: var(--black);
+    }
+
+    .nav-icon {
+      display: block;
+      font-size: 22px;
+      margin-bottom: 2px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 17px;
+      height: 17px;
+      border-radius: 20px;
+      background: var(--gold);
+      color: white;
+      font-size: 10px;
+      padding: 0 4px;
+      vertical-align: top;
+      margin-left: -6px;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 500;
+      background: rgba(0,0,0,.55);
+      align-items: flex-end;
+      justify-content: center;
+    }
+
+    .modal.show {
+      display: flex;
+    }
+
+    .modal-box {
+      width: min(500px, 100%);
+      background: white;
+      border-radius: 25px 25px 0 0;
+      padding: 25px 20px calc(25px + env(safe-area-inset-bottom));
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .modal-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .close {
+      border: 0;
+      background: #f1f1f1;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      font-size: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 13px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 13px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      outline: none;
+    }
+
+    .form-group input:focus {
+      border-color: var(--gold);
+    }
+
+    .primary {
+      width: 100%;
+      border: 0;
+      border-radius: 13px;
+      padding: 14px;
+      background: var(--black);
+      color: white;
+      font-weight: 800;
+      margin-top: 5px;
+    }
+
+    .cart-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .cart-emoji {
+      width: 55px;
+      height: 55px;
+      background: var(--gray);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+    }
+
+    .cart-info {
+      flex: 1;
+    }
+
+    .cart-total {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 18px;
+      font-size: 20px;
+      font-weight: 900;
+    }
+
+    @media (max-width: 800px) {
+      .categories {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .products {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .brand {
+        display: none;
+      }
+
+      .header-btn {
+        padding: 10px 12px;
+      }
+    }
+
+    @media (max-width: 430px) {
+      .topbar-inner {
+        gap: 8px;
+      }
+
+      .logo {
+        width: 40px;
+        height: 40px;
+        font-size: 24px;
+      }
+
+      .search input {
+        height: 40px;
+        padding-left: 37px;
+      }
+
+      .hero {
+        padding: 27px 20px;
+        border-radius: 20px;
+      }
+
+      .hero h1 {
+        font-size: 34px;
+      }
+
+      .product-image {
+        height: 145px;
+      }
+
+      .products {
+        gap: 10px;
+      }
+
+      .product-info {
+        padding: 10px;
+      }
+
+      .price {
+        font-size: 16px;
+      }
+
+      .add-cart {
+        width: 36px;
+        height: 36px;
+      }
+    }
+  </style>
+</head>
+
 <body>
-<header>
-<div class="logo">RAVO</div>
-<input class="search" placeholder="Поиск товаров...">
-<button class="login" onclick="openLogin()">Войти</button>
-<main>
-<section class="welcome">
-<h1>Добро пожаловать в RAVO 👋</h1>
-<p>Покупай, продавай и находи то, что тебе нужно.</p>
-</section>
-<h2>Категории</h2>
-<div class="categories">
-<div class="category">👕 Одежда</div>
-<div class="category">📱 Электроника</div>
-<div class="category">🚗 Авто</div>
-<div class="category">🏠 Дом</div>
-<div class="category">🎮 Игры</div>
-<div class="category">⚽ Спорт</div>
-</div>
-</main>
-<script>
-if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('service-worker.js');
-}
-    function openLogin() {
-  const modal = document.createElement("div");
 
-  modal.style.cssText = `
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.6);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 9999;
-  `;
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="logo">R</div>
+      <div class="brand">Ravo</div>
 
-  modal.innerHTML = `
-    <div style="
-      width: 90%;
-      max-width: 380px;
-      background: white;
-      padding: 30px;
-      border-radius: 20px;
-      box-sizing: border-box;
-      font-family: Arial, sans-serif;
-    ">
-      <h2 style="margin-top:0;">Вход в RAVO</h2>
+      <div class="search">
+        <span class="search-icon">🔎</span>
+        <input
+          id="searchInput"
+          type="search"
+          placeholder="Поиск товаров..."
+          oninput="searchProducts()"
+        >
+      </div>
 
-      <input
-        type="tel"
-        placeholder="Номер телефона"
-        style="
-          width:100%;
-          padding:14px;
-          margin-bottom:12px;
-          box-sizing:border-box;
-          border:1px solid #ccc;
-          border-radius:10px;
-        "
-      >
-
-      <input
-        type="password"
-        placeholder="Пароль"
-        style="
-          width:100%;
-          padding:14px;
-          margin-bottom:16px;
-          box-sizing:border-box;
-          border:1px solid #ccc;
-          border-radius:10px;
-        "
-      >
-
-      <button
-        style="
-          width:100%;
-          padding:14px;
-          border:0;
-          border-radius:10px;
-          background:#111;
-          color:white;
-          font-size:16px;
-        "
-        onclick="openLogin()"
-      ВОЙТИ
-      </button>
-
-      <button
-        style="
-          width:100%;
-          padding:14px;
-          margin-top:10px;
-          border:1px solid #111;
-          border-radius:10px;
-          background:white;
-          font-size:16px;
-        "
-        onclick="createAccount()"
-      >
-        Создать аккаунт
-      </button>
-
-      <button
-        style="
-          display:block;
-          margin:18px auto 0;
-          border:0;
-          background:none;
-          color:#777;
-        "
-        onclick="this.closest('div[style]').parentElement.remove()"
-      >
-        Закрыть
-      </button>
+      <button class="header-btn" onclick="openProfile()">Войти</button>
     </div>
-  `;
+  </header>
 
-  document.body.appendChild(modal);
-}
-    function openLogin() {
-  const modal = document.createElement("div");
+  <main>
 
-  modal.style.cssText = `
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.6);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 9999;
-  `;
+    <section class="hero">
+      <h1>Покупай лучше.<br><span>Живи проще.</span></h1>
+      <p>
+        Ravo — современный маркетплейс, где можно находить
+        товары, сохранять понравившееся и собирать покупки в одной корзине.
+      </p>
+      <button class="hero-btn" onclick="scrollToProducts()">
+        Смотреть товары
+      </button>
+    </section>
 
-  modal.innerHTML = `
-    <div style="
-      width: 90%;
-      max-width: 380px;
-      background: white;
-      padding: 30px;
-      border-radius: 20px;
-      box-sizing: border-box;
-      font-family: Arial, sans-serif;
-    ">
-      <h2 style="margin-top:0;">Вход в RAVO</h2>
+    <section class="section">
+      <div class="section-head">
+        <h2>Категории</h2>
+      </div>
 
-      <input
-        type="tel"
-        placeholder="Номер телефона"
-        style="
-          width:100%;
-          padding:14px;
-          margin-bottom:12px;
-          box-sizing:border-box;
-          border:1px solid #ccc;
-          border-radius:10px;
-        "
-      >
+      <div class="categories">
+        <button class="category" onclick="filterCategory('Все')">
+          <div class="category-icon">✨</div>
+          <div class="category-name">Все</div>
+        </button>
 
-      <input
-        type="password"
-        placeholder="Пароль"
-        style="
-          width:100%;
-          padding:14px;
-          margin-bottom:16px;
-          box-sizing:border-box;
-          border:1px solid #ccc;
-          border-radius:10px;
-        "
-      >
+        <button class="category" onclick="filterCategory('Электроника')">
+          <div class="category-icon">📱</div>
+          <div class="category-name">Электроника</div>
+        </button>
 
-      <button
-        style="
-          width:100%;
-          padding:14px;
-          border:0;
-          border-radius:10px;
-          background:#111;
-          color:white;
-          font-size:16px;
-        "
-        onclick="alert('Вход подключим следующим шагом')"
-      >
-        Войти
+        <button class="category" onclick="filterCategory('Одежда')">
+          <div class="category-icon">👕</div>
+          <div class="category-name">Одежда</div>
+        </button>
+
+        <button class="category" onclick="filterCategory('Дом')">
+          <div class="category-icon">🏠</div>
+          <div class="category-name">Дом</div>
+        </button>
+
+        <button class="category" onclick="filterCategory('Красота')">
+          <div class="category-icon">💄</div>
+          <div class="category-name">Красота</div>
+        </button>
+
+        <button class="category" onclick="filterCategory('Спорт')">
+          <div class="category-icon">⚽</div>
+          <div class="category-name">Спорт</div>
+        </button>
+      </div>
+    </section>
+
+    <section class="section" id="productsSection">
+      <div class="section-head">
+        <h2 id="productsTitle">Популярные товары</h2>
+      </div>
+
+      <div class="products" id="products"></div>
+    </section>
+
+  </main>
+
+  <nav class="bottom-nav">
+    <div class="nav-inner">
+
+      <button class="nav-btn active" onclick="goHome()">
+        <span class="nav-icon">🏠</span>
+        Главная
       </button>
 
-      <button
-        style="
-          width:100%;
-          padding:14px;
-          margin-top:10px;
-          border:1px solid #111;
-          border-radius:10px;
-          background:white;
-          font-size:16px;
-        "
-        onclick="alert('Регистрацию подключим следующим шагом')"
-      >
-        Создать аккаунт
+      <button class="nav-btn" onclick="openFavorites()">
+        <span class="nav-icon">❤️</span>
+        Избранное
       </button>
 
-      <button
-        style="
-          display:block;
-          margin:18px auto 0;
-          border:0;
-          background:none;
-          color:#777;
-        "
-        onclick="this.closest('div[style]').parentElement.remove()"
-      >
-        Закрыть
+      <button class="nav-btn" onclick="openCart()">
+        <span class="nav-icon">🛒<span id="cartBadge" class="badge">0</span></span>
+        Корзина
       </button>
+
+      <button class="nav-btn" onclick="openProfile()">
+        <span class="nav-icon">👤</span>
+        Профиль
+      </button>
+
     </div>
-  `;
+  </nav>
 
-  document.body.appendChild(modal);
-}
-    function openLogin() {
-  const modal = document.createElement("div");
+  <!-- PROFILE -->
+  <div class="modal" id="profileModal" onclick="closeOutside(event, 'profileModal')">
+    <div class="modal-box">
 
-  modal.style.cssText = `
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.6);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 9999;
-  `;
+      <div class="modal-head">
+        <h2 id="profileTitle">Вход в Ravo</h2>
+        <button class="close" onclick="closeModal('profileModal')">×</button>
+      </div>
 
-  modal.innerHTML = `
-    <div style="
-      width: 90%;
-      max-width: 380px;
-      background: white;
-      padding: 30px;
-      border-radius: 20px;
-      box-sizing: border-box;
-      font-family: Arial, sans-serif;
-    ">
-      <h2 style="margin-top:0;">Вход в RAVO</h2>
+      <div id="profileContent">
 
-      <input
-        type="tel"
-        placeholder="Номер телефона"
-        style="
-          width:100%;
-          padding:14px;
-          margin-bottom:12px;
-          box-sizing:border-box;
-          border:1px solid #ccc;
-          border-radius:10px;
-        "
-      >
+        <div class="form-group">
+          <label>Телефон или email</label>
+          <input id="loginContact" type="text" placeholder="Введите телефон или email">
+        </div>
 
-      <input
-        type="password"
-        placeholder="Пароль"
-        style="
-          width:100%;
-          padding:14px;
-          margin-bottom:16px;
-          box-sizing:border-box;
-          border:1px solid #ccc;
-          border-radius:10px;
-        "
-      >
+        <div class="form-group">
+          <label>Пароль</label>
+          <input id="loginPassword" type="password" placeholder="Введите пароль">
+        </div>
 
-      <button
-        style="
-          width:100%;
-          padding:14px;
-          border:0;
-          border-radius:10px;
-          background:#111;
-          color:white;
-          font-size:16px;
-        "
-        onclick="alert('Вход подключим следующим шагом')"
-      >
-        Войти
-      </button>
+        <button class="primary" onclick="login()">
+          Войти
+        </button>
 
-      <button
-        style="
-          width:100%;
-          padding:14px;
-          margin-top:10px;
-          border:1px solid #111;
-          border-radius:10px;
-          background:white;
-          font-size:16px;
-        "
-       onclick="createAccount()"
-      >
-        Создать аккаунт
-      </button>
+        <button
+          class="primary"
+          style="background:#D4AF37;margin-top:10px"
+          onclick="showRegister()"
+        >
+          Создать аккаунт
+        </button>
 
-      <button
-        style="
-          display:block;
-          margin:18px auto 0;
-          border:0;
-          background:none;
-          color:#777;
-        "
-        onclick="this.closest('div[style]').parentElement.remove()"
-      >
-        Закрыть
-      </button>
+      </div>
     </div>
-  `;
+  </div>
 
-  document.body.appendChild(modal);
-}
-function createAccount() {
-  const phone = prompt("Введите номер телефона:");
-  if (!phone) return;
+  <!-- REGISTER -->
+  <div class="modal" id="registerModal" onclick="closeOutside(event, 'registerModal')">
+    <div class="modal-box">
 
-  const password = prompt("Придумайте пароль:");
-  if (!password) return;
+      <div class="modal-head">
+        <h2>Создание аккаунта</h2>
+        <button class="close" onclick="closeModal('registerModal')">×</button>
+      </div>
 
-  localStorage.setItem("ravo_phone", phone);
-  localStorage.setItem("ravo_password", password);
+      <div class="form-group">
+        <label>Имя</label>
+        <input id="registerName" type="text" placeholder="Ваше имя">
+      </div>
 
-  alert("Аккаунт создан! Теперь можно войти.");
-}
-</script><script>
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("./service-worker.js");
-}
-</script><script>
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("./service-worker.js");
-}
-</script></body>
+      <div class="form-group">
+        <label>Email</label>
+        <input id="registerEmail" type="email" placeholder="example@mail.com">
+      </div>
+
+      <div class="form-group">
+        <label>Пароль</label>
+        <input id="registerPassword" type="password" placeholder="Придумайте пароль">
+      </div>
+
+      <button class="primary" onclick="register()">
+        Зарегистрироваться
+      </button>
+
+    </div>
+  </div>
+
+  <!-- CART -->
+  <div class="modal" id="cartModal" onclick="closeOutside(event, 'cartModal')">
+    <div class="modal-box">
+
+      <div class="modal-head">
+        <h2>Корзина</h2>
+        <button class="close" onclick="closeModal('cartModal')">×</button>
+      </div>
+
+      <div id="cartContent"></div>
+
+    </div>
+  </div>
+
+  <!-- FAVORITES -->
+  <div class="modal" id="favoritesModal" onclick="closeOutside(event, 'favoritesModal')">
+    <div class="modal-box">
+
+      <div class="modal-head">
+        <h2>Избранное</h2>
+        <button class="close" onclick="closeModal('favoritesModal')">×</button>
+      </div>
+
+      <div id="favoritesContent"></div>
+
+    </div>
+  </div>
+
+  <script>
+    const productsData = [
+      {
+        id: 1,
+        name: "Смартфон Ravo X1",
+        category: "Электроника",
+        price: 599,
+        emoji: "📱"
+      },
+      {
+        id: 2,
+        name: "Беспроводные наушники",
+        category: "Электроника",
+        price: 89,
+        emoji: "🎧"
+      },
+      {
+        id: 3,
+        name: "Классическая футболка",
+        category: "Одежда",
+        price: 29,
+        emoji: "👕"
+      },
+      {
+        id: 4,
+        name: "Кроссовки Urban",
+        category: "Одежда",
+        price: 79,
+        emoji: "👟"
+      },
+      {
+        id: 5,
+        name: "Настольная лампа",
+        category: "Дом",
+        price: 39,
+        emoji: "💡"
+      },
+      {
+        id: 6,
+        name: "Умная колонка",
+        category: "Дом",
+        price: 69,
+        emoji: "🔊"
+      },
+      {
+        id: 7,
+        name: "Набор ухода за кожей",
+        category: "Красота",
+        price: 45,
+        emoji: "🧴"
+      },
+      {
+        id: 8,
+        name: "Спортивная сумка",
+        category: "Спорт",
+        price: 55,
+        emoji: "🎒"
+      }
+    ];
+
+    let cart = JSON.parse(localStorage.getItem("ravoCart") || "[]");
+    let favorites = JSON.parse(localStorage.getItem("ravoFavorites") || "[]");
+    let currentCategory = "Все";
+
+    function saveData() {
+      localStorage.setItem("ravoCart", JSON.stringify(cart));
+      localStorage.setItem("ravoFavorites", JSON.stringify(favorites));
+    }
+
+    function renderProducts(list = productsData) {
+      const container = document.getElementById("products");
+
+      if (!list.length) {
+        container.innerHTML =
+          '<div class="empty" style="grid-column:1/-1">😔<br><br>Ничего не найдено</div>';
+        return;
+      }
+
+      container.innerHTML = list.map(product => {
+        const isFavorite = favorites.includes(product.id);
+
+        return `
+          <article class="product">
+            <button class="favorite" onclick="toggleFavorite(${product.id})">
+              ${isFavorite ? "❤️" : "🤍"}
+            </button>
+
+            <div class="product-image">
+              ${product.emoji}
+            </div>
+
+            <div class="product-info">
+              <div class="product-category">
+                ${product.category}
+              </div>
+
+              <div class="product-name">
+                ${product.name}
+              </div>
+
+              <div class="product-bottom">
+                <div class="price">
+                  €${product.price}
+                </div>
+
+                <button class="add-cart" onclick="addToCart(${product.id})">
+                  +
+                </button>
+              </div>
+            </div>
+          </article>
+        `;
+      }).join("");
+    }
+
+    function searchProducts() {
+      const query = document
+        .getElementById("searchInput")
+        .value
+        .toLowerCase()
+        .trim();
+
+      let list = productsData;
+
+      if (currentCategory !== "Все") {
+        list = list.filter(p => p.category === currentCategory);
+      }
+
+      if (query) {
+        list = list.filter(p =>
+          p.name.toLowerCase().includes(query) ||
+          p.category.toLowerCase().includes(query)
+        );
+      }
+
+      document.getElementById("productsTitle").textContent =
+        query ? "Результаты поиска" :
+        currentCategory === "Все" ? "Популярные товары" : currentCategory;
+
+      renderProducts(list);
+    }
+
+    function filterCategory(category) {
+      currentCategory = category;
+      document.getElementById("searchInput").value = "";
+      searchProducts();
+      scrollToProducts();
+    }
+
+    function scrollToProducts() {
+      document
+        .getElementById("productsSection")
+        .scrollIntoView({ behavior: "smooth" });
+    }
+
+    function addToCart(id) {
+      cart.push(id);
+      saveData();
+      updateCartBadge();
+
+      alert("Товар добавлен в корзину 🛒");
+    }
+
+    function updateCartBadge() {
+      document.getElementById("cartBadge").textContent = cart.length;
+    }
+
+    function toggleFavorite(id) {
+      if (favorites.includes(id)) {
+        favorites = favorites.filter(x => x !== id);
+      } else {
+        favorites.push(id);
+      }
+
+      saveData();
+      searchProducts();
+    }
+
+    function openCart() {
+      const content = document.getElementById("cartContent");
+
+      if (!cart.length) {
+        content.innerHTML =
+          '<div class="empty">🛒<br><br>Корзина пока пустая</div>';
+      } else {
+        const counts = {};
+
+        cart.forEach(id => {
+          counts[id] = (counts[id] || 0) + 1;
+        });
+
+        let total = 0;
+
+        content.innerHTML = Object.entries(counts).map(([id, count]) => {
+          const product = productsData.find(p => p.id == id);
+          const itemTotal = product.price * count;
+          total += itemTotal;
+
+          return `
+            <div class="cart-row">
+              <div class="cart-emoji">${product.emoji}</div>
+
+              <div class="cart-info">
+                <strong>${product.name}</strong>
+                <div style="color:#777;font-size:13px;margin-top:4px">
+                  ${count} × €${product.price}
+                </div>
+              </div>
+
+              <strong>€${itemTotal}</strong>
+            </div>
+          `;
+        }).join("");
+
+        content.innerHTML += `
+          <div class="cart-total">
+            <span>Итого</span>
+            <span>€${total}</span>
+          </div>
+
+          <button class="primary" onclick="checkout()">
+            Оформить заказ
+          </button>
+        `;
+      }
+
+      openModal("cartModal");
+    }
+
+    function checkout() {
+      alert("Оформление заказа будет подключено на следующем этапе Ravo 🚀");
+    }
+
+    function openFavorites() {
+      const content = document.getElementById("favoritesContent");
+
+      const list = productsData.filter(p => favorites.includes(p.id));
+
+      if (!list.length) {
+        content.innerHTML =
+          '<div class="empty">❤️<br><br>Здесь пока ничего нет</div>';
+      } else {
+        content.innerHTML = list.map(product => `
+          <div class="cart-row">
+            <div class="cart-emoji">${product.emoji}</div>
+
+            <div class="cart-info">
+              <strong>${product.name}</strong>
+              <div style="color:#777;margin-top:4px">
+                €${product.price}
+              </div>
+            </div>
+
+            <button class="add-cart" onclick="addToCart(${product.id})">
+              +
+            </button>
+          </div>
+        `).join("");
+      }
+
+      openModal("favoritesModal");
+    }
+
+    function openProfile() {
+      const savedUser = JSON.parse(
+        localStorage.getItem("ravoUser") || "null"
+      );
+
+      if (savedUser) {
+        document.getElementById("profileTitle").textContent =
+          "Мой профиль";
+
+        document.getElementById("profileContent").innerHTML = `
+          <div style="text-align:center;padding:10px 0 20px">
+            <div style="
+              width:80px;
+              height:80px;
+              border-radius:50%;
+              background:#D4AF37;
+              color:white;
+              display:flex;
+              align-items:center;
+              justify-content:center;
+              margin:auto;
+              font-size:36px;
+              font-weight:900;
+            ">
+              ${savedUser.name.charAt(0).toUpperCase()}
+            </div>
+
+            <h2 style="margin-top:12px">${savedUser.name}</h2>
+            <p style="color:#777;margin-top:5px">${savedUser.email}</p>
+          </div>
+
+          <button class="primary" onclick="logout()">
+            Выйти из аккаунта
+          </button>
+        `;
+      }
+
+      openModal("profileModal");
+    }
+
+    function showRegister() {
+      closeModal("profileModal");
+      openModal("registerModal");
+    }
+
+    function register() {
+      const name = document.getElementById("registerName").value.trim();
+      const email = document.getElementById("registerEmail").value.trim();
+      const password =
+        document.getElementById("registerPassword").value;
+
+      if (!name || !email || !password) {
+        alert("Заполни все поля");
+        return;
+      }
+
+      const user = {
+        name: name,
+        email: email
+      };
+
+      localStorage.setItem("ravoUser", JSON.stringify(user));
+
+      closeModal("registerModal");
+
+      alert("Аккаунт Ravo создан! 🎉");
+
+      openProfile();
+    }
+
+    function login() {
+      const contact =
+        document.getElementById("loginContact").value.trim();
+
+      const password =
+        document.getElementById("loginPassword").value;
+
+      if (!contact || !password) {
+        alert("Введите данные для входа");
+        return;
+      }
+
+      const user = {
+        name: contact.split("@")[0] || "Пользователь",
+        email: contact
+      };
+
+      localStorage.setItem("ravoUser", JSON.stringify(user));
+
+      closeModal("profileModal");
+
+      alert("Вы вошли в Ravo 👋");
+
+      openProfile();
+    }
+
+    function logout() {
+      localStorage.removeItem("ravoUser");
+      closeModal("profileModal");
+      alert("Вы вышли из аккаунта");
+    }
+
+    function openModal(id) {
+      document.getElementById(id).classList.add("show");
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.remove("show");
+    }
+
+    function closeOutside(event, id) {
+      if (event.target.id === id) {
+        closeModal(id);
+      }
+    }
+
+    function goHome() {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    }
+
+    renderProducts();
+    updateCartBadge();
+
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("service-worker.js")
+          .catch(error => {
+            console.log("Service Worker:", error);
+          });
+      });
+    }
+  </script>
+
+</body>
 </html>
-
-
-
-    
-
-    
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("./service-worker.js");
-}
