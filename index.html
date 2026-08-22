@@ -371,15 +371,16 @@
     .modal.show {
       display: flex;
     }
-
-    .modal-box {
-      width: min(500px, 100%);
-      background: white;
-      border-radius: 25px 25px 0 0;
-      padding: 25px 20px calc(25px + env(safe-area-inset-bottom));
-      max-height: 90vh;
-      overflow-y: auto;
-    }
+.modal-box {
+  width: 100%;
+  height: 100%;
+  background: white;
+  border-radius: 0;
+  padding: 25px 20px calc(25px + env(safe-area-inset-bottom));
+  max-height: 100vh;
+  overflow-y: auto;
+}
+   
 
     .modal-head {
       display: flex;
