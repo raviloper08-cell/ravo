@@ -1,6 +1,7 @@
 {
   "name": "Ravo",
   "short_name": "Ravo",
+  "description": "Ravo — удобный маркетплейс для покупок.",
   "id": "/ravo/",
   "start_url": "/ravo/",
   "scope": "/ravo/",
