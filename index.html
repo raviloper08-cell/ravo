@@ -126,6 +126,28 @@
   pointer-events: none;
   z-index: 2;
 }
+.search-clear {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 50%;
+  background: #ddd;
+  color: #555;
+  font-size: 20px;
+  line-height: 28px;
+  text-align: center;
+  cursor: pointer;
+  display: none;
+}
+
+.search-clear:hover {
+  background: var(--gold);
+  color: white;
+}
 
     main {
       max-width: 1150px;
@@ -557,14 +579,22 @@
       <div class="brand">Ravo</div>
 
       <div class="search">
-        <span class="search-icon">🔎</span>
-        <input
-          id="searchInput"
-          type="search"
-          placeholder="Поиск товаров..."
-          oninput="searchProducts()"
-        >
-      </div>
+  <span class="search-icon">🔎</span>
+
+  <input
+    id="searchInput"
+    type="search"
+    placeholder="Поиск товаров..."
+    oninput="searchProducts(); updateSearchClear()"
+  >
+
+  <button
+    class="search-clear"
+    id="searchClear"
+    onclick="clearSearch()"
+    type="button"
+  >×</button>
+</div>
 
       <button class="header-btn" onclick="openProfile()">Войти</button>
     </div>
@@ -1180,6 +1210,10 @@
       if (currentCategory !== "Все") {
         list = list.filter(p => p.category === currentCategory);
       }
+      
+
+  
+
 
       if (query) {
         list = list.filter(p =>
@@ -1193,8 +1227,23 @@
         currentCategory === "Все" ? "Популярные товары" : currentCategory;
 
       renderProducts(list);
-    }
+    } 
+function updateSearchClear() {
+  const input = document.getElementById("searchInput");
+  const clearButton = document.getElementById("searchClear");
 
+  clearButton.style.display = input.value ? "block" : "none";
+}
+
+function clearSearch() {
+  const input = document.getElementById("searchInput");
+
+  input.value = "";
+  currentCategory = "Все";
+
+  updateSearchClear();
+  searchProducts();
+}
     function filterCategory(category) {
       currentCategory = category;
       document.getElementById("searchInput").value = "";
