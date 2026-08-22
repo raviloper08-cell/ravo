@@ -1205,5 +1205,14 @@ if ("serviceWorker" in navigator) {
       
   </script>
 
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("/ravo/sw.js")
+      .then(() => console.log("Ravo Service Worker подключён"))
+      .catch(error => console.error("Ошибка Service Worker:", error));
+  });
+}
+</script>
 </body>
 </html>
