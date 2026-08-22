@@ -6,7 +6,7 @@
   "start_url": "/ravo/",
   "scope": "/ravo/",
   "display": "standalone",
-  "background_color": "#ffffff",
+  "background_color": "#111111",
   "theme_color": "#D4AF37",
   "icons": [
     {
