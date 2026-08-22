@@ -1022,11 +1022,11 @@
               <div class="cart-info">
                 <strong>${product.name}</strong>
                 <div style="color:#777;font-size:13px;margin-top:4px">
-                  ${count} × €${product.price}
+                  ${count} × ₽${product.price}
                 </div>
               </div>
 
-              <strong>€${itemTotal}</strong>
+              <strong>₽${itemTotal}</strong>
             </div>
           `;
         }).join("");
@@ -1034,7 +1034,7 @@
         content.innerHTML += `
           <div class="cart-total">
             <span>Итого</span>
-            <span>€${total}</span>
+            <span>₽${total}</span>
           </div>
 
           <button class="primary" onclick="checkout()">
@@ -1066,7 +1066,7 @@
             <div class="cart-info">
               <strong>${product.name}</strong>
               <div style="color:#777;margin-top:4px">
-                €${product.price}
+                ₽${product.price}
               </div>
             </div>
 
