@@ -1801,6 +1801,72 @@ function goHome() {
 
 renderProducts();
 updateCartBadge();
+// ===== СВАЙП НАЗАД В МОДАЛЬНЫХ ОКНАХ RAVO =====
+
+let swipeStartX = 0;
+let swipeStartY = 0;
+let swipeStartTime = 0;
+
+document.addEventListener("touchstart", function (e) {
+  if (!e.touches || e.touches.length !== 1) return;
+
+  swipeStartX = e.touches[0].clientX;
+  swipeStartY = e.touches[0].clientY;
+  swipeStartTime = Date.now();
+}, { passive: true });
+
+
+document.addEventListener("touchend", function (e) {
+  if (!e.changedTouches || e.changedTouches.length !== 1) return;
+
+  const endX = e.changedTouches[0].clientX;
+  const endY = e.changedTouches[0].clientY;
+
+  const deltaX = endX - swipeStartX;
+  const deltaY = endY - swipeStartY;
+  const duration = Date.now() - swipeStartTime;
+
+  // Минимальная длина свайпа
+  const minSwipeDistance = 80;
+
+  // Свайп должен быть достаточно быстрым
+  const maxSwipeTime = 600;
+
+  // Только горизонтальный свайп
+  const isHorizontal =
+    Math.abs(deltaX) > Math.abs(deltaY) * 1.5;
+
+  // Свайп вправо
+  const isSwipeRight = deltaX > minSwipeDistance;
+
+  if (
+    isSwipeRight &&
+    isHorizontal &&
+    duration < maxSwipeTime
+  ) {
+    // Ищем открытое модальное окно
+    const openModalElement = document.querySelector(
+      ".modal.show, .modal.active"
+    );
+
+    if (openModalElement) {
+      // Используем твою функцию закрытия, если она есть
+      if (typeof closeModal === "function") {
+        closeModal(openModalElement.id);
+      } else {
+        // Запасной вариант
+        openModalElement.classList.remove("show", "active");
+        openModalElement.style.display = "none";
+      }
+    }
+  }
+
+  // Сбрасываем координаты
+  swipeStartX = 0;
+  swipeStartY = 0;
+  swipeStartTime = 0;
+
+}, { passive: true });
 
 </script>
 <script>
