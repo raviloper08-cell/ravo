@@ -2545,14 +2545,14 @@ document.addEventListener("DOMContentLoaded", function() {
 
         <button
           class="product-favorite-btn"
-          onclick="toggleFavorite(${product.id}); openProduct(${product.id});"
+          onclick="toggleFavorite(${product.id})"
         >
           ${isFavorite ? "❤️ В избранном" : "🤍 В избранное"}
         </button>
 
         <button
           class="product-buy-btn"
-          onclick="toggleFavorite(${product.id})"
+          onclick="addToCart(${product.id})"
         >
           🛒 Добавить в корзину
         </button>
