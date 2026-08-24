@@ -7,87 +7,7 @@
   <meta name="description" content="Ravo — современный маркетплейс">
   <link rel="manifest" href="manifest.json">
   <title>Ravo — маркетплейс</title>
-/* ===== РЕДАКТИРОВАНИЕ АККАУНТА ===== */
 
-.edit-profile {
-  padding: 10px 20px 25px;
-}
-
-.profile-photo-edit {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 25px;
-}
-
-.edit-avatar {
-  width: 95px;
-  height: 95px;
-  border-radius: 50%;
-  background: #f5f5f5;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 42px;
-  overflow: hidden;
-  border: 3px solid #D4AF37;
-  margin-bottom: 12px;
-}
-
-.edit-avatar img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.change-photo-btn {
-  color: #b8941f;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.edit-profile label {
-  display: block;
-  margin: 14px 0 7px;
-  font-size: 14px;
-  font-weight: 600;
-  color: #333;
-}
-
-.edit-profile input[type="text"],
-.edit-profile input[type="tel"],
-.edit-profile input[type="email"] {
-  width: 100%;
-  box-sizing: border-box;
-  padding: 14px;
-  border: 1px solid #ddd;
-  border-radius: 12px;
-  font-size: 16px;
-  outline: none;
-  background: #fff;
-}
-
-.edit-profile input:focus {
-  border-color: #D4AF37;
-}
-
-.save-profile-btn {
-  width: 100%;
-  margin-top: 25px;
-  padding: 15px;
-  border: none;
-  border-radius: 13px;
-  background: #D4AF37;
-  color: #111;
-  font-size: 16px;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-.save-profile-btn:active {
-  transform: scale(0.98);
-}
   <style>
     * {
       box-sizing: border-box;
@@ -843,6 +763,87 @@
   font-weight: 600;
   cursor: pointer;
 }
+/* ===== РЕДАКТИРОВАНИЕ АККАУНТА ===== */
+
+.edit-profile {
+  padding: 10px 20px 25px;
+}
+
+.profile-photo-edit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.edit-avatar {
+  width: 95px;
+  height: 95px;
+  border-radius: 50%;
+  background: #f5f5f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 42px;
+  overflow: hidden;
+  border: 3px solid #D4AF37;
+  margin-bottom: 12px;
+}
+
+.edit-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.change-photo-btn {
+  color: #b8941f;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.edit-profile label {
+  display: block;
+  margin: 14px 0 7px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+}
+
+.edit-profile input[type="text"],
+.edit-profile input[type="tel"],
+.edit-profile input[type="email"] {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 14px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  font-size: 16px;
+  outline: none;
+  background: #fff;
+}
+
+.edit-profile input:focus {
+  border-color: #D4AF37;
+}
+
+.save-profile-btn {
+  width: 100%;
+  margin-top: 25px;
+  padding: 15px;
+  border: none;
+  border-radius: 13px;
+  background: #D4AF37;
+  color: #111;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.save-profile-btn:active {
+  transform: scale(0.98);
+}
    </style>
 </head>
 
@@ -1126,7 +1127,72 @@
 
     </div>
   </div>
+<!-- EDIT ACCOUNT -->
+<div class="modal" id="editAccountModal" onclick="closeOutside(event, 'editAccountModal')">
+  <div class="modal-box">
 
+    <div class="modal-head">
+      <button class="back-btn" onclick="closeModal('editAccountModal')">←</button>
+
+      <h2>Редактировать аккаунт</h2>
+
+      <button class="close" onclick="closeModal('editAccountModal')">×</button>
+    </div>
+
+    <div class="edit-profile">
+
+      <div class="profile-photo-edit">
+
+        <div id="editAvatarPreview" class="edit-avatar">
+          👤
+        </div>
+
+        <label class="change-photo-btn">
+          Изменить фото
+
+          <input
+            type="file"
+            id="avatarInput"
+            accept="image/*"
+            onchange="changeAvatar(event)"
+            hidden
+          >
+        </label>
+
+      </div>
+
+      <label>Имя</label>
+      <input
+        type="text"
+        id="editName"
+        placeholder="Введите имя"
+      >
+
+      <label>Телефон</label>
+      <input
+        type="tel"
+        id="editPhone"
+        placeholder="+7..."
+      >
+
+      <label>Email</label>
+      <input
+        type="email"
+        id="editEmail"
+        placeholder="Введите email"
+      >
+
+      <button
+        class="save-profile-btn"
+        onclick="saveAccountChanges()"
+      >
+        Сохранить изменения
+      </button>
+
+    </div>
+
+  </div>
+</div>
   <script>
     const productsData = [
       {
@@ -1758,9 +1824,9 @@ function clearSearch() {
             <p>${savedUser.email}</p>
           </div>
 
-          <button class="ravo-edit-btn" onclick="alert('Редактирование профиля скоро будет доступно')">
-            ✏️
-          </button>
+        <button class="ravo-edit-btn" onclick="openEditAccount()">
+  ✏️
+</button>
         </div>
 
         <div class="ravo-profile-menu">
@@ -1917,27 +1983,112 @@ function clearSearch() {
       }
     }
 
-    function goHome() {
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-      });
-    }
+
+
+
+
 
 renderProducts();
 updateCartBadge();
+// ===== РЕДАКТИРОВАНИЕ АККАУНТА =====
 
-function goHome() {
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth"
-  });
+function openEditAccount() {
+
+  const savedUser = JSON.parse(
+    localStorage.getItem("ravoUser") || "{}"
+  );
+
+  document.getElementById("editName").value =
+    savedUser.name || "";
+
+  document.getElementById("editPhone").value =
+    savedUser.phone || "";
+
+  document.getElementById("editEmail").value =
+    savedUser.email || "";
+
+  const avatar = document.getElementById("editAvatarPreview");
+
+  if (savedUser.avatar) {
+    avatar.innerHTML =
+      `<img src="${savedUser.avatar}" alt="Фото">`;
+  } else {
+    avatar.innerHTML = "👤";
+  }
+
+  closeModal("profileModal");
+  openModal("editAccountModal");
 }
 
 
+// ===== ИЗМЕНЕНИЕ ФОТО =====
 
-renderProducts();
-updateCartBadge();
+function changeAvatar(event) {
+
+  const file = event.target.files[0];
+
+  if (!file) return;
+
+  const reader = new FileReader();
+
+  reader.onload = function(e) {
+
+    const avatar =
+      document.getElementById("editAvatarPreview");
+
+    avatar.innerHTML =
+      `<img src="${e.target.result}" alt="Фото">`;
+
+    avatar.dataset.avatar = e.target.result;
+  };
+
+  reader.readAsDataURL(file);
+}
+
+
+// ===== СОХРАНЕНИЕ =====
+
+function saveAccountChanges() {
+
+  const savedUser = JSON.parse(
+    localStorage.getItem("ravoUser") || "{}"
+  );
+
+  const name =
+    document.getElementById("editName").value.trim();
+
+  const phone =
+    document.getElementById("editPhone").value.trim();
+
+  const email =
+    document.getElementById("editEmail").value.trim();
+
+  if (!name) {
+    alert("Введите имя");
+    return;
+  }
+
+  savedUser.name = name;
+  savedUser.phone = phone;
+  savedUser.email = email;
+
+  const avatar =
+    document.getElementById("editAvatarPreview");
+
+  if (avatar.dataset.avatar) {
+    savedUser.avatar = avatar.dataset.avatar;
+  }
+
+  localStorage.setItem(
+    "ravoUser",
+    JSON.stringify(savedUser)
+  );
+
+  closeModal("editAccountModal");
+
+  // Снова открываем профиль с обновлёнными данными
+  openProfile();
+}
 // ===== СВАЙП НАЗАД С АНИМАЦИЕЙ =====
 
 let swipeStartX = 0;
