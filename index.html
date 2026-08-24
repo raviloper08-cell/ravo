@@ -575,10 +575,80 @@
         height: 36px;
       }
     }
+  /* RAVO LOADING SCREEN */
+#ravoLoader {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: #111111;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+#ravoLoader.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.ravo-loader-content {
+  text-align: center;
+}
+
+.ravo-loader-logo {
+  width: 90px;
+  height: 90px;
+  margin: 0 auto 18px;
+  border: 3px solid #D4AF37;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #D4AF37;
+  font-size: 52px;
+  font-weight: 800;
+}
+
+.ravo-loader-content h1 {
+  margin: 0;
+  color: white;
+  font-size: 28px;
+}
+
+.ravo-loader-content p {
+  color: #aaa;
+  font-size: 14px;
+}
+
+.ravo-loader-spinner {
+  width: 28px;
+  height: 28px;
+  margin: 20px auto 0;
+  border: 3px solid #333;
+  border-top-color: #D4AF37;
+  border-radius: 50%;
+  animation: ravoSpin 0.8s linear infinite;
+}
+
+@keyframes ravoSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
   </style>
 </head>
 
 <body>
+  <!-- RAVO LOADING SCREEN -->
+<div id="ravoLoader">
+  <div class="ravo-loader-content">
+    <div class="ravo-loader-logo">R</div>
+    <h1>Ravo Маркет</h1>
+    <div class="ravo-loader-spinner"></div>
+    <p>Загрузка...</p>
+  </div>
+</div>
 
   <header class="topbar">
     <div class="topbar-inner">
@@ -1527,19 +1597,34 @@ function clearSearch() {
 renderProducts();
 updateCartBadge();
 
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("service-worker.js")
-      .catch(error => {
-        console.log("Service Worker:", error);
-      });
+function goHome() {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
   });
 }
 
-      
-  </script>
 
+
+renderProducts();
+updateCartBadge();
 
 </script>
+<script>
+  window.addEventListener("load", function () {
+    setTimeout(function () {
+      const loader = document.getElementById("ravoLoader");
+
+      if (loader) {
+        loader.classList.add("hidden");
+
+        setTimeout(function () {
+          loader.remove();
+        }, 500);
+      }
+    }, 1500);
+  });
+</script>
+
 </body>
 </html>
