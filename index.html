@@ -1587,7 +1587,7 @@
       `https://loremflickr.com/800/600/${keywords}?lock=${product.id}`;
 
     return `
-      <article class="product">
+      <article class="product" onclick="openProduct(${product.id})">
         <button class="favorite" onclick="toggleFavorite(${product.id})">
           ${isFavorite ? "❤️" : "🤍"}
         </button>
@@ -2379,7 +2379,93 @@ document.addEventListener("DOMContentLoaded", function() {
       }
     }, 1500);
   });
-</script>
+  function openProduct(productId) {
+  const product = productsData.find(p => p.id === productId);
 
+  if (!product) return;
+
+  const isFavorite = favorites.includes(product.id);
+
+  const keywords = encodeURIComponent(
+    product.name
+      .replace(/Ravo/gi, "")
+      .replace(/Classic/gi, "")
+      .replace(/Premium/gi, "")
+      .replace(/Urban/gi, "")
+  );
+
+  const imageUrl =
+    product.image ||
+    `https://loremflickr.com/800/600/${keywords}?lock=${product.id}`;
+
+  document.getElementById("productDetailsContent").innerHTML = `
+    <div class="product-details">
+
+      <div class="product-details-image">
+        <img
+          src="${imageUrl}"
+          alt="${product.name}"
+          onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"
+        >
+        <span style="display:none;font-size:90px">
+          ${product.emoji}
+        </span>
+      </div>
+
+      <div class="product-details-category">
+        ${product.category}
+      </div>
+
+      <h1 class="product-details-name">
+        ${product.name}
+      </h1>
+
+      <div class="product-details-price">
+        ${product.price.toLocaleString("ru-RU")} ₽
+      </div>
+
+      <p class="product-details-description">
+        Отличный товар из категории «${product.category}».
+        Подходит для повседневного использования.
+      </p>
+
+      <div class="product-details-actions">
+
+        <button
+          class="product-favorite-btn"
+          onclick="toggleFavorite(${product.id}); openProduct(${product.id});"
+        >
+          ${isFavorite ? "❤️ В избранном" : "🤍 В избранное"}
+        </button>
+
+        <button
+          class="product-buy-btn"
+          onclick="addToCart(${product.id})"
+        >
+          🛒 Добавить в корзину
+        </button>
+
+      </div>
+
+    </div>
+  `;
+
+  openModal("productModal");
+}
+</script>
+<!-- PRODUCT DETAILS MODAL -->
+<div class="modal" id="productModal" onclick="closeOutside(event, 'productModal')">
+  <div class="modal-box product-details-box">
+
+    <div class="modal-head">
+      <button class="back-btn" onclick="closeModal('productModal')">←</button>
+      <h2>Товар</h2>
+      <button class="close" onclick="closeModal('productModal')">×</button>
+    </div>
+
+    <div id="productDetailsContent"></div>
+
+  </div>
+</div>
 </body>
 </html>
