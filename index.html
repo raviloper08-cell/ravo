@@ -1915,25 +1915,7 @@ body {
 
     </div>
   </div>
-<!-- EDIT ACCOUNT -->
-<div class="modal" id="editAccountModal" onclick="closeOutside(event, 'editAccountModal')">
-  <div class="modal-box">
 
-    <div class="modal-head">
-      <button class="back-btn" onclick="closeModal('editAccountModal')">←</button>
-
-      <h2>Редактировать аккаунт</h2>
-
-      <button class="close" onclick="closeModal('editAccountModal')">×</button>
-    </div>
-
-    <div class="edit-profile">
-
-      <div class="profile-photo-edit">
-
-        <div id="editAvatarPreview" class="edit-avatar">
-          👤
-        </div>
 
         <label class="change-photo-btn">
           Изменить фото
@@ -2778,105 +2760,7 @@ function clearSearch() {
 
 renderProducts();
 updateCartBadge();
-// ===== РЕДАКТИРОВАНИЕ АККАУНТА =====
 
-function openEditAccount() {
-
-  const savedUser = JSON.parse(
-    localStorage.getItem("ravoUser") || "{}"
-  );
-
-  document.getElementById("editName").value =
-    savedUser.name || "";
-
-  document.getElementById("editPhone").value =
-    savedUser.phone || "";
-
-  document.getElementById("editEmail").value =
-    savedUser.email || "";
-
-  const avatar = document.getElementById("editAvatarPreview");
-
-  if (savedUser.avatar) {
-    avatar.innerHTML =
-      `<img src="${savedUser.avatar}" alt="Фото">`;
-  } else {
-    avatar.innerHTML = "👤";
-  }
-
-  closeModal("profileModal");
-  openModal("editAccountModal");
-}
-
-
-// ===== ИЗМЕНЕНИЕ ФОТО =====
-
-function changeAvatar(event) {
-
-  const file = event.target.files[0];
-
-  if (!file) return;
-
-  const reader = new FileReader();
-
-  reader.onload = function(e) {
-
-    const avatar =
-      document.getElementById("editAvatarPreview");
-
-    avatar.innerHTML =
-      `<img src="${e.target.result}" alt="Фото">`;
-
-    avatar.dataset.avatar = e.target.result;
-  };
-
-  reader.readAsDataURL(file);
-}
-
-
-// ===== СОХРАНЕНИЕ =====
-
-function saveAccountChanges() {
-
-  const savedUser = JSON.parse(
-    localStorage.getItem("ravoUser") || "{}"
-  );
-
-  const name =
-    document.getElementById("editName").value.trim();
-
-  const phone =
-    document.getElementById("editPhone").value.trim();
-
-  const email =
-    document.getElementById("editEmail").value.trim();
-
-  if (!name) {
-    alert("Введите имя");
-    return;
-  }
-
-  savedUser.name = name;
-  savedUser.phone = phone;
-  savedUser.email = email;
-
-  const avatar =
-    document.getElementById("editAvatarPreview");
-
-  if (avatar.dataset.avatar) {
-    savedUser.avatar = avatar.dataset.avatar;
-  }
-
-  localStorage.setItem(
-    "ravoUser",
-    JSON.stringify(savedUser)
-  );
-
-  closeModal("editAccountModal");
-
-  // Снова открываем профиль с обновлёнными данными
-  openProfile();
-}
 // ===== СВАЙП НАЗАД С АНИМАЦИЕЙ =====
 
 let swipeStartX = 0;
