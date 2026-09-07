@@ -2599,7 +2599,11 @@ function clearSearch() {
 
         <div class="ravo-profile-header">
        <div class="ravo-avatar">
-  ${savedUser.name.charAt(0).toUpperCase()}
+  ${
+    savedUser.avatar
+      ? `<img src="${savedUser.avatar}" alt="Фото профиля">`
+      : savedUser.name.charAt(0).toUpperCase()
+  }
 </div>
           <div class="ravo-profile-info">
             <h2>${savedUser.name}</h2>
