@@ -2654,7 +2654,9 @@ function clearSearch() {
   `;
 
   openModal("profileModal");
-      function openPayment() {
+}
+
+function openPayment() {
   const savedUser = JSON.parse(
     localStorage.getItem("ravoUser") || "{}"
   );
