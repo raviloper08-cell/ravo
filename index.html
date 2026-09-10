@@ -2654,7 +2654,110 @@ function clearSearch() {
   `;
 
   openModal("profileModal");
+      function openPayment() {
+  const savedUser = JSON.parse(
+    localStorage.getItem("ravoUser") || "{}"
+  );
+
+  const card = savedUser.card || "";
+
+  document.getElementById("profileTitle").textContent =
+    "Способы оплаты";
+
+  document.getElementById("profileContent").innerHTML = `
+    <div style="padding: 20px 5px;">
+
+      <h2 style="margin: 0 0 8px;">💳 Способы оплаты</h2>
+
+      <p style="color:#777; font-size:14px; margin-bottom:20px;">
+        Добавьте банковскую карту для оплаты заказов
+      </p>
+
+      <input
+        id="cardInput"
+        type="text"
+        inputmode="numeric"
+        maxlength="19"
+        placeholder="Номер карты"
+        value="${card}"
+        style="
+          width:100%;
+          box-sizing:border-box;
+          padding:15px;
+          border:1px solid #ddd;
+          border-radius:12px;
+          font-size:16px;
+          outline:none;
+        "
+      >
+
+      <button
+        onclick="saveCard()"
+        style="
+          width:100%;
+          margin-top:15px;
+          padding:15px;
+          border:none;
+          border-radius:12px;
+          background:#D4AF37;
+          color:white;
+          font-size:16px;
+          font-weight:700;
+          cursor:pointer;
+        "
+      >
+        Сохранить карту
+      </button>
+
+      <button
+        onclick="openProfile()"
+        style="
+          width:100%;
+          margin-top:10px;
+          padding:15px;
+          border:1px solid #ddd;
+          border-radius:12px;
+          background:white;
+          color:#111;
+          font-size:15px;
+          cursor:pointer;
+        "
+      >
+        ← Вернуться в профиль
+      </button>
+
+    </div>
+  `;
+
+  openModal("profileModal");
 }
+function saveCard() {
+  const savedUser = JSON.parse(
+    localStorage.getItem("ravoUser") || "{}"
+  );
+
+  const card = document
+    .getElementById("cardInput")
+    .value
+    .trim();
+
+  if (!card) {
+    alert("Введите номер карты.");
+    return;
+  }
+
+  savedUser.card = card;
+
+  localStorage.setItem(
+    "ravoUser",
+    JSON.stringify(savedUser)
+  );
+
+  alert("Карта сохранена! 💳");
+
+  openProfile();
+}
+
     function saveAddress() {
   const savedUser = JSON.parse(
     localStorage.getItem("ravoUser") || "{}"
@@ -2749,7 +2852,7 @@ function clearSearch() {
             <b>›</b>
           </button>
 
-          <button class="ravo-profile-item">
+<button class="ravo-profile-item" onclick="openPayment()">
             <span>💳</span>
             <div>
               <strong>Способы оплаты</strong>
