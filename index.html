@@ -2,1954 +2,2046 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0,
-      maximum-scale=1.0,user-scalable=no,viewport-fit=cover">
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <meta name="theme-color" content="#111111">
-<link rel="manifest" href="manifest.json">
-
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>Ravo — маркетплейс</title>
 
 <style>
 *{
-    box-sizing:border-box;
-    -webkit-tap-highlight-color:transparent;
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
 }
 
 html,body{
-    margin:0;
-    padding:0;
-    background:#f7f7f7;
-    color:#111;
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  margin:0;
+  padding:0;
+  min-height:100%;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  background:#f5f5f5;
+  color:#111;
 }
 
 body{
-    min-height:100vh;
-    padding-bottom:85px;
+  padding-bottom:82px;
 }
 
-button,
-input{
-    font:inherit;
+button,input{
+  font:inherit;
 }
 
 button{
-    border:0;
-    cursor:pointer;
+  border:0;
+  cursor:pointer;
 }
 
 img{
-    max-width:100%;
+  max-width:100%;
 }
 
-/* ================= LOADER ================= */
-
+/* LOADER */
 #loader{
-    position:fixed;
-    inset:0;
-    background:#111;
-    z-index:99999;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    transition:.4s;
+  position:fixed;
+  inset:0;
+  z-index:99999;
+  background:#111;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  transition:opacity .45s ease,visibility .45s ease;
 }
 
-.loader-box{
-    text-align:center;
-    color:white;
+#loader.hide{
+  opacity:0;
+  visibility:hidden;
 }
 
-.loader-logo{
-    width:70px;
-    height:70px;
-    margin:auto;
-    border-radius:20px;
-    background:#D4AF37;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    color:#111;
-    font-size:40px;
-    font-weight:900;
-    box-shadow:0 15px 40px rgba(212,175,55,.25);
+.loader-r{
+  width:76px;
+  height:76px;
+  border-radius:23px;
+  background:#d4af37;
+  color:#111;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:48px;
+  font-weight:900;
+  margin-bottom:18px;
+  box-shadow:0 12px 35px rgba(212,175,55,.25);
 }
 
 .loader-title{
-    margin-top:18px;
-    font-size:24px;
-    font-weight:800;
+  color:#fff;
+  font-size:23px;
+  font-weight:800;
 }
 
 .loader-text{
-    margin-top:6px;
-    opacity:.55;
-    font-size:14px;
+  color:#aaa;
+  margin-top:7px;
+  font-size:14px;
 }
 
-/* ================= HEADER ================= */
-
+/* HEADER */
 .header{
-    position:sticky;
-    top:0;
-    z-index:1000;
-    background:rgba(255,255,255,.94);
-    backdrop-filter:blur(20px);
-    border-bottom:1px solid #eee;
-    padding:
-        calc(env(safe-area-inset-top) + 10px)
-        16px
-        10px;
+  position:sticky;
+  top:0;
+  z-index:4000;
+  background:rgba(255,255,255,.94);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  border-bottom:1px solid #eee;
+  padding:calc(10px + env(safe-area-inset-top)) 14px 10px;
 }
 
-.header-top{
-    display:flex;
-    align-items:center;
-    gap:10px;
+.header-row{
+  display:flex;
+  align-items:center;
+  gap:10px;
 }
 
 .logo{
-    width:42px;
-    height:42px;
-    flex:none;
-    border-radius:13px;
-    background:#111;
-    color:#D4AF37;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    font-size:25px;
-    font-weight:900;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  min-width:max-content;
 }
 
-.brand{
-    font-size:21px;
-    font-weight:850;
+.logo-r{
+  width:38px;
+  height:38px;
+  border-radius:12px;
+  background:#111;
+  color:#d4af37;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:900;
+  font-size:23px;
+}
+
+.logo-name{
+  font-size:20px;
+  font-weight:900;
 }
 
 .search{
-    position:relative;
-    flex:1;
+  flex:1;
+  position:relative;
 }
 
 .search input{
-    width:100%;
-    height:42px;
-    border-radius:14px;
-    border:1px solid #e2e2e2;
-    background:#f5f5f5;
-    padding:0 38px 0 15px;
-    outline:none;
-}
-
-.search input:focus{
-    border-color:#D4AF37;
-    background:white;
+  width:100%;
+  height:42px;
+  border:0;
+  outline:0;
+  background:#f1f1f1;
+  border-radius:14px;
+  padding:0 38px 0 14px;
+  font-size:15px;
 }
 
 .search-clear{
-    position:absolute;
-    right:8px;
-    top:7px;
-    width:28px;
-    height:28px;
-    border-radius:50%;
-    background:#ddd;
-    display:none;
+  position:absolute;
+  right:5px;
+  top:4px;
+  width:34px;
+  height:34px;
+  border-radius:50%;
+  background:transparent;
+  color:#777;
+  display:none;
 }
 
 .login-btn{
-    height:42px;
-    padding:0 13px;
-    border-radius:13px;
-    background:#111;
-    color:white;
-    font-weight:700;
+  width:42px;
+  height:42px;
+  border-radius:13px;
+  background:#111;
+  color:#d4af37;
+  font-size:20px;
 }
 
-/* ================= HERO ================= */
+/* APP PAGES */
+.page{
+  display:none;
+  min-height:calc(100vh - 150px);
+  animation:pageIn .2s ease;
+}
 
+.page.active{
+  display:block;
+}
+
+@keyframes pageIn{
+  from{
+    opacity:0;
+    transform:translateY(8px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+/* HOME */
 .hero{
-    margin:14px;
-    border-radius:25px;
-    padding:27px 22px;
-    color:white;
-    background:
-        radial-gradient(circle at 90% 10%,rgba(212,175,55,.35),transparent 35%),
-        linear-gradient(135deg,#111,#242424);
-    overflow:hidden;
+  margin:14px;
+  padding:24px 20px;
+  min-height:170px;
+  border-radius:25px;
+  background:#111;
+  color:#fff;
+  position:relative;
+  overflow:hidden;
+}
+
+.hero:after{
+  content:"R";
+  position:absolute;
+  right:-20px;
+  bottom:-60px;
+  font-size:220px;
+  line-height:1;
+  font-weight:900;
+  color:rgba(212,175,55,.08);
 }
 
 .hero h1{
-    margin:0;
-    font-size:30px;
-    line-height:1.05;
-}
-
-.hero h1 span{
-    color:#D4AF37;
+  position:relative;
+  z-index:1;
+  margin:0;
+  font-size:30px;
+  line-height:1.05;
+  max-width:300px;
 }
 
 .hero p{
-    color:#ccc;
-    margin:12px 0 18px;
-    line-height:1.4;
+  position:relative;
+  z-index:1;
+  color:#bbb;
+  margin:12px 0 0;
+  font-size:14px;
 }
 
-.hero button{
-    background:#D4AF37;
-    color:#111;
-    padding:13px 18px;
-    border-radius:13px;
-    font-weight:800;
+.gold{
+  color:#d4af37;
 }
 
-/* ================= CATEGORIES ================= */
-
-.categories{
-    display:flex;
-    gap:8px;
-    overflow-x:auto;
-    padding:0 14px 14px;
-    scrollbar-width:none;
+.section{
+  padding:0 14px;
 }
 
-.categories::-webkit-scrollbar{
-    display:none;
-}
-
-.category{
-    white-space:nowrap;
-    padding:10px 15px;
-    border-radius:20px;
-    background:white;
-    border:1px solid #e7e7e7;
-    color:#555;
-    font-weight:700;
-}
-
-.category.active{
-    background:#111;
-    color:#D4AF37;
-    border-color:#111;
-}
-
-/* ================= PRODUCTS ================= */
-
-.products-section{
-    padding:0 14px;
+.section-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin:20px 0 12px;
 }
 
 .section-title{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin:5px 2px 13px;
+  font-size:21px;
+  font-weight:850;
 }
 
-.section-title h2{
-    margin:0;
-    font-size:22px;
+.categories{
+  display:flex;
+  gap:8px;
+  overflow-x:auto;
+  padding-bottom:3px;
+  scrollbar-width:none;
 }
 
-.section-title span{
-    color:#777;
-    font-size:13px;
+.categories::-webkit-scrollbar{
+  display:none;
 }
 
+.category{
+  flex:0 0 auto;
+  background:#fff;
+  border:1px solid #e8e8e8;
+  border-radius:14px;
+  padding:10px 14px;
+  font-size:13px;
+  font-weight:700;
+}
+
+.category.active{
+  background:#111;
+  color:#d4af37;
+  border-color:#111;
+}
+
+/* PRODUCTS */
 .products{
-    display:grid;
-    grid-template-columns:repeat(2,minmax(0,1fr));
-    gap:12px;
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:11px;
+  padding-bottom:15px;
 }
 
-.product{
-    background:white;
-    border-radius:18px;
-    overflow:hidden;
-    box-shadow:0 3px 15px rgba(0,0,0,.055);
-    position:relative;
-    transition:.18s;
-}
-
-.product:active{
-    transform:scale(.98);
+.product-card{
+  background:#fff;
+  border-radius:19px;
+  overflow:hidden;
+  box-shadow:0 2px 12px rgba(0,0,0,.045);
+  position:relative;
 }
 
 .product-image{
-    position:relative;
-    width:100%;
-    aspect-ratio:1/1;
-    background:#f0f0f0;
-    overflow:hidden;
+  height:180px;
+  background:#f2f2f2;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+  overflow:hidden;
 }
 
 .product-image img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    display:block;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
 }
 
-.product-fallback{
-    position:absolute;
-    inset:0;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:55px;
-    background:linear-gradient(135deg,#eeeeee,#fafafa);
+.product-emoji{
+  font-size:66px;
 }
 
-.favorite{
-    position:absolute;
-    top:9px;
-    right:9px;
-    width:34px;
-    height:34px;
-    border-radius:50%;
-    background:rgba(255,255,255,.92);
-    font-size:19px;
-    z-index:2;
+.favorite-small{
+  position:absolute;
+  top:9px;
+  right:9px;
+  width:34px;
+  height:34px;
+  border-radius:50%;
+  background:rgba(255,255,255,.92);
+  font-size:18px;
+  z-index:2;
 }
 
-.favorite.active{
-    color:#d4af37;
+.favorite-small.active{
+  color:#a51f2a;
 }
 
 .product-info{
-    padding:12px;
+  padding:12px;
 }
 
 .product-category{
-    font-size:11px;
-    color:#999;
-    margin-bottom:4px;
+  color:#999;
+  font-size:11px;
+  margin-bottom:4px;
 }
 
 .product-name{
-    min-height:38px;
-    font-size:14px;
-    font-weight:750;
-    line-height:1.25;
+  font-size:15px;
+  font-weight:750;
+  min-height:38px;
+  line-height:1.25;
 }
 
 .product-price{
-    margin-top:9px;
-    font-size:19px;
-    font-weight:900;
+  font-size:19px;
+  font-weight:900;
+  margin-top:9px;
 }
 
-.product-bottom{
-    display:flex;
-    align-items:center;
-    gap:7px;
-    margin-top:10px;
+.product-actions{
+  display:flex;
+  gap:7px;
+  margin-top:10px;
 }
 
-.add-cart{
-    flex:1;
-    min-width:0;
-    height:38px;
-    border-radius:11px;
-    background:#111;
-    color:white;
-    font-size:12px;
-    font-weight:800;
+.add-btn{
+  flex:1;
+  height:39px;
+  border-radius:12px;
+  background:#111;
+  color:#fff;
+  font-size:12px;
+  font-weight:750;
 }
 
-.buy-fast{
-    width:38px;
-    height:38px;
-    border-radius:11px;
-    background:#D4AF37;
-    font-size:17px;
+.details-btn{
+  width:39px;
+  height:39px;
+  border-radius:12px;
+  background:#eee;
+  font-size:16px;
 }
 
-/* ================= BOTTOM NAV ================= */
-
-.bottom-nav{
-    position:fixed;
-    bottom:0;
-    left:0;
-    right:0;
-    height:70px;
-    padding-bottom:env(safe-area-inset-bottom);
-    background:rgba(255,255,255,.96);
-    backdrop-filter:blur(20px);
-    border-top:1px solid #e8e8e8;
-    z-index:5000;
-    display:flex;
-    justify-content:space-around;
+/* EMPTY */
+.empty{
+  margin:30px 14px;
+  padding:42px 20px;
+  text-align:center;
+  background:#fff;
+  border-radius:24px;
 }
 
-.nav-item{
-    flex:1;
-    background:none;
-    color:#777;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    gap:3px;
-    font-size:11px;
-    font-weight:650;
-    position:relative;
+.empty-icon{
+  font-size:48px;
+  margin-bottom:12px;
 }
 
-.nav-icon{
-    font-size:22px;
+.empty-title{
+  font-size:20px;
+  font-weight:850;
 }
 
-.nav-item.active{
-    color:#111;
+.empty-text{
+  color:#888;
+  font-size:14px;
+  margin-top:7px;
 }
 
-.cart-badge{
-    position:absolute;
-    top:7px;
-    margin-left:24px;
-    min-width:17px;
-    height:17px;
-    padding:0 4px;
-    border-radius:10px;
-    background:#D4AF37;
-    color:#111;
-    font-size:10px;
-    font-weight:900;
-    display:none;
-    align-items:center;
-    justify-content:center;
+/* INNER PAGE */
+.inner-page{
+  padding:18px 14px 25px;
 }
 
-/* ================= MODALS ================= */
-
-.modal{
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.48);
-    z-index:9000;
-    display:none;
-    align-items:flex-end;
-    justify-content:center;
+.page-title{
+  font-size:30px;
+  font-weight:900;
+  margin:5px 0 6px;
 }
 
-.modal.show{
-    display:flex;
+.page-subtitle{
+  color:#888;
+  font-size:14px;
+  margin-bottom:20px;
 }
 
-.modal-box{
-    width:100%;
-    max-width:600px;
-    max-height:92vh;
-    overflow:auto;
-    background:#fff;
-    border-radius:27px 27px 0 0;
-    padding:18px;
-    animation:modalUp .25s ease;
+.back-home{
+  display:none;
 }
 
-@keyframes modalUp{
-    from{
-        transform:translateY(100%);
-    }
-    to{
-        transform:translateY(0);
-    }
-}
-
-.modal-header{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    margin-bottom:15px;
-}
-
-.modal-header h2{
-    margin:0;
-    font-size:22px;
-}
-
-.close{
-    width:38px;
-    height:38px;
-    border-radius:50%;
-    background:#f1f1f1;
-    font-size:20px;
-}
-
-.back{
-    width:38px;
-    height:38px;
-    border-radius:50%;
-    background:#f1f1f1;
-    font-size:20px;
-}
-
-/* ================= FORMS ================= */
-
-.form-group{
-    margin-bottom:13px;
-}
-
-.form-group label{
-    display:block;
-    font-size:13px;
-    color:#777;
-    margin-bottom:6px;
-}
-
-.form-group input{
-    width:100%;
-    height:47px;
-    border:1px solid #ddd;
-    border-radius:13px;
-    padding:0 13px;
-    outline:none;
-}
-
-.form-group input:focus{
-    border-color:#D4AF37;
-}
-
-.primary-btn{
-    width:100%;
-    height:48px;
-    border-radius:14px;
-    background:#111;
-    color:white;
-    font-weight:800;
-}
-
-.gold-btn{
-    background:#D4AF37;
-    color:#111;
-}
-
-/* ================= PROFILE ================= */
-
+/* PROFILE */
 .profile-top{
-    display:flex;
-    align-items:center;
-    gap:14px;
-    margin-bottom:20px;
+  background:#111;
+  color:#fff;
+  border-radius:25px;
+  padding:22px;
+  display:flex;
+  align-items:center;
+  gap:15px;
+  margin-bottom:15px;
 }
 
-.ravo-avatar{
-    width:70px;
-    height:70px;
-    border-radius:50%;
-    background:#111;
-    color:#D4AF37;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:29px;
-    font-weight:900;
-    overflow:hidden;
-    flex:none;
+.profile-avatar{
+  width:70px;
+  height:70px;
+  border-radius:22px;
+  background:#d4af37;
+  color:#111;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  font-size:28px;
+  font-weight:900;
+  flex-shrink:0;
 }
 
-.ravo-avatar img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
+.profile-avatar img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
 }
 
-.profile-top h2{
-    margin:0 0 5px;
+.profile-name{
+  font-size:21px;
+  font-weight:850;
 }
 
-.profile-top p{
-    margin:0;
-    color:#777;
-    font-size:13px;
+.profile-phone{
+  color:#aaa;
+  font-size:13px;
+  margin-top:5px;
 }
 
-.profile-menu{
-    display:flex;
-    flex-direction:column;
-    gap:8px;
+.profile-card{
+  background:#fff;
+  border-radius:20px;
+  margin-bottom:11px;
+  overflow:hidden;
 }
 
-.profile-menu button{
-    width:100%;
-    min-height:52px;
-    padding:10px 13px;
-    background:#f7f7f7;
-    border-radius:14px;
-    text-align:left;
-    font-weight:700;
+.profile-item{
+  width:100%;
+  min-height:62px;
+  background:#fff;
+  padding:13px 16px;
+  display:flex;
+  align-items:center;
+  gap:13px;
+  text-align:left;
+  border-bottom:1px solid #eee;
 }
 
-.profile-menu button span{
-    margin-right:10px;
+.profile-item:last-child{
+  border-bottom:0;
+}
+
+.profile-icon{
+  width:38px;
+  height:38px;
+  border-radius:12px;
+  background:#f1f1f1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:18px;
+}
+
+.profile-item-main{
+  flex:1;
+}
+
+.profile-item-title{
+  font-weight:750;
+  font-size:15px;
+}
+
+.profile-item-sub{
+  color:#999;
+  font-size:12px;
+  margin-top:3px;
+}
+
+.arrow{
+  color:#aaa;
+  font-size:20px;
 }
 
 .logout{
-    color:#b42323;
+  color:#a51f2a;
 }
 
-/* ================= CART ================= */
-
-.cart-empty{
-    text-align:center;
-    padding:45px 10px;
-    color:#777;
+/* CART */
+.cart-list{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
 }
 
-.cart-empty-icon{
-    font-size:55px;
-    margin-bottom:10px;
+.cart-item{
+  background:#fff;
+  border-radius:19px;
+  padding:10px;
+  display:flex;
+  gap:11px;
+  align-items:center;
 }
 
-.cart-row{
-    display:flex;
-    gap:11px;
-    align-items:center;
-    padding:10px 0;
-    border-bottom:1px solid #eee;
+.cart-image{
+  width:82px;
+  height:82px;
+  border-radius:15px;
+  background:#f2f2f2;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  flex-shrink:0;
 }
 
-.cart-img{
-    width:65px;
-    height:65px;
-    border-radius:13px;
-    overflow:hidden;
-    background:#eee;
-    flex:none;
+.cart-image img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
 }
 
-.cart-img img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
+.cart-image span{
+  font-size:38px;
 }
 
-.cart-row-info{
-    flex:1;
-    min-width:0;
+.cart-info{
+  flex:1;
+  min-width:0;
 }
 
-.cart-row-name{
-    font-size:13px;
-    font-weight:750;
+.cart-name{
+  font-size:14px;
+  font-weight:800;
 }
 
-.cart-row-price{
-    margin-top:4px;
-    font-weight:850;
+.cart-price{
+  font-size:16px;
+  font-weight:900;
+  margin-top:5px;
 }
 
 .qty{
-    display:flex;
-    align-items:center;
-    gap:7px;
+  display:flex;
+  align-items:center;
+  gap:7px;
+  margin-top:8px;
 }
 
 .qty button{
-    width:30px;
-    height:30px;
-    border-radius:9px;
-    background:#eee;
-    font-weight:900;
+  width:28px;
+  height:28px;
+  border-radius:9px;
+  background:#eee;
+  font-weight:900;
+}
+
+.remove-cart{
+  background:transparent;
+  color:#999;
+  font-size:18px;
+  align-self:flex-start;
+}
+
+.cart-bottom{
+  background:#fff;
+  border-radius:22px;
+  padding:16px;
+  margin-top:15px;
+  box-shadow:0 2px 15px rgba(0,0,0,.04);
+}
+
+.cart-total-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-size:17px;
+  font-weight:800;
 }
 
 .cart-total{
-    display:flex;
-    justify-content:space-between;
-    padding:18px 0;
-    font-size:20px;
-    font-weight:900;
+  font-size:25px;
+  font-weight:950;
 }
 
-/* ================= FAVORITES ================= */
-
-.fav-row{
-    display:flex;
-    gap:12px;
-    align-items:center;
-    padding:10px 0;
-    border-bottom:1px solid #eee;
+.checkout{
+  width:100%;
+  height:50px;
+  border-radius:15px;
+  background:#111;
+  color:#d4af37;
+  font-weight:850;
+  margin-top:14px;
 }
 
-.fav-img{
-    width:75px;
-    height:75px;
-    border-radius:14px;
-    overflow:hidden;
-    background:#eee;
-    flex:none;
-}
-
-.fav-img img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-}
-
-.fav-info{
-    flex:1;
-}
-
-.fav-name{
-    font-weight:750;
-    font-size:14px;
-}
-
-.fav-price{
-    font-weight:900;
-    margin-top:5px;
-}
-
-.fav-add{
-    background:#111;
-    color:white;
-    border-radius:10px;
-    padding:9px 10px;
-    font-size:11px;
-    font-weight:800;
-}
-
-/* ================= PRODUCT DETAILS ================= */
-
-.product-detail-image{
-    width:100%;
-    aspect-ratio:1/1;
-    border-radius:20px;
-    overflow:hidden;
-    background:#f0f0f0;
-    position:relative;
-}
-
-.product-detail-image img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-}
-
-.product-detail-category{
-    margin-top:16px;
-    color:#999;
-    font-size:13px;
-}
-
-.product-detail-name{
-    margin:5px 0;
-    font-size:25px;
-    line-height:1.15;
-}
-
-.product-detail-price{
-    font-size:25px;
-    font-weight:900;
-    margin:10px 0;
-}
-
-.product-description{
-    color:#666;
-    line-height:1.5;
-    font-size:14px;
-}
-
-.detail-actions{
-    display:flex;
-    gap:10px;
-    margin-top:18px;
-}
-
-.detail-actions button:first-child{
-    width:52px;
-    border-radius:14px;
-    background:#f0f0f0;
-    font-size:22px;
-}
-
-.detail-actions button:last-child{
-    flex:1;
-    border-radius:14px;
-    background:#111;
-    color:white;
-    font-weight:850;
-    height:50px;
-}
-
-/* ================= ADDRESS / CARD ================= */
-
-.info-card{
-    background:#f7f7f7;
-    padding:15px;
-    border-radius:15px;
-    margin-bottom:12px;
-    line-height:1.5;
-}
-
+/* BONUS */
 .bonus-box{
-    background:linear-gradient(135deg,#111,#292929);
-    color:white;
-    border-radius:20px;
-    padding:22px;
-    margin-bottom:15px;
+  background:#111;
+  color:#fff;
+  border-radius:25px;
+  padding:24px;
+  margin-bottom:15px;
 }
 
 .bonus-number{
-    color:#D4AF37;
-    font-size:35px;
-    font-weight:900;
+  font-size:40px;
+  font-weight:950;
+  color:#d4af37;
+  margin-top:8px;
 }
 
-/* ================= TOAST ================= */
+.bonus-desc{
+  color:#aaa;
+  font-size:13px;
+}
 
-#toast{
-    position:fixed;
-    left:50%;
-    bottom:88px;
-    transform:translate(-50%,20px);
-    background:#111;
-    color:white;
-    padding:12px 17px;
-    border-radius:14px;
-    font-size:13px;
-    font-weight:700;
+/* BOTTOM NAV */
+.bottom-nav{
+  position:fixed;
+  z-index:5000;
+  left:0;
+  right:0;
+  bottom:0;
+  height:74px;
+  padding-bottom:env(safe-area-inset-bottom);
+  background:rgba(255,255,255,.96);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  border-top:1px solid #e5e5e5;
+  display:flex;
+  justify-content:space-around;
+}
+
+.nav-btn{
+  flex:1;
+  background:transparent;
+  color:#888;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:3px;
+  position:relative;
+}
+
+.nav-icon{
+  font-size:21px;
+  line-height:1;
+}
+
+.nav-text{
+  font-size:10px;
+  font-weight:700;
+}
+
+.nav-btn.active{
+  color:#111;
+}
+
+.nav-btn.active:before{
+  content:"";
+  position:absolute;
+  top:0;
+  width:27px;
+  height:3px;
+  background:#d4af37;
+  border-radius:0 0 4px 4px;
+}
+
+.nav-badge{
+  position:absolute;
+  top:7px;
+  margin-left:26px;
+  min-width:17px;
+  height:17px;
+  padding:0 4px;
+  border-radius:20px;
+  background:#a51f2a;
+  color:#fff;
+  font-size:9px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+/* MODALS */
+.modal{
+  position:fixed;
+  inset:0;
+  z-index:9000;
+  background:rgba(0,0,0,.52);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:14px;
+}
+
+.modal.show{
+  display:flex;
+}
+
+.modal-box{
+  width:100%;
+  max-width:600px;
+  max-height:92vh;
+  overflow:auto;
+  background:#fff;
+  border-radius:27px;
+  animation:modalIn .22s ease;
+}
+
+@keyframes modalIn{
+  from{
     opacity:0;
-    pointer-events:none;
-    z-index:99999;
-    transition:.25s;
-    white-space:nowrap;
+    transform:translateY(20px) scale(.98);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0) scale(1);
+  }
+}
+
+.modal-head{
+  position:sticky;
+  top:0;
+  z-index:2;
+  background:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:17px 18px;
+  border-bottom:1px solid #eee;
+}
+
+.modal-title{
+  font-size:20px;
+  font-weight:900;
+}
+
+.close{
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  background:#eee;
+  font-size:20px;
+}
+
+.modal-body{
+  padding:18px;
+}
+
+/* PRODUCT MODAL */
+.product-detail-image{
+  height:310px;
+  background:#f1f1f1;
+  border-radius:21px;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.product-detail-image img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.product-detail-emoji{
+  font-size:100px;
+}
+
+.detail-category{
+  color:#999;
+  font-size:13px;
+  margin-top:16px;
+}
+
+.detail-name{
+  font-size:26px;
+  line-height:1.1;
+  font-weight:950;
+  margin-top:5px;
+}
+
+.detail-price{
+  font-size:27px;
+  font-weight:950;
+  margin-top:10px;
+}
+
+.detail-actions{
+  display:flex;
+  gap:9px;
+  margin-top:16px;
+}
+
+.detail-fav{
+  width:52px;
+  height:52px;
+  border-radius:15px;
+  background:#eee;
+  font-size:22px;
+}
+
+.detail-cart{
+  flex:1;
+  height:52px;
+  border-radius:15px;
+  background:#111;
+  color:#fff;
+  font-weight:850;
+}
+
+.characteristics{
+  margin-top:22px;
+}
+
+.characteristics h3{
+  font-size:19px;
+  margin:0 0 10px;
+}
+
+.characteristic{
+  display:flex;
+  justify-content:space-between;
+  gap:15px;
+  padding:11px 0;
+  border-bottom:1px solid #eee;
+  font-size:13px;
+}
+
+.characteristic span:first-child{
+  color:#888;
+  flex:1;
+}
+
+.characteristic span:last-child{
+  font-weight:700;
+  text-align:right;
+  max-width:55%;
+}
+
+/* FORMS */
+.form-group{
+  margin-bottom:13px;
+}
+
+.form-label{
+  display:block;
+  font-size:12px;
+  color:#777;
+  margin-bottom:6px;
+}
+
+.form-input{
+  width:100%;
+  height:47px;
+  border:1px solid #ddd;
+  border-radius:14px;
+  padding:0 13px;
+  outline:none;
+  background:#fafafa;
+}
+
+.form-input:focus{
+  border-color:#d4af37;
+}
+
+.main-btn{
+  width:100%;
+  height:49px;
+  border-radius:14px;
+  background:#111;
+  color:#d4af37;
+  font-weight:850;
+  margin-top:5px;
+}
+
+.secondary-btn{
+  width:100%;
+  height:46px;
+  border-radius:14px;
+  background:#eee;
+  color:#111;
+  font-weight:750;
+  margin-top:9px;
+}
+
+/* TOAST */
+#toast{
+  position:fixed;
+  z-index:99999;
+  left:50%;
+  bottom:92px;
+  transform:translateX(-50%) translateY(15px);
+  background:#111;
+  color:#fff;
+  border-radius:14px;
+  padding:12px 17px;
+  font-size:13px;
+  font-weight:700;
+  opacity:0;
+  pointer-events:none;
+  transition:.25s ease;
+  white-space:nowrap;
 }
 
 #toast.show{
-    opacity:1;
-    transform:translate(-50%,0);
+  opacity:1;
+  transform:translateX(-50%) translateY(0);
 }
 
-/* ================= DESKTOP ================= */
-
+/* DESKTOP */
 @media(min-width:700px){
-    .products{
-        grid-template-columns:repeat(4,minmax(0,1fr));
-    }
+  .products{
+    grid-template-columns:repeat(4,minmax(0,1fr));
+  }
 
-    .header{
-        padding-left:30px;
-        padding-right:30px;
-    }
+  .product-image{
+    height:220px;
+  }
 
-    .hero{
-        margin:22px auto;
-        max-width:1100px;
-    }
+  .header{
+    padding-left:25px;
+    padding-right:25px;
+  }
 
-    .categories,
-    .products-section{
-        max-width:1100px;
-        margin-left:auto;
-        margin-right:auto;
-    }
+  .section{
+    max-width:1200px;
+    margin:auto;
+  }
+
+  .hero{
+    max-width:1200px;
+    margin:18px auto;
+  }
+
+  .inner-page{
+    max-width:900px;
+    margin:auto;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<!-- ================= LOADER ================= -->
-
+<!-- LOADER -->
 <div id="loader">
-    <div class="loader-box">
-        <div class="loader-logo">R</div>
-        <div class="loader-title">Ravo Маркет</div>
-        <div class="loader-text">Загрузка...</div>
-    </div>
+  <div class="loader-r">R</div>
+  <div class="loader-title">Ravo Маркет</div>
+  <div class="loader-text">Загрузка...</div>
 </div>
 
-<!-- ================= HEADER ================= -->
-
+<!-- HEADER -->
 <header class="header">
+  <div class="header-row">
 
-    <div class="header-top">
-
-        <div class="logo">R</div>
-
-        <div class="brand">Ravo</div>
-
-        <div class="search">
-            <input
-                id="searchInput"
-                type="search"
-                placeholder="Поиск товаров..."
-                autocomplete="off"
-            >
-
-            <button
-                id="searchClear"
-                class="search-clear"
-                onclick="clearSearch()"
-            >×</button>
-        </div>
-
-        <button
-            class="login-btn"
-            onclick="openProfile()"
-        >
-            👤
-        </button>
-
+    <div class="logo" onclick="showPage('home')">
+      <div class="logo-r">R</div>
+      <div class="logo-name">Ravo</div>
     </div>
 
+    <div class="search">
+      <input
+        id="searchInput"
+        type="search"
+        placeholder="Поиск товаров..."
+        autocomplete="off"
+        oninput="searchProducts()"
+      >
+      <button class="search-clear" id="searchClear" onclick="clearSearch()">×</button>
+    </div>
+
+    <button class="login-btn" onclick="openProfile()">👤</button>
+
+  </div>
 </header>
 
-<!-- ================= HERO ================= -->
 
-<section class="hero">
+<!-- ================= HOME ================= -->
+<main id="homePage" class="page active">
 
-    <h1>
-        Покупай лучше.<br>
-        <span>Живи проще.</span>
-    </h1>
+  <section class="hero">
+    <h1>Покупай лучше.<br><span class="gold">Живи проще.</span></h1>
+    <p>Всё нужное — в одном месте.</p>
+  </section>
 
-    <p>
-        Ravo — современный маркетплейс
-        для покупок в одном месте.
-    </p>
+  <section class="section">
 
-    <button onclick="scrollToProducts()">
-        Смотреть товары
-    </button>
-
-</section>
-
-<!-- ================= CATEGORIES ================= -->
-
-<div class="categories" id="categories"></div>
-
-<!-- ================= PRODUCTS ================= -->
-
-<section class="products-section">
-
-    <div class="section-title">
-        <h2 id="productsTitle">Все товары</h2>
-        <span id="productsCount"></span>
+    <div class="section-head">
+      <div class="section-title">Категории</div>
     </div>
 
-    <div
-        class="products"
-        id="products"
-    ></div>
+    <div class="categories" id="categories"></div>
 
-</section>
+    <div class="section-head">
+      <div class="section-title">Товары</div>
+    </div>
+
+    <div class="products" id="products"></div>
+
+  </section>
+
+</main>
+
+
+<!-- ================= FAVORITES PAGE ================= -->
+<main id="favoritesPage" class="page">
+
+  <section class="inner-page">
+
+    <div class="page-title">Избранное ❤️</div>
+    <div class="page-subtitle">Товары, которые тебе понравились</div>
+
+    <div class="products" id="favoritesProducts"></div>
+
+  </section>
+
+</main>
+
+
+<!-- ================= CART PAGE ================= -->
+<main id="cartPage" class="page">
+
+  <section class="inner-page">
+
+    <div class="page-title">Корзина 🛒</div>
+    <div class="page-subtitle">Твои товары для покупки</div>
+
+    <div id="cartContent"></div>
+
+  </section>
+
+</main>
+
+
+<!-- ================= PROFILE PAGE ================= -->
+<main id="profilePage" class="page">
+
+  <section class="inner-page">
+
+    <div class="page-title">Профиль</div>
+    <div class="page-subtitle">Твой аккаунт Ravo</div>
+
+    <div id="profileContent"></div>
+
+  </section>
+
+</main>
+
 
 <!-- ================= BOTTOM NAV ================= -->
-
 <nav class="bottom-nav">
 
-    <button
-        class="nav-item active"
-        onclick="goHome()"
-    >
-        <div class="nav-icon">⌂</div>
-        Главная
-    </button>
+  <button class="nav-btn active" id="navHome" onclick="showPage('home')">
+    <div class="nav-icon">🏠</div>
+    <div class="nav-text">Главная</div>
+  </button>
 
-    <button
-        class="nav-item"
-        onclick="openFavorites()"
-    >
-        <div class="nav-icon">♡</div>
-        Избранное
-    </button>
+  <button class="nav-btn" id="navFavorites" onclick="showPage('favorites')">
+    <div class="nav-icon">❤️</div>
+    <div class="nav-text">Избранное</div>
+    <span class="nav-badge" id="favBadge" style="display:none">0</span>
+  </button>
 
-    <button
-        class="nav-item"
-        onclick="openCart()"
-    >
-        <div class="nav-icon">🛒</div>
-        Корзина
-        <div id="cartBadge" class="cart-badge">0</div>
-    </button>
+  <button class="nav-btn" id="navCart" onclick="showPage('cart')">
+    <div class="nav-icon">🛒</div>
+    <div class="nav-text">Корзина</div>
+    <span class="nav-badge" id="cartBadge" style="display:none">0</span>
+  </button>
 
-    <button
-        class="nav-item"
-        onclick="openProfile()"
-    >
-        <div class="nav-icon">👤</div>
-        Профиль
-    </button>
+  <button class="nav-btn" id="navProfile" onclick="showPage('profile')">
+    <div class="nav-icon">👤</div>
+    <div class="nav-text">Профиль</div>
+  </button>
 
 </nav>
 
-<!-- ================= PROFILE MODAL ================= -->
-
-<div
-    class="modal"
-    id="profileModal"
-    onclick="closeOutside(event,'profileModal')"
->
-    <div class="modal-box">
-
-        <div class="modal-header">
-            <h2>Профиль</h2>
-            <button
-                class="close"
-                onclick="closeModal('profileModal')"
-            >×</button>
-        </div>
-
-        <div id="profileContent"></div>
-
-    </div>
-</div>
 
 <!-- ================= LOGIN MODAL ================= -->
+<div class="modal" id="loginModal" onclick="modalOutside(event,'loginModal')">
+  <div class="modal-box">
 
-<div
-    class="modal"
-    id="loginModal"
-    onclick="closeOutside(event,'loginModal')"
->
-    <div class="modal-box">
+    <div class="modal-head">
+      <div class="modal-title">Вход</div>
+      <button class="close" onclick="closeModal('loginModal')">×</button>
+    </div>
 
-        <div class="modal-header">
-            <h2>Вход в Ravo</h2>
-            <button
-                class="close"
-                onclick="closeModal('loginModal')"
-            >×</button>
-        </div>
+    <div class="modal-body">
 
-        <div class="form-group">
-            <label>Имя</label>
-            <input id="loginName" placeholder="Ваше имя">
-        </div>
+      <div class="form-group">
+        <label class="form-label">Телефон</label>
+        <input class="form-input" id="loginPhone" type="tel" placeholder="+7 900 000-00-00">
+      </div>
 
-        <div class="form-group">
-            <label>Телефон</label>
-            <input id="loginPhone" placeholder="+7 900 000-00-00">
-        </div>
+      <div class="form-group">
+        <label class="form-label">Пароль</label>
+        <input class="form-input" id="loginPassword" type="password" placeholder="Пароль">
+      </div>
 
-        <button
-            class="primary-btn"
-            onclick="login()"
-        >
-            Войти
-        </button>
-
-        <button
-            class="primary-btn gold-btn"
-            style="margin-top:10px"
-            onclick="showRegister()"
-        >
-            Создать аккаунт
-        </button>
+      <button class="main-btn" onclick="login()">Войти</button>
+      <button class="secondary-btn" onclick="switchToRegister()">Создать аккаунт</button>
 
     </div>
+  </div>
 </div>
 
-<!-- ================= REGISTER ================= -->
 
-<div
-    class="modal"
-    id="registerModal"
-    onclick="closeOutside(event,'registerModal')"
->
-    <div class="modal-box">
+<!-- ================= REGISTER MODAL ================= -->
+<div class="modal" id="registerModal" onclick="modalOutside(event,'registerModal')">
+  <div class="modal-box">
 
-        <div class="modal-header">
-            <h2>Регистрация</h2>
-            <button
-                class="close"
-                onclick="closeModal('registerModal')"
-            >×</button>
-        </div>
+    <div class="modal-head">
+      <div class="modal-title">Регистрация</div>
+      <button class="close" onclick="closeModal('registerModal')">×</button>
+    </div>
 
-        <div class="form-group">
-            <label>Имя</label>
-            <input id="registerName" placeholder="Ваше имя">
-        </div>
+    <div class="modal-body">
 
-        <div class="form-group">
-            <label>Телефон</label>
-            <input id="registerPhone" placeholder="+7 900 000-00-00">
-        </div>
+      <div class="form-group">
+        <label class="form-label">Имя</label>
+        <input class="form-input" id="registerName" placeholder="Ваше имя">
+      </div>
 
-        <div class="form-group">
-            <label>Email</label>
-            <input id="registerEmail" placeholder="example@mail.ru">
-        </div>
+      <div class="form-group">
+        <label class="form-label">Телефон</label>
+        <input class="form-input" id="registerPhone" type="tel" placeholder="+7 900 000-00-00">
+      </div>
 
-        <button
-            class="primary-btn"
-            onclick="register()"
-        >
-            Зарегистрироваться
-        </button>
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input class="form-input" id="registerEmail" type="email" placeholder="example@mail.ru">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Пароль</label>
+        <input class="form-input" id="registerPassword" type="password" placeholder="Пароль">
+      </div>
+
+      <button class="main-btn" onclick="register()">Зарегистрироваться</button>
 
     </div>
+  </div>
 </div>
+
 
 <!-- ================= EDIT PROFILE ================= -->
+<div class="modal" id="editAccountModal" onclick="modalOutside(event,'editAccountModal')">
+  <div class="modal-box">
 
-<div
-    class="modal"
-    id="editAccountModal"
-    onclick="closeOutside(event,'editAccountModal')"
->
-    <div class="modal-box">
+    <div class="modal-head">
+      <div class="modal-title">Редактировать профиль</div>
+      <button class="close" onclick="closeModal('editAccountModal')">×</button>
+    </div>
 
-        <div class="modal-header">
-            <h2>Изменить профиль</h2>
-            <button
-                class="close"
-                onclick="closeModal('editAccountModal')"
-            >×</button>
+    <div class="modal-body">
+
+      <div style="text-align:center;margin-bottom:17px">
+
+        <div class="profile-avatar" id="editAvatarPreview"
+             style="margin:auto;width:90px;height:90px">
+          👤
         </div>
 
-        <div style="text-align:center;margin-bottom:15px">
+        <input id="avatarInput" type="file" accept="image/*"
+               style="display:none" onchange="previewAvatar(event)">
 
-            <div
-                id="editAvatarPreview"
-                class="ravo-avatar"
-                style="margin:auto"
-            >
-                R
-            </div>
-
-            <label
-                style="
-                    display:inline-block;
-                    margin-top:10px;
-                    color:#111;
-                    font-weight:700;
-                    cursor:pointer
-                "
-            >
-                Изменить фото
-
-                <input
-                    id="avatarInput"
-                    type="file"
-                    accept="image/*"
-                    onchange="changeAvatar(event)"
-                    style="display:none"
-                >
-            </label>
-
-        </div>
-
-        <div class="form-group">
-            <label>Имя</label>
-            <input id="editName">
-        </div>
-
-        <div class="form-group">
-            <label>Телефон</label>
-            <input id="editPhone">
-        </div>
-
-        <div class="form-group">
-            <label>Email</label>
-            <input id="editEmail">
-        </div>
-
-        <button
-            class="primary-btn"
-            onclick="saveAccountChanges()"
-        >
-            Сохранить
+        <button class="secondary-btn"
+                onclick="document.getElementById('avatarInput').click()">
+          Изменить фото
         </button>
 
-    </div>
-</div>
+      </div>
 
-<!-- ================= CART ================= -->
+      <div class="form-group">
+        <label class="form-label">Имя</label>
+        <input class="form-input" id="editName">
+      </div>
 
-<div
-    class="modal"
-    id="cartModal"
-    onclick="closeOutside(event,'cartModal')"
->
-    <div class="modal-box">
+      <div class="form-group">
+        <label class="form-label">Телефон</label>
+        <input class="form-input" id="editPhone">
+      </div>
 
-        <div class="modal-header">
-            <h2>Корзина 🛒</h2>
-            <button
-                class="close"
-                onclick="closeModal('cartModal')"
-            >×</button>
-        </div>
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input class="form-input" id="editEmail">
+      </div>
 
-        <div id="cartContent"></div>
+      <button class="main-btn" onclick="saveAccountChanges()">Сохранить</button>
 
     </div>
+  </div>
 </div>
 
-<!-- ================= FAVORITES ================= -->
-
-<div
-    class="modal"
-    id="favoritesModal"
-    onclick="closeOutside(event,'favoritesModal')"
->
-    <div class="modal-box">
-
-        <div class="modal-header">
-            <h2>Избранное ♡</h2>
-            <button
-                class="close"
-                onclick="closeModal('favoritesModal')"
-            >×</button>
-        </div>
-
-        <div id="favoritesContent"></div>
-
-    </div>
-</div>
 
 <!-- ================= ADDRESS ================= -->
+<div class="modal" id="addressModal" onclick="modalOutside(event,'addressModal')">
+  <div class="modal-box">
 
-<div
-    class="modal"
-    id="addressModal"
-    onclick="closeOutside(event,'addressModal')"
->
-    <div class="modal-box">
+    <div class="modal-head">
+      <div class="modal-title">Адрес доставки</div>
+      <button class="close" onclick="closeModal('addressModal')">×</button>
+    </div>
 
-        <div class="modal-header">
-            <h2>Адрес доставки</h2>
-            <button
-                class="close"
-                onclick="closeModal('addressModal')"
-            >×</button>
-        </div>
+    <div class="modal-body">
 
-        <div class="form-group">
-            <label>Адрес</label>
-            <input
-                id="addressInput"
-                placeholder="Город, улица, дом, квартира"
-            >
-        </div>
+      <div class="form-group">
+        <label class="form-label">Город</label>
+        <input class="form-input" id="addressCity" placeholder="Город">
+      </div>
 
-        <button
-            class="primary-btn"
-            onclick="saveAddress()"
-        >
-            Сохранить адрес
-        </button>
+      <div class="form-group">
+        <label class="form-label">Улица, дом</label>
+        <input class="form-input" id="addressStreet" placeholder="Улица, дом">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Квартира</label>
+        <input class="form-input" id="addressApartment" placeholder="Квартира">
+      </div>
+
+      <button class="main-btn" onclick="saveAddress()">Сохранить адрес</button>
 
     </div>
+  </div>
 </div>
+
 
 <!-- ================= PAYMENT ================= -->
+<div class="modal" id="paymentModal" onclick="modalOutside(event,'paymentModal')">
+  <div class="modal-box">
 
-<div
-    class="modal"
-    id="paymentModal"
-    onclick="closeOutside(event,'paymentModal')"
->
-    <div class="modal-box">
+    <div class="modal-head">
+      <div class="modal-title">Способ оплаты</div>
+      <button class="close" onclick="closeModal('paymentModal')">×</button>
+    </div>
 
-        <div class="modal-header">
-            <h2>Оплата</h2>
-            <button
-                class="close"
-                onclick="closeModal('paymentModal')"
-            >×</button>
-        </div>
+    <div class="modal-body">
 
-        <div class="info-card">
-            💳 Здесь можно сохранить только последние
-            4 цифры карты для демонстрации.
+      <div class="form-group">
+        <label class="form-label">Номер карты</label>
+        <input class="form-input" id="cardNumber"
+               inputmode="numeric"
+               maxlength="19"
+               placeholder="0000 0000 0000 0000">
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+
+        <div class="form-group">
+          <label class="form-label">Срок</label>
+          <input class="form-input" id="cardDate" placeholder="MM/YY">
         </div>
 
         <div class="form-group">
-            <label>Номер карты</label>
-            <input
-                id="cardInput"
-                inputmode="numeric"
-                maxlength="19"
-                placeholder="0000 0000 0000 0000"
-                oninput="formatCard(this)"
-            >
+          <label class="form-label">CVV</label>
+          <input class="form-input" id="cardCvv" type="password" maxlength="3" placeholder="•••">
         </div>
 
-        <button
-            class="primary-btn"
-            onclick="saveCard()"
-        >
-            Сохранить карту
-        </button>
+      </div>
+
+      <button class="main-btn" onclick="saveCard()">Сохранить карту</button>
 
     </div>
+  </div>
 </div>
+
 
 <!-- ================= BONUSES ================= -->
+<div class="modal" id="bonusModal" onclick="modalOutside(event,'bonusModal')">
+  <div class="modal-box">
 
-<div
-    class="modal"
-    id="bonusModal"
-    onclick="closeOutside(event,'bonusModal')"
->
-    <div class="modal-box">
+    <div class="modal-head">
+      <div class="modal-title">Ravo Бонусы</div>
+      <button class="close" onclick="closeModal('bonusModal')">×</button>
+    </div>
 
-        <div class="modal-header">
-            <h2>Ravo Бонусы</h2>
-            <button
-                class="close"
-                onclick="closeModal('bonusModal')"
-            >×</button>
+    <div class="modal-body">
+
+      <div class="bonus-box">
+
+        <div style="color:#aaa;font-size:13px">
+          Твой баланс
         </div>
 
-        <div class="bonus-box">
-
-            <div style="opacity:.7">
-                Ваш баланс
-            </div>
-
-            <div class="bonus-number">
-                <span id="bonusNumber">0</span> ₽
-            </div>
-
-            <div style="opacity:.65">
-                Бонусы можно будет использовать
-                при оформлении заказа.
-            </div>
-
+        <div class="bonus-number" id="bonusNumber">
+          0
         </div>
 
-        <div class="info-card">
-            🎁 Совершайте покупки и получайте
-            Ravo Бонусы.
+        <div class="bonus-desc">
+          бонусов Ravo
         </div>
+
+      </div>
+
+      <p style="color:#777;font-size:13px;line-height:1.5">
+        Бонусы можно получать за покупки и использовать в будущих заказах.
+      </p>
 
     </div>
+  </div>
 </div>
+
 
 <!-- ================= ORDERS ================= -->
+<div class="modal" id="ordersModal" onclick="modalOutside(event,'ordersModal')">
+  <div class="modal-box">
 
-<div
-    class="modal"
-    id="ordersModal"
-    onclick="closeOutside(event,'ordersModal')"
->
-    <div class="modal-box">
-
-        <div class="modal-header">
-            <h2>Мои заказы</h2>
-            <button
-                class="close"
-                onclick="closeModal('ordersModal')"
-            >×</button>
-        </div>
-
-        <div id="ordersContent"></div>
-
+    <div class="modal-head">
+      <div class="modal-title">Мои заказы</div>
+      <button class="close" onclick="closeModal('ordersModal')">×</button>
     </div>
+
+    <div class="modal-body" id="ordersContent"></div>
+
+  </div>
 </div>
+
 
 <!-- ================= SETTINGS ================= -->
+<div class="modal" id="settingsModal" onclick="modalOutside(event,'settingsModal')">
+  <div class="modal-box">
 
-<div
-    class="modal"
-    id="settingsModal"
-    onclick="closeOutside(event,'settingsModal')"
->
-    <div class="modal-box">
+    <div class="modal-head">
+      <div class="modal-title">Настройки</div>
+      <button class="close" onclick="closeModal('settingsModal')">×</button>
+    </div>
 
-        <div class="modal-header">
-            <h2>Настройки</h2>
-            <button
-                class="close"
-                onclick="closeModal('settingsModal')"
-            >×</button>
+    <div class="modal-body">
+
+      <button class="profile-item" onclick="clearSearch();closeModal('settingsModal')">
+        <div class="profile-icon">🔎</div>
+        <div class="profile-item-main">
+          <div class="profile-item-title">Очистить поиск</div>
+          <div class="profile-item-sub">Сбросить текущий поиск</div>
         </div>
+      </button>
 
-        <div class="profile-menu">
-
-            <button onclick="clearSearch()">
-                <span>🔎</span>
-                Очистить поиск
-            </button>
-
-            <button onclick="resetFavorites()">
-                <span>♡</span>
-                Очистить избранное
-            </button>
-
+      <button class="profile-item" onclick="clearFavorites();closeModal('settingsModal')">
+        <div class="profile-icon">❤️</div>
+        <div class="profile-item-main">
+          <div class="profile-item-title">Очистить избранное</div>
         </div>
+      </button>
 
     </div>
+  </div>
 </div>
 
-<!-- ================= PRODUCT ================= -->
 
-<div
-    class="modal"
-    id="productModal"
-    onclick="closeOutside(event,'productModal')"
->
-    <div class="modal-box">
+<!-- ================= PRODUCT MODAL ================= -->
+<div class="modal" id="productModal" onclick="modalOutside(event,'productModal')">
+  <div class="modal-box">
 
-        <div class="modal-header">
-
-            <button
-                class="back"
-                onclick="closeModal('productModal')"
-            >‹</button>
-
-            <h2>Товар</h2>
-
-            <button
-                class="close"
-                onclick="closeModal('productModal')"
-            >×</button>
-
-        </div>
-
-        <div id="productDetailsContent"></div>
-
+    <div class="modal-head">
+      <div class="modal-title">Товар</div>
+      <button class="close" onclick="closeModal('productModal')">×</button>
     </div>
+
+    <div class="modal-body" id="productDetails"></div>
+
+  </div>
 </div>
 
-<!-- ================= TOAST ================= -->
 
 <div id="toast"></div>
 
+
 <script>
 /* =========================================================
-   RAVO MARKET
+   PRODUCTS
 ========================================================= */
 
 const productsData = [
 
-{
-id:1,
-name:"Смартфон Ravo X1",
-category:"Электроника",
-price:59000,
-emoji:"📱",
-image:"https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=800&q=85"
-},
+  {
+    id:1,
+    name:"Смартфон Ravo X1",
+    category:"Электроника",
+    price:59000,
+    emoji:"📱",
+    image:"https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=900&q=80"
+  },
 
-{
-id:2,
-name:"Беспроводные наушники",
-category:"Электроника",
-price:8900,
-emoji:"🎧",
-image:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=85"
-},
+  {
+    id:2,
+    name:"Беспроводные наушники",
+    category:"Электроника",
+    price:8900,
+    emoji:"🎧",
+    image:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=900&q=80"
+  },
 
-{
-id:3,
-name:"Классическая футболка",
-category:"Одежда",
-price:499,
-emoji:"👕",
-image:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&q=85"
-},
+  {
+    id:3,
+    name:"Классическая футболка",
+    category:"Одежда",
+    price:499,
+    emoji:"👕",
+    image:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=900&q=80"
+  },
 
-{
-id:4,
-name:"Кроссовки Urban",
-category:"Одежда",
-price:2999,
-emoji:"👟",
-image:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=800&q=85"
-},
+  {
+    id:4,
+    name:"Кроссовки Urban",
+    category:"Одежда",
+    price:2999,
+    emoji:"👟",
+    image:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=900&q=80"
+  },
 
-{
-id:5,
-name:"Настольная лампа",
-category:"Дом",
-price:1999,
-emoji:"💡",
-image:"https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&fit=crop&w=800&q=85"
-},
+  {
+    id:5,
+    name:"Настольная лампа",
+    category:"Дом",
+    price:1999,
+    emoji:"💡",
+    image:"https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&fit=crop&w=900&q=80"
+  },
 
-{
-id:6,
-name:"Умная колонка",
-category:"Дом",
-price:4999,
-emoji:"🔊",
-image:"https://images.unsplash.com/photo-1589003077984-894e133dabab?auto=format&fit=crop&w=800&q=85"
-},
+  {
+    id:6,
+    name:"Умная колонка",
+    category:"Дом",
+    price:4999,
+    emoji:"🔊",
+    image:"https://images.unsplash.com/photo-1589003077984-894e133dabab?auto=format&fit=crop&w=900&q=80"
+  },
 
-{
-id:7,
-name:"Набор ухода за кожей",
-category:"Красота",
-price:1500,
-emoji:"🧴",
-image:"https://images.unsplash.com/photo-1556229010-aa3c3b5f9a24?auto=format&fit=crop&w=800&q=85"
-},
+  {
+    id:7,
+    name:"Набор ухода за кожей",
+    category:"Красота",
+    price:1500,
+    emoji:"🧴",
+    image:"https://images.unsplash.com/photo-1556228578-8c89e6adf883?auto=format&fit=crop&w=900&q=80"
+  },
 
-{
-id:8,
-name:"Спортивная сумка",
-category:"Спорт",
-price:999,
-emoji:"🎒",
-image:"https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=800&q=85"
-},
+  {
+    id:8,
+    name:"Спортивная сумка",
+    category:"Спорт",
+    price:999,
+    emoji:"🎒",
+    image:"https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=900&q=80"
+  },
 
-{
-id:9,
-name:"Смарт-часы Ravo Watch",
-category:"Электроника",
-price:4599,
-emoji:"⌚",
-image:"https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=85"
-},
+  {
+    id:9,
+    name:"Смарт-часы Ravo Watch",
+    category:"Электроника",
+    price:4599,
+    emoji:"⌚",
+    image:"https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=900&q=80"
+  },
 
-{
-id:10,
-name:"Портативная колонка",
-category:"Электроника",
-price:999,
-emoji:"🔊",
-image:"https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?auto=format&fit=crop&w=800&q=85"
-},
+  {
+    id:10,
+    name:"Портативная колонка",
+    category:"Электроника",
+    price:999,
+    emoji:"🔊",
+    image:"https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?auto=format&fit=crop&w=900&q=80"
+  },
 
-{
-id:11,
-name:"Худи Ravo",
-category:"Одежда",
-price:1899,
-emoji:"🧥",
-image:"https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=800&q=85"
-},
+  {
+    id:11,
+    name:"Худи Ravo",
+    category:"Одежда",
+    price:1899,
+    emoji:"🧥",
+    image:"https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=900&q=80"
+  },
 
-{
-id:12,
-name:"Трусы Classic",
-category:"Одежда",
-price:2999,
-emoji:"🩳",
-image:"https://images.unsplash.com/photo-1598033129183-c4f50c736f10?auto=format&fit=crop&w=800&q=85"
-},
+  {
+    id:12,
+    name:"Трусы Classic",
+    category:"Одежда",
+    price:2999,
+    emoji:"🩳",
+    image:""
+  },
 
-{
-id:13,
-name:"Кофейный набор",
-category:"Дом",
-price:150,
-emoji:"☕",
-image:"https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?auto=format&fit=crop&w=800&q=85"
-},
+  {
+    id:13,
+    name:"Кофейный набор",
+    category:"Дом",
+    price:150,
+    emoji:"☕",
+    image:""
+  },
 
-{
-id:14,
-name:"Мягкое одеяло",
-category:"Дом",
-price:450,
-emoji:"🛏️",
-image:"https://images.unsplash.com/photo-1584100936595-c0654b55a2e2?auto=format&fit=crop&w=800&q=85"
-},
+  {
+    id:14,
+    name:"Мягкое одеяло",
+    category:"Дом",
+    price:450,
+    emoji:"🛏️",
+    image:""
+  },
 
-{
-id:15,
-name:"Парфюм Ravo",
-category:"Красота",
-price:120000,
-emoji:"🌸",
-image:"https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=800&q=85"
-},
+  {
+    id:15,
+    name:"Парфюм Ravo",
+    category:"Красота",
+    price:120000,
+    emoji:"🌸",
+    image:""
+  },
 
-{
-id:16,
-name:"Косметичка",
-category:"Красота",
-price:249,
-emoji:"💄",
-image:"https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=800&q=85"
-},
+  {
+    id:16,
+    name:"Косметичка",
+    category:"Красота",
+    price:249,
+    emoji:"💄",
+    image:""
+  },
 
-{
-id:17,
-name:"Фитнес-браслет",
-category:"Спорт",
-price:677,
-emoji:"🏃",
-image:"https://images.unsplash.com/photo-1576243345690-4e4b79b63288?auto=format&fit=crop&w=800&q=85"
-},
+  {
+    id:17,
+    name:"Фитнес-браслет",
+    category:"Спорт",
+    price:677,
+    emoji:"🏃",
+    image:""
+  },
 
-{
-id:18,
-name:"Футбольный мяч",
-category:"Спорт",
-price:5999,
-emoji:"⚽",
-image:"https://images.unsplash.com/photo-1553778263-73a83bab9b0c?auto=format&fit=crop&w=800&q=85"
-},
+  {
+    id:18,
+    name:"Футбольный мяч",
+    category:"Спорт",
+    price:5999,
+    emoji:"⚽",
+    image:""
+  },
 
-{
-id:19,
-name:"Планшет Ravo Tab",
-category:"Электроника",
-price:24990,
-emoji:"📱",
-image:"https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?auto=format&fit=crop&w=800&q=85"
-},
+  {
+    id:19,
+    name:"Планшет Ravo Tab",
+    category:"Электроника",
+    price:24990,
+    emoji:"📱",
+    image:""
+  },
 
-{
-id:20,
-name:"Ноутбук Ravo Pro",
-category:"Электроника",
-price:79990,
-emoji:"💻",
-image:"https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=800&q=85"
-},
+  {
+    id:20,
+    name:"Ноутбук Ravo Pro",
+    category:"Электроника",
+    price:79990,
+    emoji:"💻",
+    image:""
+  },
 
-{
-id:21,
-name:"Игровая мышь",
-category:"Электроника",
-price:2990,
-emoji:"🖱️",
-image:"https://images.unsplash.com/photo-1527814050087-3793815479db?auto=format&fit=crop&w=800&q=85"
-},
+  {
+    id:21,
+    name:"Игровая мышь",
+    category:"Электроника",
+    price:2990,
+    emoji:"🖱️",
+    image:""
+  },
 
-{
-id:22,
-name:"Механическая клавиатура",
-category:"Электроника",
-price:5990,
-emoji:"⌨️",
-image:"https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=800&q=85"
-},
+  {
+    id:22,
+    name:"Механическая клавиатура",
+    category:"Электроника",
+    price:5990,
+    emoji:"⌨️",
+    image:""
+  },
 
-{
-id:23,
-name:"Монитор 27 дюймов",
-category:"Электроника",
-price:22990,
-emoji:"🖥️",
-image:"https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?auto=format&fit=crop&w=800&q=85"
-},
+  {
+    id:23,
+    name:"Монитор 27 дюймов",
+    category:"Электроника",
+    price:22990,
+    emoji:"🖥️",
+    image:""
+  },
 
-{
-id:24,
-name:"Зарядное устройство Ravo",
-category:"Электроника",
-price:1990,
-emoji:"🔌",
-image:"https://images.unsplash.com/photo-1609592424821-c6e5e3d7c7e7?auto=format&fit=crop&w=800&q=85"
-},
+  {
+    id:24,
+    name:"Зарядное устройство Ravo",
+    category:"Электроника",
+    price:1990,
+    emoji:"🔌",
+    image:""
+  },
 
-{
-id:25,
-name:"Чехол для смартфона",
-category:"Аксессуары",
-price:990,
-emoji:"📱",
-image:"https://images.unsplash.com/photo-1603313011101-320f26a4f6f6?auto=format&fit=crop&w=800&q=85"
-},
+  {
+    id:25,
+    name:"Чехол для смартфона",
+    category:"Аксессуары",
+    price:990,
+    emoji:"📱",
+    image:""
+  },
 
-{
-id:26,
-name:"Рюкзак Urban",
-category:"Аксессуары",
-price:3990,
-emoji:"🎒",
-image:"https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=800&q=85"
-},
+  {
+    id:26,
+    name:"Рюкзак Urban",
+    category:"Аксессуары",
+    price:3990,
+    emoji:"🎒",
+    image:""
+  },
 
-{
-id:27,
-name:"Кожаный кошелёк",
-category:"Аксессуары",
-price:2490,
-emoji:"👛",
-image:"https://images.unsplash.com/photo-1627123424574-724758594e93?auto=format&fit=crop&w=800&q=85"
-},
+  {
+    id:27,
+    name:"Кожаный кошелёк",
+    category:"Аксессуары",
+    price:2490,
+    emoji:"👛",
+    image:""
+  },
 
-{
-id:28,
-name:"Солнцезащитные очки",
-category:"Аксессуары",
-price:1990,
-emoji:"🕶️",
-image:"https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=800&q=85"
-},
+  {
+    id:28,
+    name:"Солнцезащитные очки",
+    category:"Аксессуары",
+    price:1990,
+    emoji:"🕶️",
+    image:""
+  },
 
-{
-id:29,
-name:"Куртка Urban",
-category:"Одежда",
-price:8990,
-emoji:"🧥",
-image:"https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=800&q=85"
-},
+  {
+    id:29,
+    name:"Куртка Urban",
+    category:"Одежда",
+    price:8990,
+    emoji:"🧥",
+    image:""
+  },
 
-{
-id:30,
-name:"Спортивные штаны",
-category:"Одежда",
-price:3490,
-emoji:"👖",
-image:"https://images.unsplash.com/photo-1506629905607-d9b1b2b6b8b7?auto=format&fit=crop&w=800&q=85"
-},
+  {
+    id:30,
+    name:"Спортивные штаны",
+    category:"Одежда",
+    price:3490,
+    emoji:"👖",
+    image:""
+  },
 
-{
-id:31,
-name:"Рубашка Classic",
-category:"Одежда",
-price:3990,
-emoji:"👔",
-image:"https://images.unsplash.com/photo-1603252110481-7ba873bf42ab?auto=format&fit=crop&w=800&q=85"
-},
+  {
+    id:31,
+    name:"Рубашка Classic",
+    category:"Одежда",
+    price:3990,
+    emoji:"👔",
+    image:""
+  },
 
-{
-id:32,
-name:"Толстовка Premium",
-category:"Одежда",
-price:5990,
-emoji:"🧥",
-image:"https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=800&q=85"
-},
+  {
+    id:32,
+    name:"Толстовка Premium",
+    category:"Одежда",
+    price:5990,
+    emoji:"🧥",
+    image:""
+  },
 
-{
-id:33,
-name:"Кеды Street",
-category:"Обувь",
-price:5490,
-emoji:"👟",
-image:"https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?auto=format&fit=crop&w=800&q=85"
-},
+  {
+    id:33,
+    name:"Кеды Street",
+    category:"Обувь",
+    price:5490,
+    emoji:"👟",
+    image:""
+  },
 
-{
-id:34,
-name:"Ботинки зимние",
-category:"Обувь",
-price:9990,
-emoji:"🥾",
-image:"https://images.unsplash.com/photo-1520639888713-7851133b1ed0?auto=format&fit=crop&w=800&q=85"
-},
+  {
+    id:34,
+    name:"Ботинки зимние",
+    category:"Обувь",
+    price:9990,
+    emoji:"🥾",
+    image:""
+  },
 
-{
-id:35,
-name:"Домашние тапочки",
-category:"Обувь",
-price:1990,
-emoji:"🥿",
-image:"https://images.unsplash.com/photo-1603487742131-4160ec999306?auto=format&fit=crop&w=800&q=85"
-},
+  {
+    id:35,
+    name:"Домашние тапочки",
+    category:"Обувь",
+    price:1990,
+    emoji:"🥿",
+    image:""
+  },
 
-{
-id:36,
-name:"Кухонный набор",
-category:"Дом",
-price:2990,
-emoji:"🍴",
-image:"https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=800&q=85"
-},
+  {
+    id:36,
+    name:"Кухонный набор",
+    category:"Дом",
+    price:2990,
+    emoji:"🍴",
+    image:""
+  },
 
-{
-id:37,
-name:"Электрический чайник",
-category:"Дом",
-price:3990,
-emoji:"🫖",
-image:"https://images.unsplash.com/photo-1594213114663-d94db9b1714c?auto=format&fit=crop&w=800&q=85"
-},
+  {
+    id:37,
+    name:"Электрический чайник",
+    category:"Дом",
+    price:3990,
+    emoji:"🫖",
+    image:""
+  },
 
-{
-id:38,
-name:"Кофемашина",
-category:"Дом",
-price:24990,
-emoji:"☕",
-image:"https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=800&q=85"
-},
+  {
+    id:38,
+    name:"Кофемашина",
+    category:"Дом",
+    price:24990,
+    emoji:"☕",
+    image:""
+  },
 
-{
-id:39,
-name:"Подушка Premium",
-category:"Дом",
-price:1990,
-emoji:"🛏️",
-image:"https://images.unsplash.com/photo-1584100936595-c0654b55a2e2?auto=format&fit=crop&w=800&q=85"
-},
+  {
+    id:39,
+    name:"Подушка Premium",
+    category:"Дом",
+    price:1990,
+    emoji:"🛏️",
+    image:""
+  },
 
-{
-id:40,
-name:"Настольный органайзер",
-category:"Дом",
-price:1490,
-emoji:"📦",
-image:"https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?auto=format&fit=crop&w=800&q=85"
-},
+  {
+    id:40,
+    name:"Настольный органайзер",
+    category:"Дом",
+    price:1490,
+    emoji:"📦",
+    image:""
+  },
 
-{
-id:41,
-name:"Крем для лица",
-category:"Красота",
-price:1990,
-emoji:"🧴",
-image:"https://images.unsplash.com/photo-1611930022073-b7a4ba5fcccd?auto=format&fit=crop&w=800&q=85"
-},
+  {
+    id:41,
+    name:"Крем для лица",
+    category:"Красота",
+    price:1990,
+    emoji:"🧴",
+    image:""
+  },
 
-{
-id:42,
-name:"Набор косметики",
-category:"Красота",
-price:4990,
-emoji:"💄",
-image:"https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=800&q=85"
-},
+  {
+    id:42,
+    name:"Набор косметики",
+    category:"Красота",
+    price:4990,
+    emoji:"💄",
+    image:""
+  },
 
-{
-id:43,
-name:"Шампунь Premium",
-category:"Красота",
-price:1490,
-emoji:"🧴",
-image:"https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?auto=format&fit=crop&w=800&q=85"
-},
+  {
+    id:43,
+    name:"Шампунь Premium",
+    category:"Красота",
+    price:1490,
+    emoji:"🧴",
+    image:""
+  },
 
-{
-id:44,
-name:"Фен Ravo",
-category:"Красота",
-price:4990,
-emoji:"💨",
-image:"https://images.unsplash.com/photo-1522338242992-e1a54906a8da?auto=format&fit=crop&w=800&q=85"
-},
+  {
+    id:44,
+    name:"Фен Ravo",
+    category:"Красота",
+    price:4990,
+    emoji:"💨",
+    image:""
+  },
 
-{
-id:45,
-name:"Гантели 10 кг",
-category:"Спорт",
-price:3990,
-emoji:"🏋️",
-image:"https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=800&q=85"
-},
+  {
+    id:45,
+    name:"Гантели 10 кг",
+    category:"Спорт",
+    price:3990,
+    emoji:"🏋️",
+    image:""
+  },
 
-{
-id:46,
-name:"Футбольная форма",
-category:"Спорт",
-price:4990,
-emoji:"⚽",
-image:"https://images.unsplash.com/photo-1579952363873-27f3bade9f55?auto=format&fit=crop&w=800&q=85"
-},
+  {
+    id:46,
+    name:"Футбольная форма",
+    category:"Спорт",
+    price:4990,
+    emoji:"⚽",
+    image:""
+  },
 
-{
-id:47,
-name:"Йога-мат",
-category:"Спорт",
-price:1990,
-emoji:"🧘",
-image:"https://images.unsplash.com/photo-1592432678016-e910b452f9a2?auto=format&fit=crop&w=800&q=85"
-},
+  {
+    id:47,
+    name:"Йога-мат",
+    category:"Спорт",
+    price:1990,
+    emoji:"🧘",
+    image:""
+  },
 
-{
-id:48,
-name:"Игровой контроллер",
-category:"Игры",
-price:6990,
-emoji:"🎮",
-image:"https://images.unsplash.com/photo-1600080972464-8e5f35f63d08?auto=format&fit=crop&w=800&q=85"
-},
+  {
+    id:48,
+    name:"Игровой контроллер",
+    category:"Игры",
+    price:6990,
+    emoji:"🎮",
+    image:""
+  },
 
-{
-id:49,
-name:"Игровая приставка Ravo",
-category:"Игры",
-price:49990,
-emoji:"🎮",
-image:"https://images.unsplash.com/photo-1606813907291-d86efa9b94db?auto=format&fit=crop&w=800&q=85"
-},
+  {
+    id:49,
+    name:"Игровая приставка Ravo",
+    category:"Игры",
+    price:49990,
+    emoji:"🎮",
+    image:""
+  },
 
-{
-id:50,
-name:"Держатель телефона для авто",
-category:"Авто",
-price:1490,
-emoji:"🚗",
-image:"https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=800&q=85"
-}
+  {
+    id:50,
+    name:"Держатель телефона для авто",
+    category:"Авто",
+    price:1490,
+    emoji:"🚗",
+    image:""
+  },
+
+  /* ================= НОВЫЕ КУРТКИ ================= */
+
+  {
+    id:51,
+    name:"Куртка-пилот Brown",
+    category:"Одежда",
+    price:3990,
+    emoji:"🧥",
+    image:"",
+    details:{
+      "Сезон":"На любой сезон",
+      "Материал":"Ворсин Поликолон",
+      "Состав материала":"100% полиэстер",
+      "Температурный режим":"10",
+      "Коллекция":"Базовая коллекция",
+      "Рост":"160–180",
+      "Стиль":"Повседневный",
+      "Размер на модели":"48",
+      "Рост модели на фото":"175 CM",
+      "Параметры модели на фото":"175cm",
+      "Тип":"Куртка",
+      "Цвет":"Brown",
+      "Российский размер":"50",
+      "Размер производителя":"XL",
+      "Пол":"Мужской / Женский",
+      "Страна-изготовитель":"Китай",
+      "Материал подкладки":"Бифлекс",
+      "Утеплитель":"Полиэстер",
+      "Вид застежки":"Молния / Фастекс",
+      "Рисунок":"Без рисунка / Орнамент",
+      "Модель":"Куртка-пилот",
+      "Особенности модели":"Ветрозащита, дышащий материал",
+      "Покрой":"Полуприлегающий",
+      "Декоративные элементы":"Манжеты, воротник",
+      "Карманы":"Есть",
+      "Тип ростовки":"Для невысоких",
+      "Тип рукава":"Длинный",
+      "Воротник":"С отворотом",
+      "Длина одежды":"До талии",
+      "Уход":"Изысканная стирка"
+    }
+  },
+
+  {
+    id:52,
+    name:"Куртка Burberry",
+    category:"Одежда",
+    price:5990,
+    emoji:"🧥",
+    image:"",
+    details:{
+      "Сезон":"На любой сезон",
+      "Коллекция":"Базовая коллекция",
+      "Рост":"160–168",
+      "Стиль":"Повседневный",
+      "Размер на модели":"42–46",
+      "Рост модели на фото":"175 см",
+      "Тип":"Куртка",
+      "Бренд в одежде и обуви":"Burberry",
+      "Цвет":"Бело-терракотовый",
+      "Российский размер":"48",
+      "Размер производителя":"XL",
+      "Пол":"Мужской",
+      "Страна-изготовитель":"Китай",
+      "Вид застежки":"Молния",
+      "Рисунок":"Логотип",
+      "Особенности модели":"Водоотталкивающий материал",
+      "Декоративные элементы":"Лейбл",
+      "Тип рукава":"Длинный",
+      "Воротник":"Круглый",
+      "Длина одежды":"До талии",
+      "Уход":"Стирка при температуре 30°C"
+    }
+  }
 
 ];
+
 
 /* =========================================================
    STATE
 ========================================================= */
 
-let cart = safeJSON("ravoCart",[]);
-let favorites = safeJSON("ravoFavorites",[]);
+let cart = JSON.parse(localStorage.getItem("ravoCart") || "[]");
+let favorites = JSON.parse(localStorage.getItem("ravoFavorites") || "[]");
+
 let currentCategory = "Все";
 let currentProductId = null;
 
-function safeJSON(key,fallback){
 
-    try{
-        const value = JSON.parse(
-            localStorage.getItem(key)
-        );
+/* =========================================================
+   USER
+========================================================= */
 
-        return Array.isArray(value)
-            ? value
-            : fallback;
+let ravoUser = JSON.parse(localStorage.getItem("ravoUser") || "null");
 
-    }catch(e){
-        return fallback;
-    }
-}
+let address = JSON.parse(localStorage.getItem("ravoAddress") || "{}");
 
-function saveData(){
+let payment = JSON.parse(localStorage.getItem("ravoPayment") || "{}");
 
-    localStorage.setItem(
-        "ravoCart",
-        JSON.stringify(cart)
-    );
+let bonuses = Number(localStorage.getItem("ravoBonuses") || 0);
 
-    localStorage.setItem(
-        "ravoFavorites",
-        JSON.stringify(favorites)
-    );
-}
+let orders = JSON.parse(localStorage.getItem("ravoOrders") || "[]");
+
 
 /* =========================================================
    HELPERS
 ========================================================= */
 
 function money(value){
-
-    return Number(value)
-        .toLocaleString("ru-RU") + " ₽";
-
+  return Number(value).toLocaleString("ru-RU") + " ₽";
 }
 
-function escapeHTML(str){
-
-    return String(str)
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;")
-        .replace(/'/g,"&#039;");
-
+function saveState(){
+  localStorage.setItem("ravoCart",JSON.stringify(cart));
+  localStorage.setItem("ravoFavorites",JSON.stringify(favorites));
+  updateBadges();
 }
 
-function toast(message){
+function toast(text){
+  const el=document.getElementById("toast");
 
-    const el = document.getElementById("toast");
+  el.textContent=text;
+  el.classList.add("show");
 
-    el.textContent = message;
-    el.classList.add("show");
+  clearTimeout(window.toastTimer);
 
-    clearTimeout(window.toastTimer);
-
-    window.toastTimer = setTimeout(()=>{
-        el.classList.remove("show");
-    },1800);
-
+  window.toastTimer=setTimeout(()=>{
+    el.classList.remove("show");
+  },1800);
 }
+
+
+/* =========================================================
+   PAGES
+========================================================= */
+
+function showPage(page){
+
+  document.querySelectorAll(".page").forEach(el=>{
+    el.classList.remove("active");
+  });
+
+  document.querySelectorAll(".nav-btn").forEach(el=>{
+    el.classList.remove("active");
+  });
+
+  if(page==="home"){
+    document.getElementById("homePage").classList.add("active");
+    document.getElementById("navHome").classList.add("active");
+  }
+
+  if(page==="favorites"){
+    document.getElementById("favoritesPage").classList.add("active");
+    document.getElementById("navFavorites").classList.add("active");
+    renderFavoritesPage();
+  }
+
+  if(page==="cart"){
+    document.getElementById("cartPage").classList.add("active");
+    document.getElementById("navCart").classList.add("active");
+    renderCartPage();
+  }
+
+  if(page==="profile"){
+    document.getElementById("profilePage").classList.add("active");
+    document.getElementById("navProfile").classList.add("active");
+    renderProfilePage();
+  }
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+}
+
+function openProfile(){
+  showPage("profile");
+}
+
 
 /* =========================================================
    CATEGORIES
@@ -1957,496 +2049,162 @@ function toast(message){
 
 function renderCategories(){
 
-    const categories = [
-        "Все",
-        "Электроника",
-        "Одежда",
-        "Обувь",
-        "Аксессуары",
-        "Дом",
-        "Красота",
-        "Спорт",
-        "Игры",
-        "Авто"
-    ];
+  const categories=[
+    "Все",
+    ...new Set(productsData.map(p=>p.category))
+  ];
 
-    const box = document.getElementById("categories");
+  document.getElementById("categories").innerHTML=
+    categories.map(category=>`
 
-    box.innerHTML = categories.map(category => `
-
-        <button
-            class="category ${category===currentCategory ? "active":""}"
-            onclick="filterCategory('${escapeHTML(category)}')"
-        >
-            ${category}
-        </button>
+      <button
+        class="category ${category===currentCategory?"active":""}"
+        onclick="filterCategory('${category}')"
+      >
+        ${category}
+      </button>
 
     `).join("");
-
 }
+
+function filterCategory(category){
+
+  currentCategory=category;
+
+  renderCategories();
+  renderProducts();
+}
+
 
 /* =========================================================
    PRODUCTS
 ========================================================= */
 
-function renderProducts(list = productsData){
+function renderProducts(){
 
-    const box = document.getElementById("products");
+  const query=
+    document.getElementById("searchInput").value
+      .trim()
+      .toLowerCase();
 
-    document.getElementById("productsCount").textContent =
-        `${list.length} товаров`;
+  let products=productsData.filter(product=>{
 
-    if(!list.length){
+    const categoryOk=
+      currentCategory==="Все" ||
+      product.category===currentCategory;
 
-        box.innerHTML = `
-            <div style="
-                grid-column:1/-1;
-                text-align:center;
-                padding:60px 15px;
-                color:#777;
-            ">
-                <div style="font-size:50px">🔎</div>
-                <h3>Ничего не найдено</h3>
-                <p>Попробуй изменить запрос</p>
-            </div>
-        `;
+    const searchOk=
+      !query ||
+      product.name.toLowerCase().includes(query) ||
+      product.category.toLowerCase().includes(query);
 
-        return;
-    }
+    return categoryOk && searchOk;
+  });
 
-    box.innerHTML = list.map(product => {
+  document.getElementById("products").innerHTML=
+    products.map(productCard).join("");
 
-        const isFav = favorites.includes(product.id);
-
-        return `
-
-        <article
-            class="product"
-            onclick="openProduct(${product.id})"
-        >
-
-            <div class="product-image">
-
-                <img
-                    src="${product.image}"
-                    alt="${escapeHTML(product.name)}"
-                    loading="lazy"
-                    onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"
-                >
-
-                <div
-                    class="product-fallback"
-                    style="display:none"
-                >
-                    ${product.emoji}
-                </div>
-
-                <button
-                    class="favorite ${isFav ? "active":""}"
-                    onclick="event.stopPropagation();toggleFavorite(${product.id})"
-                >
-                    ${isFav ? "♥":"♡"}
-                </button>
-
-            </div>
-
-            <div class="product-info">
-
-                <div class="product-category">
-                    ${escapeHTML(product.category)}
-                </div>
-
-                <div class="product-name">
-                    ${escapeHTML(product.name)}
-                </div>
-
-                <div class="product-price">
-                    ${money(product.price)}
-                </div>
-
-                <div class="product-bottom">
-
-                    <button
-                        class="add-cart"
-                        onclick="event.stopPropagation();addToCart(${product.id})"
-                    >
-                        🛒 В корзину
-                    </button>
-
-                    <button
-                        class="buy-fast"
-                        onclick="event.stopPropagation();openProduct(${product.id})"
-                    >
-                        →
-                    </button>
-
-                </div>
-
-            </div>
-
-        </article>
-
-        `;
-
-    }).join("");
-
+  document.getElementById("searchClear").style.display=
+    query ? "block" : "none";
 }
+
+function productCard(product){
+
+  const isFav=favorites.includes(product.id);
+
+  const image=product.image
+    ? `
+      <img
+        src="${product.image}"
+        alt="${product.name}"
+        onerror="this.style.display='none';this.parentElement.querySelector('.product-emoji').style.display='block'"
+      >
+    `
+    : "";
+
+  return `
+
+    <article class="product-card">
+
+      <div class="product-image">
+
+        ${image}
+
+        <div
+          class="product-emoji"
+          style="${product.image?'display:none':''}"
+        >
+          ${product.emoji}
+        </div>
+
+        <button
+          class="favorite-small ${isFav?"active":""}"
+          onclick="toggleFavorite(${product.id});event.stopPropagation()"
+        >
+          ${isFav?"❤️":"♡"}
+        </button>
+
+      </div>
+
+      <div class="product-info">
+
+        <div class="product-category">
+          ${product.category}
+        </div>
+
+        <div class="product-name">
+          ${product.name}
+        </div>
+
+        <div class="product-price">
+          ${money(product.price)}
+        </div>
+
+        <div class="product-actions">
+
+          <button
+            class="add-btn"
+            onclick="addToCart(${product.id})"
+          >
+            В корзину
+          </button>
+
+          <button
+            class="details-btn"
+            onclick="openProduct(${product.id})"
+          >
+            ℹ️
+          </button>
+
+        </div>
+
+      </div>
+
+    </article>
+
+  `;
+}
+
 
 /* =========================================================
    SEARCH
 ========================================================= */
 
 function searchProducts(){
-
-    const query =
-        document.getElementById("searchInput")
-        .value
-        .trim()
-        .toLowerCase();
-
-    let list = productsData;
-
-    if(currentCategory !== "Все"){
-
-        list = list.filter(
-            p => p.category === currentCategory
-        );
-
-    }
-
-    if(query){
-
-        list = list.filter(p =>
-            p.name.toLowerCase().includes(query) ||
-            p.category.toLowerCase().includes(query)
-        );
-
-    }
-
-    document.getElementById("productsTitle").textContent =
-        currentCategory === "Все"
-        ? (query ? "Результаты поиска" : "Все товары")
-        : currentCategory;
-
-    renderProducts(list);
-
-    document.getElementById("searchClear").style.display =
-        query ? "block" : "none";
-
+  renderProducts();
 }
 
 function clearSearch(){
 
-    document.getElementById("searchInput").value = "";
+  const input=document.getElementById("searchInput");
 
-    currentCategory = "Все";
+  input.value="";
+  currentCategory="Все";
 
-    renderCategories();
-
-    searchProducts();
-
+  renderCategories();
+  renderProducts();
 }
 
-function filterCategory(category){
-
-    currentCategory = category;
-
-    renderCategories();
-
-    searchProducts();
-
-    window.scrollTo({
-        top:0,
-        behavior:"smooth"
-    });
-
-}
-
-document
-.getElementById("searchInput")
-.addEventListener("input",searchProducts);
-
-/* =========================================================
-   CART
-========================================================= */
-
-function addToCart(id){
-
-    cart.push(id);
-
-    saveData();
-
-    updateCartBadge();
-
-    toast("Товар добавлен в корзину 🛒");
-
-}
-
-function getCartItems(){
-
-    const counts = {};
-
-    cart.forEach(id=>{
-        counts[id] = (counts[id] || 0) + 1;
-    });
-
-    return Object.entries(counts)
-        .map(([id,count])=>{
-
-            const product =
-                productsData.find(
-                    p=>p.id === Number(id)
-                );
-
-            if(!product) return null;
-
-            return {
-                product,
-                count
-            };
-
-        })
-        .filter(Boolean);
-
-}
-
-function updateCartBadge(){
-
-    const badge =
-        document.getElementById("cartBadge");
-
-    if(cart.length){
-
-        badge.style.display="flex";
-        badge.textContent =
-            cart.length > 99 ? "99+" : cart.length;
-
-    }else{
-
-        badge.style.display="none";
-
-    }
-
-}
-
-function changeQuantity(id,delta){
-
-    if(delta > 0){
-
-        cart.push(id);
-
-    }else{
-
-        const index = cart.indexOf(id);
-
-        if(index !== -1){
-            cart.splice(index,1);
-        }
-
-    }
-
-    saveData();
-    updateCartBadge();
-    openCart();
-
-}
-
-function removeFromCart(id){
-
-    cart = cart.filter(
-        item => item !== id
-    );
-
-    saveData();
-    updateCartBadge();
-    openCart();
-
-    toast("Товар удалён");
-
-}
-
-function openCart(){
-
-    closeAllModals();
-
-    const box =
-        document.getElementById("cartContent");
-
-    const items = getCartItems();
-
-    if(!items.length){
-
-        box.innerHTML = `
-
-            <div class="cart-empty">
-
-                <div class="cart-empty-icon">🛒</div>
-
-                <h3>Корзина пуста</h3>
-
-                <p>
-                    Добавь товары, которые хочешь купить.
-                </p>
-
-                <button
-                    class="primary-btn"
-                    onclick="closeModal('cartModal')"
-                >
-                    Перейти к покупкам
-                </button>
-
-            </div>
-
-        `;
-
-        openModal("cartModal");
-
-        return;
-    }
-
-    let total = 0;
-
-    box.innerHTML = items.map(item=>{
-
-        const p = item.product;
-
-        const itemTotal =
-            p.price * item.count;
-
-        total += itemTotal;
-
-        return `
-
-        <div class="cart-row">
-
-            <div class="cart-img">
-
-                <img
-                    src="${p.image}"
-                    alt=""
-                    onerror="this.style.display='none'"
-                >
-
-            </div>
-
-            <div class="cart-row-info">
-
-                <div class="cart-row-name">
-                    ${escapeHTML(p.name)}
-                </div>
-
-                <div class="cart-row-price">
-                    ${money(itemTotal)}
-                </div>
-
-                <div class="qty">
-
-                    <button
-                        onclick="changeQuantity(${p.id},-1)"
-                    >−</button>
-
-                    <strong>${item.count}</strong>
-
-                    <button
-                        onclick="changeQuantity(${p.id},1)"
-                    >+</button>
-
-                </div>
-
-            </div>
-
-            <button
-                onclick="removeFromCart(${p.id})"
-                style="
-                    background:none;
-                    font-size:20px;
-                    color:#999
-                "
-            >
-                🗑
-            </button>
-
-        </div>
-
-        `;
-
-    }).join("") + `
-
-        <div class="cart-total">
-
-            <span>Итого</span>
-
-            <span>
-                ${money(total)}
-            </span>
-
-        </div>
-
-        <button
-            class="primary-btn gold-btn"
-            onclick="checkout()"
-        >
-            Оформить заказ
-        </button>
-
-    `;
-
-    openModal("cartModal");
-
-}
-
-/* =========================================================
-   CHECKOUT
-========================================================= */
-
-function checkout(){
-
-    const items = getCartItems();
-
-    if(!items.length){
-        toast("Корзина пуста");
-        return;
-    }
-
-    let total = 0;
-
-    items.forEach(item=>{
-        total +=
-            item.product.price *
-            item.count;
-    });
-
-    const orders =
-        safeJSON("ravoOrders",[]);
-
-    orders.unshift({
-
-        id:Date.now(),
-
-        date:new Date()
-            .toLocaleDateString("ru-RU"),
-
-        total,
-
-        count:cart.length
-
-    });
-
-    localStorage.setItem(
-        "ravoOrders",
-        JSON.stringify(orders)
-    );
-
-    cart = [];
-
-    saveData();
-    updateCartBadge();
-
-    closeModal("cartModal");
-
-    toast("Заказ оформлен 🎉");
-
-}
 
 /* =========================================================
    FAVORITES
@@ -2454,683 +2212,742 @@ function checkout(){
 
 function toggleFavorite(id){
 
-    if(favorites.includes(id)){
+  if(favorites.includes(id)){
+    favorites=favorites.filter(item=>item!==id);
+    toast("Удалено из избранного");
+  }else{
+    favorites.push(id);
+    toast("Добавлено в избранное ❤️");
+  }
 
-        favorites =
-            favorites.filter(
-                item => item !== id
-            );
+  saveState();
 
-        toast("Удалено из избранного");
-
-    }else{
-
-        favorites.push(id);
-
-        toast("Добавлено в избранное ❤️");
-
-    }
-
-    saveData();
-
-    searchProducts();
-
+  renderProducts();
+  renderFavoritesPage();
 }
 
-function openFavorites(){
+function renderFavoritesPage(){
 
-    closeAllModals();
+  const container=document.getElementById("favoritesProducts");
 
-    const box =
-        document.getElementById("favoritesContent");
+  const products=productsData.filter(product=>
+    favorites.includes(product.id)
+  );
 
-    const items =
-        productsData.filter(
-            p => favorites.includes(p.id)
-        );
+  if(!products.length){
 
-    if(!items.length){
+    container.innerHTML=`
+      <div class="empty" style="grid-column:1/-1">
 
-        box.innerHTML = `
+        <div class="empty-icon">❤️</div>
 
-            <div class="cart-empty">
+        <div class="empty-title">
+          Пока ничего нет
+        </div>
 
-                <div class="cart-empty-icon">♡</div>
+        <div class="empty-text">
+          Добавляй понравившиеся товары в избранное.
+        </div>
 
-                <h3>Пока ничего нет</h3>
+      </div>
+    `;
 
-                <p>
-                    Добавляй понравившиеся товары
-                    в избранное.
-                </p>
+    return;
+  }
 
-            </div>
-
-        `;
-
-    }else{
-
-        box.innerHTML = items.map(p=>`
-
-            <div class="fav-row">
-
-                <div class="fav-img">
-
-                    <img
-                        src="${p.image}"
-                        alt="${escapeHTML(p.name)}"
-                        onerror="this.style.display='none'"
-                    >
-
-                </div>
-
-                <div class="fav-info">
-
-                    <div class="fav-name">
-                        ${escapeHTML(p.name)}
-                    </div>
-
-                    <div class="fav-price">
-                        ${money(p.price)}
-                    </div>
-
-                </div>
-
-                <button
-                    class="fav-add"
-                    onclick="addToCart(${p.id})"
-                >
-                    🛒
-                </button>
-
-            </div>
-
-        `).join("");
-
-    }
-
-    openModal("favoritesModal");
-
+  container.innerHTML=
+    products.map(productCard).join("");
 }
 
-function resetFavorites(){
+function clearFavorites(){
 
-    favorites = [];
+  favorites=[];
 
-    saveData();
+  saveState();
 
-    searchProducts();
+  renderProducts();
+  renderFavoritesPage();
 
-    closeModal("settingsModal");
-
-    toast("Избранное очищено");
-
+  toast("Избранное очищено");
 }
+
 
 /* =========================================================
-   PRODUCT DETAILS
+   CART
 ========================================================= */
 
-function openProduct(productId){
+function addToCart(id){
 
-    const product =
-        productsData.find(
-            p=>p.id === productId
-        );
+  const item=cart.find(item=>item.id===id);
 
-    if(!product) return;
+  if(item){
+    item.qty++;
+  }else{
+    cart.push({
+      id:id,
+      qty:1
+    });
+  }
 
-    currentProductId = productId;
+  saveState();
 
-    const isFav =
-        favorites.includes(productId);
+  toast("Товар добавлен в корзину 🛒");
 
-    document.getElementById(
-        "productDetailsContent"
-    ).innerHTML = `
+  renderCartPage();
+}
 
-        <div class="product-detail-image">
+function changeQty(id,delta){
 
-            <img
-                src="${product.image}"
-                alt="${escapeHTML(product.name)}"
-                onerror="this.style.display='none'"
-            >
+  const item=cart.find(item=>item.id===id);
 
+  if(!item) return;
+
+  item.qty+=delta;
+
+  if(item.qty<=0){
+    cart=cart.filter(item=>item.id!==id);
+  }
+
+  saveState();
+
+  renderCartPage();
+}
+
+function removeFromCart(id){
+
+  cart=cart.filter(item=>item.id!==id);
+
+  saveState();
+
+  renderCartPage();
+
+  toast("Товар удалён");
+}
+
+function getCartTotal(){
+
+  return cart.reduce((sum,item)=>{
+
+    const product=productsData.find(p=>p.id===item.id);
+
+    return sum + (product ? product.price*item.qty : 0);
+
+  },0);
+}
+
+function getCartCount(){
+
+  return cart.reduce((sum,item)=>sum+item.qty,0);
+}
+
+function renderCartPage(){
+
+  const container=document.getElementById("cartContent");
+
+  if(!cart.length){
+
+    container.innerHTML=`
+
+      <div class="empty">
+
+        <div class="empty-icon">🛒</div>
+
+        <div class="empty-title">
+          Корзина пустая
         </div>
 
-        <div class="product-detail-category">
-            ${escapeHTML(product.category)}
+        <div class="empty-text">
+          Добавь товары с главной страницы.
         </div>
 
-        <h1 class="product-detail-name">
-            ${escapeHTML(product.name)}
-        </h1>
+        <button
+          class="main-btn"
+          onclick="showPage('home')"
+          style="margin-top:18px"
+        >
+          Перейти к товарам
+        </button>
 
-        <div class="product-detail-price">
-            ${money(product.price)}
-        </div>
-
-        <div class="product-description">
-
-            Качественный товар из каталога
-            <strong>Ravo Market</strong>.
-
-            Подробная информация о товаре,
-            характеристики и условия доставки
-            будут доступны после подключения
-            полноценной системы продавцов.
-
-        </div>
-
-        <div class="detail-actions">
-
-            <button
-                onclick="toggleFavoriteFromProduct()"
-            >
-                ${isFav ? "♥":"♡"}
-            </button>
-
-            <button
-                onclick="addToCartFromProduct()"
-            >
-                🛒 Добавить в корзину
-            </button>
-
-        </div>
+      </div>
 
     `;
 
-    openModal("productModal");
+    return;
+  }
 
+  const items=cart.map(item=>{
+
+    const product=productsData.find(p=>p.id===item.id);
+
+    if(!product) return "";
+
+    const image=product.image
+      ? `
+        <img
+          src="${product.image}"
+          alt="${product.name}"
+          onerror="this.style.display='none'"
+        >
+      `
+      : `<span>${product.emoji}</span>`;
+
+    return `
+
+      <div class="cart-item">
+
+        <div class="cart-image">
+          ${image}
+        </div>
+
+        <div class="cart-info">
+
+          <div class="cart-name">
+            ${product.name}
+          </div>
+
+          <div class="cart-price">
+            ${money(product.price)}
+          </div>
+
+          <div class="qty">
+
+            <button onclick="changeQty(${product.id},-1)">
+              −
+            </button>
+
+            <strong>${item.qty}</strong>
+
+            <button onclick="changeQty(${product.id},1)">
+              +
+            </button>
+
+          </div>
+
+        </div>
+
+        <button
+          class="remove-cart"
+          onclick="removeFromCart(${product.id})"
+        >
+          🗑️
+        </button>
+
+      </div>
+
+    `;
+
+  }).join("");
+
+  container.innerHTML=`
+
+    <div class="cart-list">
+      ${items}
+    </div>
+
+    <div class="cart-bottom">
+
+      <div class="cart-total-row">
+        <span>Итого</span>
+        <span class="cart-total">
+          ${money(getCartTotal())}
+        </span>
+      </div>
+
+      <button
+        class="checkout"
+        onclick="checkout()"
+      >
+        Оформить заказ
+      </button>
+
+    </div>
+
+  `;
 }
 
-function toggleFavoriteFromProduct(){
+function checkout(){
 
-    if(currentProductId === null) return;
+  if(!cart.length){
+    toast("Корзина пустая");
+    return;
+  }
 
-    toggleFavorite(currentProductId);
+  const total=getCartTotal();
 
-    openProduct(currentProductId);
+  const earned=Math.floor(total*0.01);
 
+  bonuses+=earned;
+
+  localStorage.setItem("ravoBonuses",bonuses);
+
+  orders.unshift({
+    id:"RV"+Date.now(),
+    date:new Date().toLocaleString("ru-RU"),
+    total:total,
+    items:getCartCount()
+  });
+
+  localStorage.setItem("ravoOrders",JSON.stringify(orders));
+
+  cart=[];
+
+  saveState();
+
+  renderCartPage();
+
+  toast("Заказ оформлен 🎉");
+
+  setTimeout(()=>{
+    showPage("profile");
+  },700);
 }
 
-function addToCartFromProduct(){
-
-    if(currentProductId === null) return;
-
-    addToCart(currentProductId);
-
-}
 
 /* =========================================================
    PROFILE
 ========================================================= */
 
-function getUser(){
+function renderProfilePage(){
 
-    try{
+  const container=document.getElementById("profileContent");
 
-        return JSON.parse(
-            localStorage.getItem("ravoUser")
-        );
+  if(!ravoUser){
 
-    }catch(e){
+    container.innerHTML=`
 
-        return null;
+      <div class="profile-top">
 
-    }
+        <div class="profile-avatar">
+          👤
+        </div>
 
+        <div>
+
+          <div class="profile-name">
+            Гость Ravo
+          </div>
+
+          <div class="profile-phone">
+            Войди или создай аккаунт
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="profile-card">
+
+        <button class="profile-item"
+                onclick="openLogin()">
+
+          <div class="profile-icon">🔐</div>
+
+          <div class="profile-item-main">
+            <div class="profile-item-title">
+              Войти
+            </div>
+            <div class="profile-item-sub">
+              Открыть свой профиль
+            </div>
+          </div>
+
+          <div class="arrow">›</div>
+
+        </button>
+
+        <button class="profile-item"
+                onclick="openRegister()">
+
+          <div class="profile-icon">✨</div>
+
+          <div class="profile-item-main">
+            <div class="profile-item-title">
+              Регистрация
+            </div>
+            <div class="profile-item-sub">
+              Создать аккаунт Ravo
+            </div>
+          </div>
+
+          <div class="arrow">›</div>
+
+        </button>
+
+      </div>
+
+      <div class="profile-card">
+
+        <button class="profile-item"
+                onclick="openBonuses()">
+
+          <div class="profile-icon">⭐</div>
+
+          <div class="profile-item-main">
+            <div class="profile-item-title">
+              Ravo Бонусы
+            </div>
+            <div class="profile-item-sub">
+              ${bonuses} бонусов
+            </div>
+          </div>
+
+          <div class="arrow">›</div>
+
+        </button>
+
+      </div>
+
+    `;
+
+    return;
+  }
+
+  const avatar=ravoUser.avatar
+    ? `<img src="${ravoUser.avatar}" alt="avatar">`
+    : "👤";
+
+  container.innerHTML=`
+
+    <div class="profile-top">
+
+      <div class="profile-avatar">
+        ${avatar}
+      </div>
+
+      <div style="min-width:0">
+
+        <div class="profile-name">
+          ${ravoUser.name || "Пользователь Ravo"}
+        </div>
+
+        <div class="profile-phone">
+          ${ravoUser.phone || "Телефон не указан"}
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="profile-card">
+
+      <button class="profile-item"
+              onclick="openEditAccount()">
+
+        <div class="profile-icon">✏️</div>
+
+        <div class="profile-item-main">
+
+          <div class="profile-item-title">
+            Личные данные
+          </div>
+
+          <div class="profile-item-sub">
+            Имя, телефон, email и фото
+          </div>
+
+        </div>
+
+        <div class="arrow">›</div>
+
+      </button>
+
+
+      <button class="profile-item"
+              onclick="openAddress()">
+
+        <div class="profile-icon">📍</div>
+
+        <div class="profile-item-main">
+
+          <div class="profile-item-title">
+            Адрес доставки
+          </div>
+
+          <div class="profile-item-sub">
+            ${getAddressText()}
+          </div>
+
+        </div>
+
+        <div class="arrow">›</div>
+
+      </button>
+
+
+      <button class="profile-item"
+              onclick="openPayment()">
+
+        <div class="profile-icon">💳</div>
+
+        <div class="profile-item-main">
+
+          <div class="profile-item-title">
+            Способ оплаты
+          </div>
+
+          <div class="profile-item-sub">
+            ${payment.last4 ? "Карта •••• "+payment.last4 : "Добавить карту"}
+          </div>
+
+        </div>
+
+        <div class="arrow">›</div>
+
+      </button>
+
+    </div>
+
+
+    <div class="profile-card">
+
+      <button class="profile-item"
+              onclick="openBonuses()">
+
+        <div class="profile-icon">⭐</div>
+
+        <div class="profile-item-main">
+
+          <div class="profile-item-title">
+            Ravo Бонусы
+          </div>
+
+          <div class="profile-item-sub">
+            ${bonuses} бонусов
+          </div>
+
+        </div>
+
+        <div class="arrow">›</div>
+
+      </button>
+
+
+      <button class="profile-item"
+              onclick="openOrders()">
+
+        <div class="profile-icon">📦</div>
+
+        <div class="profile-item-main">
+
+          <div class="profile-item-title">
+            Мои заказы
+          </div>
+
+          <div class="profile-item-sub">
+            ${orders.length ? orders.length+" заказов" : "Заказов пока нет"}
+          </div>
+
+        </div>
+
+        <div class="arrow">›</div>
+
+      </button>
+
+    </div>
+
+
+    <div class="profile-card">
+
+      <button class="profile-item"
+              onclick="openSettings()">
+
+        <div class="profile-icon">⚙️</div>
+
+        <div class="profile-item-main">
+
+          <div class="profile-item-title">
+            Настройки
+          </div>
+
+        </div>
+
+        <div class="arrow">›</div>
+
+      </button>
+
+
+      <button class="profile-item logout"
+              onclick="logout()">
+
+        <div class="profile-icon">🚪</div>
+
+        <div class="profile-item-main">
+
+          <div class="profile-item-title">
+            Выйти из аккаунта
+          </div>
+
+        </div>
+
+      </button>
+
+    </div>
+
+  `;
 }
 
-function openProfile(){
+function getAddressText(){
 
-    closeAllModals();
+  if(!address.city && !address.street){
+    return "Добавить адрес";
+  }
 
-    const user = getUser();
-
-    const box =
-        document.getElementById("profileContent");
-
-    if(!user){
-
-        box.innerHTML = `
-
-            <div class="cart-empty">
-
-                <div class="cart-empty-icon">
-                    👤
-                </div>
-
-                <h3>Войди в Ravo</h3>
-
-                <p>
-                    Создай профиль, чтобы сохранять
-                    избранное, адрес и заказы.
-                </p>
-
-                <button
-                    class="primary-btn"
-                    onclick="
-                        closeModal('profileModal');
-                        openModal('loginModal');
-                    "
-                >
-                    Войти
-                </button>
-
-            </div>
-
-        `;
-
-    }else{
-
-        const avatar =
-            user.avatar
-            ? `<img src="${user.avatar}" alt="">`
-            : "R";
-
-        box.innerHTML = `
-
-            <div class="profile-top">
-
-                <div class="ravo-avatar">
-                    ${avatar}
-                </div>
-
-                <div>
-
-                    <h2>
-                        ${escapeHTML(user.name || "Пользователь")}
-                    </h2>
-
-                    <p>
-                        ${escapeHTML(user.email || user.phone || "")}
-                    </p>
-
-                </div>
-
-            </div>
-
-            <div class="profile-menu">
-
-                <button onclick="openEditAccount()">
-                    <span>✏️</span>
-                    Изменить профиль
-                </button>
-
-                <button onclick="
-                    closeModal('profileModal');
-                    openOrders();
-                ">
-                    <span>📦</span>
-                    Мои заказы
-                </button>
-
-                <button onclick="
-                    closeModal('profileModal');
-                    openFavorites();
-                ">
-                    <span>❤️</span>
-                    Избранное
-                </button>
-
-                <button onclick="
-                    closeModal('profileModal');
-                    openCart();
-                ">
-                    <span>🛒</span>
-                    Корзина
-                </button>
-
-                <button onclick="
-                    closeModal('profileModal');
-                    openAddress();
-                ">
-                    <span>📍</span>
-                    Адрес доставки
-                </button>
-
-                <button onclick="
-                    closeModal('profileModal');
-                    openPayment();
-                ">
-                    <span>💳</span>
-                    Способ оплаты
-                </button>
-
-                <button onclick="
-                    closeModal('profileModal');
-                    openBonuses();
-                ">
-                    <span>⭐</span>
-                    Ravo Бонусы
-                </button>
-
-                <button onclick="
-                    closeModal('profileModal');
-                    openSettings();
-                ">
-                    <span>⚙️</span>
-                    Настройки
-                </button>
-
-                <button
-                    class="logout"
-                    onclick="logout()"
-                >
-                    <span>🚪</span>
-                    Выйти
-                </button>
-
-            </div>
-
-        `;
-
-    }
-
-    openModal("profileModal");
-
+  return [
+    address.city,
+    address.street,
+    address.apartment
+  ].filter(Boolean).join(", ");
 }
+
 
 /* =========================================================
    LOGIN / REGISTER
 ========================================================= */
 
-function showRegister(){
-
-    closeModal("loginModal");
-
-    openModal("registerModal");
-
+function openLogin(){
+  openModal("loginModal");
 }
 
-function register(){
+function openRegister(){
+  openModal("registerModal");
+}
 
-    const name =
-        document.getElementById("registerName")
-        .value.trim();
+function switchToRegister(){
 
-    const phone =
-        document.getElementById("registerPhone")
-        .value.trim();
-
-    const email =
-        document.getElementById("registerEmail")
-        .value.trim();
-
-    if(!name || !phone){
-
-        toast("Заполни имя и телефон");
-
-        return;
-
-    }
-
-    const user = {
-
-        name,
-        phone,
-        email,
-        avatar:""
-
-    };
-
-    localStorage.setItem(
-        "ravoUser",
-        JSON.stringify(user)
-    );
-
-    closeModal("registerModal");
-
-    toast("Профиль создан 🎉");
-
-    setTimeout(openProfile,250);
-
+  closeModal("loginModal");
+  openRegister();
 }
 
 function login(){
 
-    const name =
-        document.getElementById("loginName")
-        .value.trim();
+  const phone=document.getElementById("loginPhone").value.trim();
 
-    const phone =
-        document.getElementById("loginPhone")
-        .value.trim();
+  if(!phone){
+    toast("Введите телефон");
+    return;
+  }
 
-    if(!name || !phone){
+  ravoUser={
+    name:"Пользователь Ravo",
+    phone:phone,
+    email:""
+  };
 
-        toast("Заполни имя и телефон");
+  localStorage.setItem("ravoUser",JSON.stringify(ravoUser));
 
-        return;
+  closeModal("loginModal");
 
-    }
+  renderProfilePage();
 
-    const oldUser = getUser();
+  toast("Добро пожаловать в Ravo 👋");
+}
 
-    const user = {
+function register(){
 
-        name,
-        phone,
-        email:oldUser?.email || "",
-        avatar:oldUser?.avatar || "",
-        address:oldUser?.address || "",
-        cardLast4:oldUser?.cardLast4 || ""
+  const name=document.getElementById("registerName").value.trim();
+  const phone=document.getElementById("registerPhone").value.trim();
+  const email=document.getElementById("registerEmail").value.trim();
 
-    };
+  if(!name || !phone){
+    toast("Заполни имя и телефон");
+    return;
+  }
 
-    localStorage.setItem(
-        "ravoUser",
-        JSON.stringify(user)
-    );
+  ravoUser={
+    name:name,
+    phone:phone,
+    email:email,
+    avatar:""
+  };
 
-    closeModal("loginModal");
+  localStorage.setItem("ravoUser",JSON.stringify(ravoUser));
 
-    toast("Добро пожаловать 👋");
+  closeModal("registerModal");
 
-    setTimeout(openProfile,250);
+  renderProfilePage();
 
+  toast("Аккаунт создан 🎉");
 }
 
 function logout(){
 
-    localStorage.removeItem("ravoUser");
+  ravoUser=null;
 
-    closeModal("profileModal");
+  localStorage.removeItem("ravoUser");
 
-    toast("Вы вышли из профиля");
+  renderProfilePage();
 
+  toast("Ты вышел из аккаунта");
 }
 
+
 /* =========================================================
-   EDIT ACCOUNT
+   EDIT PROFILE
 ========================================================= */
 
 function openEditAccount(){
 
-    const user = getUser();
+  if(!ravoUser) return;
 
-    if(!user) return;
+  document.getElementById("editName").value=ravoUser.name || "";
+  document.getElementById("editPhone").value=ravoUser.phone || "";
+  document.getElementById("editEmail").value=ravoUser.email || "";
 
-    document.getElementById("editName").value =
-        user.name || "";
+  const preview=document.getElementById("editAvatarPreview");
 
-    document.getElementById("editPhone").value =
-        user.phone || "";
+  if(ravoUser.avatar){
+    preview.innerHTML=
+      `<img src="${ravoUser.avatar}" alt="avatar">`;
+  }else{
+    preview.innerHTML="👤";
+  }
 
-    document.getElementById("editEmail").value =
-        user.email || "";
-
-    const preview =
-        document.getElementById("editAvatarPreview");
-
-    if(user.avatar){
-
-        preview.innerHTML =
-            `<img src="${user.avatar}" alt="">`;
-
-    }else{
-
-        preview.innerHTML = "R";
-
-    }
-
-    closeModal("profileModal");
-
-    openModal("editAccountModal");
-
+  openModal("editAccountModal");
 }
 
-function changeAvatar(event){
+function previewAvatar(event){
 
-    const file =
-        event.target.files?.[0];
+  const file=event.target.files[0];
 
-    if(!file) return;
+  if(!file) return;
 
-    if(file.size > 5 * 1024 * 1024){
+  const reader=new FileReader();
 
-        toast("Фото должно быть меньше 5 МБ");
+  reader.onload=function(){
 
-        return;
+    const data=reader.result;
 
-    }
+    document.getElementById("editAvatarPreview").innerHTML=
+      `<img src="${data}" alt="avatar">`;
 
-    const reader =
-        new FileReader();
+    window.newAvatar=data;
+  };
 
-    reader.onload = function(e){
-
-        compressImage(
-            e.target.result,
-            function(compressed){
-
-                const preview =
-                    document.getElementById(
-                        "editAvatarPreview"
-                    );
-
-                preview.innerHTML =
-                    `<img src="${compressed}" alt="">`;
-
-                preview.dataset.avatar =
-                    compressed;
-
-            }
-        );
-
-    };
-
-    reader.readAsDataURL(file);
-
-}
-
-function compressImage(src,callback){
-
-    const img = new Image();
-
-    img.onload = function(){
-
-        const size = 512;
-
-        const canvas =
-            document.createElement("canvas");
-
-        canvas.width = size;
-        canvas.height = size;
-
-        const ctx =
-            canvas.getContext("2d");
-
-        const min =
-            Math.min(img.width,img.height);
-
-        const sx =
-            (img.width-min)/2;
-
-        const sy =
-            (img.height-min)/2;
-
-        ctx.drawImage(
-            img,
-            sx,
-            sy,
-            min,
-            min,
-            0,
-            0,
-            size,
-            size
-        );
-
-        callback(
-            canvas.toDataURL(
-                "image/jpeg",
-                .82
-            )
-        );
-
-    };
-
-    img.src = src;
-
+  reader.readAsDataURL(file);
 }
 
 function saveAccountChanges(){
 
-    const user = getUser();
+  ravoUser.name=document.getElementById("editName").value.trim();
+  ravoUser.phone=document.getElementById("editPhone").value.trim();
+  ravoUser.email=document.getElementById("editEmail").value.trim();
 
-    if(!user) return;
+  if(window.newAvatar){
+    ravoUser.avatar=window.newAvatar;
+  }
 
-    const name =
-        document.getElementById("editName")
-        .value.trim();
+  localStorage.setItem("ravoUser",JSON.stringify(ravoUser));
 
-    const phone =
-        document.getElementById("editPhone")
-        .value.trim();
+  window.newAvatar=null;
 
-    const email =
-        document.getElementById("editEmail")
-        .value.trim();
+  closeModal("editAccountModal");
 
-    if(!name || !phone){
+  renderProfilePage();
 
-        toast("Имя и телефон обязательны");
-
-        return;
-
-    }
-
-    user.name = name;
-    user.phone = phone;
-    user.email = email;
-
-    const preview =
-        document.getElementById(
-            "editAvatarPreview"
-        );
-
-    if(preview.dataset.avatar){
-
-        user.avatar =
-            preview.dataset.avatar;
-
-    }
-
-    localStorage.setItem(
-        "ravoUser",
-        JSON.stringify(user)
-    );
-
-    closeModal("editAccountModal");
-
-    toast("Профиль сохранён ✓");
-
-    setTimeout(openProfile,250);
-
+  toast("Профиль сохранён");
 }
+
 
 /* =========================================================
    ADDRESS
@@ -3138,40 +2955,30 @@ function saveAccountChanges(){
 
 function openAddress(){
 
-    const user = getUser();
+  document.getElementById("addressCity").value=address.city || "";
+  document.getElementById("addressStreet").value=address.street || "";
+  document.getElementById("addressApartment").value=address.apartment || "";
 
-    if(!user) return;
-
-    document.getElementById(
-        "addressInput"
-    ).value =
-        user.address || "";
-
-    openModal("addressModal");
-
+  openModal("addressModal");
 }
 
 function saveAddress(){
 
-    const user = getUser();
+  address={
+    city:document.getElementById("addressCity").value.trim(),
+    street:document.getElementById("addressStreet").value.trim(),
+    apartment:document.getElementById("addressApartment").value.trim()
+  };
 
-    if(!user) return;
+  localStorage.setItem("ravoAddress",JSON.stringify(address));
 
-    user.address =
-        document.getElementById(
-            "addressInput"
-        ).value.trim();
+  closeModal("addressModal");
 
-    localStorage.setItem(
-        "ravoUser",
-        JSON.stringify(user)
-    );
+  renderProfilePage();
 
-    closeModal("addressModal");
-
-    toast("Адрес сохранён 📍");
-
+  toast("Адрес сохранён 📍");
 }
+
 
 /* =========================================================
    PAYMENT
@@ -3179,68 +2986,39 @@ function saveAddress(){
 
 function openPayment(){
 
-    const user = getUser();
+  document.getElementById("cardNumber").value=
+    payment.last4
+      ? "•••• •••• •••• "+payment.last4
+      : "";
 
-    if(!user) return;
-
-    const input =
-        document.getElementById("cardInput");
-
-    input.value =
-        user.cardLast4
-        ? `•••• •••• •••• ${user.cardLast4}`
-        : "";
-
-    openModal("paymentModal");
-
-}
-
-function formatCard(input){
-
-    let value =
-        input.value
-        .replace(/\D/g,"")
-        .slice(0,16);
-
-    input.value =
-        value.match(/.{1,4}/g)?.join(" ") || "";
-
+  openModal("paymentModal");
 }
 
 function saveCard(){
 
-    const user = getUser();
+  const value=document
+    .getElementById("cardNumber")
+    .value
+    .replace(/\D/g,"");
 
-    if(!user) return;
+  if(value.length<16){
+    toast("Введите 16 цифр карты");
+    return;
+  }
 
-    const value =
-        document.getElementById(
-            "cardInput"
-        ).value.replace(/\D/g,"");
+  payment={
+    last4:value.slice(-4)
+  };
 
-    if(value.length < 16){
+  localStorage.setItem("ravoPayment",JSON.stringify(payment));
 
-        toast("Введи 16 цифр карты");
+  closeModal("paymentModal");
 
-        return;
+  renderProfilePage();
 
-    }
-
-    user.cardLast4 =
-        value.slice(-4);
-
-    localStorage.setItem(
-        "ravoUser",
-        JSON.stringify(user)
-    );
-
-    closeModal("paymentModal");
-
-    toast(
-        `Карта •••• ${user.cardLast4} сохранена`
-    );
-
+  toast("Карта сохранена 💳");
 }
+
 
 /* =========================================================
    BONUSES
@@ -3248,21 +3026,12 @@ function saveCard(){
 
 function openBonuses(){
 
-    let bonuses =
-        Number(
-            localStorage.getItem(
-                "ravoBonuses"
-            ) || 0
-        );
+  document.getElementById("bonusNumber").textContent=
+    bonuses.toLocaleString("ru-RU");
 
-    document.getElementById(
-        "bonusNumber"
-    ).textContent =
-        bonuses.toLocaleString("ru-RU");
-
-    openModal("bonusModal");
-
+  openModal("bonusModal");
 }
+
 
 /* =========================================================
    ORDERS
@@ -3270,78 +3039,182 @@ function openBonuses(){
 
 function openOrders(){
 
-    const orders =
-        safeJSON("ravoOrders",[]);
+  const container=document.getElementById("ordersContent");
 
-    const box =
-        document.getElementById(
-            "ordersContent"
-        );
+  if(!orders.length){
 
-    if(!orders.length){
+    container.innerHTML=`
 
-        box.innerHTML = `
+      <div class="empty" style="margin:0">
 
-            <div class="cart-empty">
+        <div class="empty-icon">📦</div>
 
-                <div class="cart-empty-icon">
-                    📦
-                </div>
+        <div class="empty-title">
+          Заказов пока нет
+        </div>
 
-                <h3>Заказов пока нет</h3>
+        <div class="empty-text">
+          После покупки они появятся здесь.
+        </div>
 
-                <p>
-                    Здесь появятся твои покупки.
-                </p>
+      </div>
 
-            </div>
+    `;
 
-        `;
+  }else{
 
-    }else{
+    container.innerHTML=orders.map(order=>`
 
-        box.innerHTML =
-            orders.map((order,index)=>`
+      <div class="profile-card"
+           style="padding:15px;margin-bottom:10px">
 
-                <div class="info-card">
+        <div style="display:flex;justify-content:space-between">
 
-                    <strong>
-                        Заказ №${orders.length-index}
-                    </strong>
+          <strong>
+            Заказ #${order.id}
+          </strong>
 
-                    <br>
+          <strong>
+            ${money(order.total)}
+          </strong>
 
-                    📅 ${order.date}
+        </div>
 
-                    <br>
+        <div style="color:#999;font-size:12px;margin-top:7px">
+          ${order.date} · ${order.items} товар(ов)
+        </div>
 
-                    📦 ${order.count} товаров
+      </div>
 
-                    <br>
+    `).join("");
 
-                    💰 <strong>
-                        ${money(order.total)}
-                    </strong>
+  }
 
-                </div>
-
-            `).join("");
-
-    }
-
-    openModal("ordersModal");
-
+  openModal("ordersModal");
 }
+
 
 /* =========================================================
    SETTINGS
 ========================================================= */
 
 function openSettings(){
-
-    openModal("settingsModal");
-
+  openModal("settingsModal");
 }
+
+
+/* =========================================================
+   PRODUCT DETAILS
+========================================================= */
+
+function openProduct(id){
+
+  currentProductId=id;
+
+  const product=productsData.find(p=>p.id===id);
+
+  if(!product) return;
+
+  const isFav=favorites.includes(id);
+
+  const image=product.image
+    ? `
+      <img
+        src="${product.image}"
+        alt="${product.name}"
+        onerror="this.style.display='none';this.parentElement.querySelector('.product-detail-emoji').style.display='block'"
+      >
+    `
+    : "";
+
+  let characteristics="";
+
+  if(product.details){
+
+    characteristics=`
+
+      <div class="characteristics">
+
+        <h3>Характеристики</h3>
+
+        ${Object.entries(product.details).map(([key,value])=>`
+
+          <div class="characteristic">
+
+            <span>${key}</span>
+            <span>${value}</span>
+
+          </div>
+
+        `).join("")}
+
+      </div>
+
+    `;
+
+  }
+
+  document.getElementById("productDetails").innerHTML=`
+
+    <div class="product-detail-image">
+
+      ${image}
+
+      <div
+        class="product-detail-emoji"
+        style="${product.image?'display:none':''}"
+      >
+        ${product.emoji}
+      </div>
+
+    </div>
+
+    <div class="detail-category">
+      ${product.category}
+    </div>
+
+    <div class="detail-name">
+      ${product.name}
+    </div>
+
+    <div class="detail-price">
+      ${money(product.price)}
+    </div>
+
+    <div class="detail-actions">
+
+      <button
+        class="detail-fav"
+        onclick="toggleFavoriteFromProduct()"
+      >
+        ${isFav?"❤️":"♡"}
+      </button>
+
+      <button
+        class="detail-cart"
+        onclick="addToCart(${product.id})"
+      >
+        Добавить в корзину
+      </button>
+
+    </div>
+
+    ${characteristics}
+
+  `;
+
+  openModal("productModal");
+}
+
+function toggleFavoriteFromProduct(){
+
+  if(currentProductId===null) return;
+
+  toggleFavorite(currentProductId);
+
+  openProduct(currentProductId);
+}
+
 
 /* =========================================================
    MODALS
@@ -3349,118 +3222,99 @@ function openSettings(){
 
 function openModal(id){
 
-    document.getElementById(id)
-        .classList.add("show");
+  document.querySelectorAll(".modal").forEach(modal=>{
+    modal.classList.remove("show");
+  });
 
+  document.getElementById(id).classList.add("show");
+
+  document.body.style.overflow="hidden";
 }
 
 function closeModal(id){
 
-    document.getElementById(id)
-        .classList.remove("show");
+  const modal=document.getElementById(id);
 
+  if(modal){
+    modal.classList.remove("show");
+  }
+
+  if(!document.querySelector(".modal.show")){
+    document.body.style.overflow="";
+  }
 }
 
 function closeAllModals(){
 
-    document
-        .querySelectorAll(".modal")
-        .forEach(modal=>{
-            modal.classList.remove("show");
-        });
+  document.querySelectorAll(".modal").forEach(modal=>{
+    modal.classList.remove("show");
+  });
 
+  document.body.style.overflow="";
 }
 
-function closeOutside(event,id){
+function modalOutside(event,id){
 
-    if(event.target.id === id){
-
-        closeModal(id);
-
-    }
-
+  if(event.target.id===id){
+    closeModal(id);
+  }
 }
+
 
 /* =========================================================
-   HOME
+   BADGES
 ========================================================= */
 
-function goHome(){
+function updateBadges(){
 
-    closeAllModals();
+  const cartCount=getCartCount();
 
-    currentCategory = "Все";
+  const cartBadge=document.getElementById("cartBadge");
+  const favBadge=document.getElementById("favBadge");
 
-    document.getElementById(
-        "searchInput"
-    ).value = "";
+  if(cartCount){
+    cartBadge.style.display="flex";
+    cartBadge.textContent=cartCount>99?"99+":cartCount;
+  }else{
+    cartBadge.style.display="none";
+  }
 
-    renderCategories();
-
-    searchProducts();
-
-    window.scrollTo({
-        top:0,
-        behavior:"smooth"
-    });
-
+  if(favorites.length){
+    favBadge.style.display="flex";
+    favBadge.textContent=
+      favorites.length>99?"99+":favorites.length;
+  }else{
+    favBadge.style.display="none";
+  }
 }
 
-function scrollToProducts(){
-
-    document
-        .querySelector(".products-section")
-        .scrollIntoView({
-            behavior:"smooth"
-        });
-
-}
 
 /* =========================================================
    SWIPE BACK
 ========================================================= */
 
-let touchStartX = 0;
+let touchStartX=0;
 
-document.addEventListener(
-    "touchstart",
-    e=>{
-        touchStartX =
-            e.changedTouches[0].clientX;
-    },
-    {passive:true}
-);
+document.addEventListener("touchstart",e=>{
+  touchStartX=e.changedTouches[0].screenX;
+},{passive:true});
 
-document.addEventListener(
-    "touchend",
-    e=>{
+document.addEventListener("touchend",e=>{
 
-        const endX =
-            e.changedTouches[0].clientX;
+  const touchEndX=e.changedTouches[0].screenX;
 
-        const diff =
-            endX - touchStartX;
+  const diff=touchEndX-touchStartX;
 
-        if(diff > 100){
+  if(diff>100){
 
-            const visible =
-                document.querySelector(
-                    ".modal.show"
-                );
+    if(document.querySelector(".modal.show")){
+      closeAllModals();
+    }
 
-            if(visible){
+  }
 
-                visible.classList.remove(
-                    "show"
-                );
+},{passive:true});
 
-            }
-
-        }
-
-    },
-    {passive:true}
-);
 
 /* =========================================================
    START
@@ -3468,18 +3322,18 @@ document.addEventListener(
 
 renderCategories();
 renderProducts();
-updateCartBadge();
+renderFavoritesPage();
+renderCartPage();
+renderProfilePage();
+updateBadges();
 
 setTimeout(()=>{
 
-    const loader =
-        document.getElementById("loader");
+  document.getElementById("loader").classList.add("hide");
 
-    loader.style.opacity="0";
-
-    setTimeout(()=>{
-        loader.remove();
-    },450);
+  setTimeout(()=>{
+    document.getElementById("loader").remove();
+  },500);
 
 },1500);
 
