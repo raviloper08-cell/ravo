@@ -2704,33 +2704,6 @@ const productsData=[
 {id:52,name:"Куртка Burberry",category:"Одежда",price:2899,emoji:"🧥",image:"",details:{"Сезон":"На любой сезон","Коллекция":"Базовая коллекция","Рост":"160–168","Стиль":"Повседневный","Размер на модели":"42–46","Рост модели на фото":"175 см","Тип":"Куртка","Бренд в одежде и обуви":"Burberry","Цвет":"Бело-терракотовый","Российский размер":"48","Размер производителя":"XL","Пол":"Мужской","Страна-изготовитель":"Китай","Вид застежки":"Молния","Рисунок":"Логотип","Особенности модели":"Водоотталкивающий материал","Декоративные элементы":"Лейбл","Тип рукава":"Длинный","Воротник":"Круглый","Длина одежды":"До талии","Уход":"Стирка при температуре 30°C"}}
 
 ];
-   products.forEach(product => {
-  const keywords = {
-    "Электроника": "electronics,gadget",
-    "Одежда": "clothing,fashion",
-    "Обувь": "shoes,sneakers",
-    "Дом": "home,interior",
-    "Красота": "cosmetics,beauty",
-    "Спорт": "sport,fitness",
-    "Аксессуары": "accessories,fashion",
-    "Игры": "gaming,game",
-    "Авто": "car,automotive"
-  };
-
-  const query = keywords[product.category] || "product";
-
-  product.images = [
-    product.image || `https://loremflickr.com/900/900/${query}?lock=${product.id}1`,
-    `https://loremflickr.com/900/900/${query}?lock=${product.id}2`,
-    `https://loremflickr.com/900/900/${query}?lock=${product.id}3`,
-    `https://loremflickr.com/900/900/${query}?lock=${product.id}4`
-  ];
-
-  // Первое изображение остаётся главным
-  if (!product.image) {
-    product.image = product.images[0];
-  }
-});
 
 let cart=JSON.parse(localStorage.getItem("ravoCart")||"[]"),
 favorites=JSON.parse(localStorage.getItem("ravoFavorites")||"[]"),
