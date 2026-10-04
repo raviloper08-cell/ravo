@@ -7139,6 +7139,370 @@ setTimeout(
     }
   },{passive:false});
 })();
+   /* =========================
+   RAVO WOW ENGINE
+========================= */
+(function(){
+
+  /* ===== RAVO DROPS ===== */
+
+  function getDropProduct(){
+    const cards = [...document.querySelectorAll('.product-card')];
+    if(!cards.length) return null;
+
+    return cards[Math.floor(Date.now() / 86400000) % cards.length];
+  }
+
+  function createRavoDrop(){
+
+    if(document.getElementById('ravoDrop')) return;
+
+    const product = getDropProduct();
+    if(!product) return;
+
+    const name =
+      product.querySelector('.product-name')?.textContent ||
+      product.querySelector('h3')?.textContent ||
+      'Товар Ravo';
+
+    const price =
+      product.querySelector('.price')?.textContent ||
+      product.querySelector('[class*="price"]')?.textContent ||
+      '';
+
+    const drop = document.createElement('div');
+    drop.id = 'ravoDrop';
+
+    drop.innerHTML = `
+      <div class="ravo-drop-head">
+        <div>
+          <div class="ravo-drop-label">⚡ RAVO DROP</div>
+          <div class="ravo-drop-title">Товар дня</div>
+        </div>
+        <div class="ravo-drop-timer" id="ravoDropTimer">23:59:59</div>
+      </div>
+
+      <div class="ravo-drop-product">
+        <div class="ravo-drop-icon">🔥</div>
+        <div class="ravo-drop-info">
+          <b>${name}</b>
+          <span>${price}</span>
+        </div>
+        <button id="ravoDropOpen">Забрать →</button>
+      </div>
+    `;
+
+    const home =
+      document.querySelector('#home') ||
+      document.querySelector('.home') ||
+      document.querySelector('main');
+
+    if(home) home.prepend(drop);
+
+    const updateTimer = () => {
+
+      const now = new Date();
+      const tomorrow = new Date();
+
+      tomorrow.setHours(24,0,0,0);
+
+      let diff = Math.max(
+        0,
+        tomorrow.getTime() - now.getTime()
+      );
+
+      const h = String(Math.floor(diff / 3600000)).padStart(2,'0');
+      diff %= 3600000;
+
+      const m = String(Math.floor(diff / 60000)).padStart(2,'0');
+      diff %= 60000;
+
+      const s = String(Math.floor(diff / 1000)).padStart(2,'0');
+
+      const timer = document.getElementById('ravoDropTimer');
+
+      if(timer){
+        timer.textContent = `${h}:${m}:${s}`;
+      }
+
+    };
+
+    updateTimer();
+    setInterval(updateTimer,1000);
+
+    document
+      .getElementById('ravoDropOpen')
+      ?.addEventListener('click',()=>{
+
+        product.scrollIntoView({
+          behavior:'smooth',
+          block:'center'
+        });
+
+        setTimeout(()=>{
+          product.classList.add('ravo-drop-highlight');
+
+          setTimeout(()=>{
+            product.classList.remove('ravo-drop-highlight');
+          },1200);
+
+        },400);
+
+      });
+  }
+
+
+  /* ===== PRODUCT FLY TO CART ===== */
+
+  document.addEventListener('click',(e)=>{
+
+    const button =
+      e.target.closest(
+        'button'
+      );
+
+    if(!button) return;
+
+    const text =
+      button.textContent.trim().toLowerCase();
+
+    if(
+      !text.includes('корз') &&
+      !text.includes('добав')
+    ) return;
+
+    const card =
+      button.closest('.product-card,.flash-card');
+
+    if(!card) return;
+
+    const image =
+      card.querySelector('img');
+
+    const cart =
+      document.querySelector(
+        '.nav-btn:nth-child(3)'
+      ) ||
+      document.querySelector(
+        '[data-page="cart"]'
+      );
+
+    if(!image || !cart) return;
+
+    const ghost =
+      image.cloneNode(true);
+
+    const start =
+      image.getBoundingClientRect();
+
+    const end =
+      cart.getBoundingClientRect();
+
+    ghost.className =
+      'ravo-flying-product';
+
+    ghost.style.left =
+      start.left + 'px';
+
+    ghost.style.top =
+      start.top + 'px';
+
+    ghost.style.width =
+      start.width + 'px';
+
+    ghost.style.height =
+      start.height + 'px';
+
+    document.body.appendChild(ghost);
+
+    requestAnimationFrame(()=>{
+
+      ghost.style.left =
+        (end.left + end.width / 2 - 20) + 'px';
+
+      ghost.style.top =
+        (end.top + end.height / 2 - 20) + 'px';
+
+      ghost.style.width='40px';
+      ghost.style.height='40px';
+      ghost.style.opacity='0';
+      ghost.style.transform='rotate(15deg) scale(.5)';
+
+    });
+
+    setTimeout(()=>{
+      ghost.remove();
+
+      cart.classList.add('ravo-cart-bump');
+
+      setTimeout(()=>{
+        cart.classList.remove('ravo-cart-bump');
+      },500);
+
+    },650);
+
+  });
+
+
+  /* ===== DAILY TASK ===== */
+
+  function createRavoTask(){
+
+    if(document.getElementById('ravoTask')) return;
+
+    const profile =
+      document.querySelector('#profile') ||
+      document.querySelector('.profile');
+
+    if(!profile) return;
+
+    let viewed =
+      Number(
+        localStorage.getItem('ravoViewedCount') || 0
+      );
+
+    const task =
+      document.createElement('div');
+
+    task.id='ravoTask';
+
+    const progress =
+      Math.min(viewed,3);
+
+    task.innerHTML=`
+
+      <div class="ravo-task-title">
+        🎯 Задание дня
+      </div>
+
+      <div class="ravo-task-text">
+        Посмотри 3 товара
+      </div>
+
+      <div class="ravo-progress">
+        <span style="width:${progress/3*100}%"></span>
+      </div>
+
+      <div class="ravo-task-bottom">
+        <span>${progress}/3 выполнено</span>
+        <b>+50 ⭐</b>
+      </div>
+
+    `;
+
+    profile.appendChild(task);
+
+  }
+
+
+  /* ===== USER LEVEL ===== */
+
+  function createRavoLevel(){
+
+    if(document.getElementById('ravoLevel')) return;
+
+    const profile =
+      document.querySelector('#profile') ||
+      document.querySelector('.profile');
+
+    if(!profile) return;
+
+    const bonuses =
+      Number(
+        localStorage.getItem('ravoBonuses') || 1250
+      );
+
+    let level='Новичок';
+    let next=1000;
+
+    if(bonuses>=5000){
+      level='Insider';
+      next=10000;
+    }else if(bonuses>=1000){
+      level='Покупатель';
+      next=5000;
+    }
+
+    const progress =
+      Math.min(
+        100,
+        (bonuses / next) * 100
+      );
+
+    const box =
+      document.createElement('div');
+
+    box.id='ravoLevel';
+
+    box.innerHTML=`
+
+      <div class="ravo-level-top">
+
+        <div>
+          <small>ТВОЙ УРОВЕНЬ</small>
+          <strong>🏆 Ravo ${level}</strong>
+        </div>
+
+        <div class="ravo-bonus-count">
+          ⭐ ${bonuses}
+        </div>
+
+      </div>
+
+      <div class="ravo-level-bar">
+        <span style="width:${progress}%"></span>
+      </div>
+
+      <div class="ravo-level-bottom">
+        <span>До следующего уровня</span>
+        <b>${Math.max(0,next-bonuses)} ⭐</b>
+      </div>
+
+    `;
+
+    profile.prepend(box);
+
+  }
+
+
+  /* ===== COUNT PRODUCT VIEWS ===== */
+
+  document.addEventListener('click',(e)=>{
+
+    const card =
+      e.target.closest('.product-card,.flash-card');
+
+    if(!card) return;
+
+    let count =
+      Number(
+        localStorage.getItem('ravoViewedCount') || 0
+      );
+
+    count++;
+
+    localStorage.setItem(
+      'ravoViewedCount',
+      Math.min(count,3)
+    );
+
+  });
+
+
+  /* ===== START ===== */
+
+  function startRavoWow(){
+
+    createRavoDrop();
+    createRavoTask();
+    createRavoLevel();
+
+  }
+
+  setTimeout(startRavoWow,700);
+  setTimeout(startRavoWow,1800);
+
+})();
    </script>
 
 </body>
