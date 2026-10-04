@@ -1606,6 +1606,188 @@ button:active{
 }
 
 </style>
+   <style>
+
+#ravoDrop{
+  margin:16px;
+  padding:18px;
+  border-radius:24px;
+  background:linear-gradient(135deg,#111,#292929);
+  color:white;
+  box-shadow:0 12px 35px rgba(0,0,0,.15);
+}
+
+.ravo-drop-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+}
+
+.ravo-drop-label{
+  color:#D4AF37;
+  font-weight:800;
+  font-size:12px;
+  letter-spacing:1px;
+}
+
+.ravo-drop-title{
+  font-size:21px;
+  font-weight:800;
+  margin-top:3px;
+}
+
+.ravo-drop-timer{
+  font-weight:800;
+  font-variant-numeric:tabular-nums;
+}
+
+.ravo-drop-product{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-top:18px;
+}
+
+.ravo-drop-icon{
+  font-size:34px;
+}
+
+.ravo-drop-info{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+
+.ravo-drop-info b{
+  font-size:14px;
+}
+
+.ravo-drop-info span{
+  color:#D4AF37;
+  font-weight:800;
+}
+
+#ravoDropOpen{
+  border:0;
+  border-radius:14px;
+  padding:11px 14px;
+  background:#D4AF37;
+  color:#111;
+  font-weight:800;
+}
+
+.ravo-flying-product{
+  position:fixed;
+  z-index:99999;
+  object-fit:cover;
+  border-radius:12px;
+  pointer-events:none;
+  transition:
+    left .65s cubic-bezier(.2,.8,.2,1),
+    top .65s cubic-bezier(.2,.8,.2,1),
+    width .65s,
+    height .65s,
+    opacity .65s,
+    transform .65s;
+}
+
+.ravo-cart-bump{
+  animation:ravoCartBump .5s ease;
+}
+
+@keyframes ravoCartBump{
+  0%{transform:scale(1)}
+  40%{transform:scale(1.25)}
+  70%{transform:scale(.92)}
+  100%{transform:scale(1)}
+}
+
+.ravo-drop-highlight{
+  animation:ravoDropHighlight 1.2s ease;
+}
+
+@keyframes ravoDropHighlight{
+  0%,100%{transform:scale(1)}
+  50%{transform:scale(1.04)}
+}
+
+#ravoTask,
+#ravoLevel{
+  margin:14px 16px;
+  padding:17px;
+  border-radius:22px;
+  background:#fff;
+  box-shadow:0 8px 28px rgba(0,0,0,.08);
+}
+
+.ravo-task-title{
+  font-size:18px;
+  font-weight:800;
+}
+
+.ravo-task-text{
+  margin-top:7px;
+  color:#666;
+}
+
+.ravo-progress,
+.ravo-level-bar{
+  height:8px;
+  margin-top:13px;
+  background:#eee;
+  border-radius:20px;
+  overflow:hidden;
+}
+
+.ravo-progress span,
+.ravo-level-bar span{
+  display:block;
+  height:100%;
+  background:#D4AF37;
+  border-radius:20px;
+  transition:width .6s ease;
+}
+
+.ravo-task-bottom,
+.ravo-level-bottom{
+  display:flex;
+  justify-content:space-between;
+  margin-top:9px;
+  font-size:12px;
+  color:#777;
+}
+
+.ravo-task-bottom b{
+  color:#D4AF37;
+}
+
+.ravo-level-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.ravo-level-top small{
+  display:block;
+  font-size:10px;
+  color:#999;
+  letter-spacing:1px;
+}
+
+.ravo-level-top strong{
+  display:block;
+  margin-top:4px;
+  font-size:18px;
+}
+
+.ravo-bonus-count{
+  font-weight:900;
+  color:#D4AF37;
+}
+
+</style>
 </head>
 
 <body>
