@@ -1812,6 +1812,31 @@ button:active{
 .ravo-edit-email{margin-top:13px}.ravo-profile-complete{height:7px;background:rgba(255,255,255,.12);border-radius:99px;overflow:hidden;margin-top:12px}.ravo-profile-complete span{display:block;height:100%;background:#d4af37;border-radius:99px}.ravo-profile-complete-text{font-size:10px;color:#aaa;margin-top:5px}
 @media(min-width:700px){.profile-v3-hero,.ravo-v3-level,.ravo-v3-task,.ravo-v3-achievements{max-width:900px;margin-left:auto;margin-right:auto}.ravo-v3-ach-grid{grid-template-columns:repeat(4,1fr)}}
 </style>
+
+<style id="ravo-v4-motion-css">
+/* ===== RAVO V4 LAUNCH ===== */
+#ravoLaunch{position:fixed;inset:0;z-index:999999;background:#111;display:flex;align-items:center;justify-content:center;overflow:hidden;opacity:1;transition:opacity .8s cubic-bezier(.22,1,.36,1)}
+#ravoLaunch.ravo-launch-hide{opacity:0;pointer-events:none}
+.ravo-launch-inner{text-align:center;position:relative;transform:translateY(8px)}
+.ravo-launch-loading{font-size:13px;letter-spacing:4px;color:rgba(255,255,255,.55);text-transform:uppercase;opacity:0;animation:ravoLoadText .7s ease forwards}
+.ravo-launch-mark{width:82px;height:82px;margin:18px auto 15px;border-radius:24px;background:linear-gradient(145deg,#d4af37,#9d7b16);display:flex;align-items:center;justify-content:center;color:#111;font-size:49px;font-weight:900;box-shadow:0 0 0 rgba(212,175,55,0),0 0 55px rgba(212,175,55,.2);opacity:0;transform:scale(.72) rotate(-8deg);animation:ravoMarkIn 1s .45s cubic-bezier(.16,1,.3,1) forwards,ravoMarkGlow 1.8s 1.2s ease-in-out infinite alternate}
+.ravo-launch-name{font-size:38px;font-weight:900;letter-spacing:8px;color:#fff;opacity:0;transform:translateY(12px);animation:ravoNameIn .8s 1s cubic-bezier(.16,1,.3,1) forwards}
+.ravo-launch-tag{margin-top:10px;font-size:13px;letter-spacing:1.5px;color:rgba(255,255,255,.58);opacity:0;transform:translateY(8px);animation:ravoTagIn .8s 1.35s cubic-bezier(.16,1,.3,1) forwards}
+.ravo-launch-line{height:2px;width:0;margin:20px auto 0;background:#d4af37;box-shadow:0 0 14px rgba(212,175,55,.55);animation:ravoLineIn .9s 1.55s cubic-bezier(.16,1,.3,1) forwards}
+@keyframes ravoLoadText{to{opacity:1}}
+@keyframes ravoMarkIn{to{opacity:1;transform:scale(1) rotate(0);box-shadow:0 0 35px rgba(212,175,55,.28)}}
+@keyframes ravoMarkGlow{to{box-shadow:0 0 45px rgba(212,175,55,.38)}}
+@keyframes ravoNameIn{to{opacity:1;transform:translateY(0)}}
+@keyframes ravoTagIn{to{opacity:1;transform:translateY(0)}}
+@keyframes ravoLineIn{to{width:100px}}
+/* ===== PRODUCT PRESS ===== */
+.ravo-product-press{animation:ravoProductPress .42s cubic-bezier(.16,1,.3,1)}
+@keyframes ravoProductPress{0%{transform:scale(1)}45%{transform:scale(.965)}100%{transform:scale(1.015)}}
+.ravo-product-opening{animation:ravoProductOpening .55s cubic-bezier(.16,1,.3,1)}
+@keyframes ravoProductOpening{0%{opacity:.55;transform:translateY(14px) scale(.97);filter:blur(2px)}100%{opacity:1;transform:none;filter:blur(0)}}
+@media(prefers-reduced-motion:reduce){#ravoLaunch *,.ravo-product-press,.ravo-product-opening{animation:none!important;transition:none!important}.ravo-launch-loading,.ravo-launch-mark,.ravo-launch-name,.ravo-launch-tag{opacity:1;transform:none}.ravo-launch-line{width:100px}}
+</style>
+
 </head>
 
 <body>
@@ -7899,7 +7924,40 @@ setTimeout(
   setTimeout(()=>{try{renderProfileV3()}catch(e){}},300);
 })();
 </script>
-   </body>
-</html>
+
+<script id="ravo-v4-engine">
+(function(){
+  function launch(){
+    if(document.getElementById('ravoLaunch')) return;
+    const el=document.createElement('div');
+    el.id='ravoLaunch';
+    el.innerHTML='<div class="ravo-launch-inner"><div class="ravo-launch-loading">Загрузка</div><div class="ravo-launch-mark">R</div><div class="ravo-launch-name">RAVO</div><div class="ravo-launch-tag">Покупай лучше. Живи проще.</div><div class="ravo-launch-line"></div></div>';
+    document.body.appendChild(el);
+    const finish=()=>{el.classList.add('ravo-launch-hide');setTimeout(()=>el.remove(),850)};
+    setTimeout(finish,2850);
+  }
+  function productMotion(){
+    document.addEventListener('click',function(e){
+      const card=e.target.closest('.product-card,.flash-card');
+      if(!card) return;
+      card.classList.remove('ravo-product-press');
+      void card.offsetWidth;
+      card.classList.add('ravo-product-press');
+      setTimeout(()=>card.classList.remove('ravo-product-press'),500);
+    },true);
+    const observer=new MutationObserver(()=>{
+      document.querySelectorAll('.product-modal,.product-details,.product-page,[class*="product-detail"]').forEach(el=>{
+        if(el.dataset.ravoV4==='1')return;
+        el.dataset.ravoV4='1';
+        el.classList.add('ravo-product-opening');
+      });
+    });
+    observer.observe(document.body,{childList:true,subtree:true});
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',()=>{launch();productMotion()});
+  else {launch();productMotion()}
+})();
+</script>
+
 </body>
 </html>
